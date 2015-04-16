@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Smart Travel</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="action__right_search">Setting</string>
+	<string name="map_location_button">GPS location button</string>
+</resources>

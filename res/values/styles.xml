@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="ExampleTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="homeAsUpIndicator">@drawable/new_indicator</item>
+        <item name="android:homeAsUpIndicator">@drawable/new_indicator</item>
+        <item name="actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
+	    <item name="android:actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
+	    <item name="android:icon">@android:color/transparent</item> 
+    </style>
+    
+    
+    
+	
+    
+	<style name="Widget.MyTheme.ActionBar" parent="Widget.Sherlock.ActionBar">
+	    <item name="android:background">@color/actionbar_color</item>
+	    <item name="background">@color/actionbar_color</item>
+	</style>
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Yellowhead Trail &amp; 149 Street</item>
+        <item >107 Avenue &amp; 142 Street</item>
+        <item >23 Avenue &amp; 91 Street</item>
+        <item >90 Avenue &amp; 85 Street</item>
+        <item >118 Avenue &amp; Groat Road</item>
+        <item >Yellowhead Trail &amp; 127 Street</item>
+    </string-array>
+    
+    <color name="actionbar_color">#60C3E3</color>
+</resources>
