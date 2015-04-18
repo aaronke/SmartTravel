@@ -23,9 +23,11 @@ public class MainActivity extends BaseActivity {
 			mContent = getSupportFragmentManager().getFragment(
 					savedInstanceState, "mContent");
 
-		if (mContent == null)
+		if (mContent == null){
 			mContent = new MapFragment();
-		
+			
+			
+		}
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		

@@ -2,7 +2,9 @@ package com.aaron.smarttravel.main;
 
 import java.util.ArrayList;
 
+import com.aaron.smarttravel.data.HotspotParse;
 import com.aaron.smarttravel.drawer.LeftDrawerListAdapter;
+import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
 
 import android.app.Activity;
@@ -35,19 +37,30 @@ public class SampleListFragment extends ListFragment {
 
 	//	SampleAdapter adapter = new SampleAdapter(getActivity());
 		
-		String[] names_hotspot=context.getResources().getStringArray(R.array.nav_drawer_items);
-		for (int i = 0; i < names_hotspot.length; i++) {
-		//	adapter.add(new SampleItem(names_hotspot[i], android.R.drawable.btn_star));
-			NavDrawerItem navDrawerItem=new NavDrawerItem();
-			navDrawerItem.setType_hotspot("Intersection");
-			navDrawerItem.setName_hotspot(names_hotspot[i]);
-			navDrawerItem.setCount_collisions(14);
-			navDrawerItems.add(navDrawerItem);
-		}
+	//	String[] names_hotspot=context.getResources().getStringArray(R.array.nav_drawer_items);
+		
+		HotspotParse my_HotspotParse=new HotspotParse();
+		ArrayList<HotSpotEntry> intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()));
+		ArrayList<HotSpotEntry> midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()));
+		ArrayList<HotSpotEntry> VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()));
+		
+		addItemToList(intersection_arraylist, "Intersection");
+		addItemToList(midblock_arraylist, "Midblock");
+		addItemToList(VRU_arraylist, "Midblock");
 		LeftDrawerListAdapter leftDrawerListAdapte=new LeftDrawerListAdapter(context, navDrawerItems);
 		setListAdapter(leftDrawerListAdapte);
 		
-
+	}
+	public void addItemToList(ArrayList<HotSpotEntry> hotspot_array,String type_string){
+		
+		for (int i = 0; i < hotspot_array.size(); i++) {
+			//	adapter.add(new SampleItem(names_hotspot[i], android.R.drawable.btn_star));
+				NavDrawerItem navDrawerItem=new NavDrawerItem();
+				navDrawerItem.setType_hotspot(type_string);
+				navDrawerItem.setName_hotspot(hotspot_array.get(i).getName());
+				navDrawerItem.setCount_collisions(hotspot_array.get(i).getCollision_count());
+				navDrawerItems.add(navDrawerItem);
+			}
 	}
 
 	@Override
@@ -60,7 +73,7 @@ public class SampleListFragment extends ListFragment {
 
 		Fragment newContent = null;
 		
-		switch (position) {
+		/*switch (position) {
 		case 0:
 			newContent = new Fragment1();
 			break;
@@ -74,7 +87,7 @@ public class SampleListFragment extends ListFragment {
 			newContent = new Fragment4();
 			break;
 
-		}
+		}*/
 		if (newContent != null)
 			switchFragment(newContent);
 	}

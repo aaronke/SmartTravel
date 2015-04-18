@@ -1472,20 +1472,22 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020089;
         public static final int common_signin_btn_text_pressed_dark=0x7f02008a;
         public static final int common_signin_btn_text_pressed_light=0x7f02008b;
-        public static final int ic_launcher=0x7f02008c;
-        public static final int ic_plusone_medium_off_client=0x7f02008d;
-        public static final int ic_plusone_small_off_client=0x7f02008e;
-        public static final int ic_plusone_standard_off_client=0x7f02008f;
-        public static final int ic_plusone_tall_off_client=0x7f020090;
-        public static final int indicator=0x7f020091;
-        public static final int location_icon=0x7f020092;
-        public static final int new_indicator=0x7f020093;
-        public static final int powered_by_google_dark=0x7f020094;
-        public static final int powered_by_google_light=0x7f020095;
-        public static final int shadow=0x7f020096;
-        public static final int shadowright=0x7f020097;
-        public static final int title_smarttravel=0x7f020098;
-        public static final int top_bg=0x7f020099;
+        public static final int hotspot_point=0x7f02008c;
+        public static final int hotspot_vru_point=0x7f02008d;
+        public static final int ic_launcher=0x7f02008e;
+        public static final int ic_plusone_medium_off_client=0x7f02008f;
+        public static final int ic_plusone_small_off_client=0x7f020090;
+        public static final int ic_plusone_standard_off_client=0x7f020091;
+        public static final int ic_plusone_tall_off_client=0x7f020092;
+        public static final int indicator=0x7f020093;
+        public static final int location_icon=0x7f020094;
+        public static final int new_indicator=0x7f020095;
+        public static final int powered_by_google_dark=0x7f020096;
+        public static final int powered_by_google_light=0x7f020097;
+        public static final int shadow=0x7f020098;
+        public static final int shadowright=0x7f020099;
+        public static final int title_smarttravel=0x7f02009a;
+        public static final int top_bg=0x7f02009b;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f0b003b;
@@ -1778,10 +1780,24 @@ containing a value of this type.
         public static final int create_calendar_message=0x7f060005;
         public static final int create_calendar_title=0x7f060004;
         public static final int decline=0x7f060003;
+        public static final int geofence_not_available=0x7f060038;
+        public static final int geofence_too_many_geofences=0x7f060039;
+        public static final int geofence_too_many_pending_intents=0x7f06003a;
+        /**  Transition type strings 
+         */
+        public static final int geofence_transition_entered=0x7f06003d;
+        public static final int geofence_transition_exited=0x7f06003e;
+        public static final int geofence_transition_invalid_type=0x7f06003c;
+        public static final int geofence_transition_notification_text=0x7f060040;
         public static final int hello_world=0x7f060034;
         public static final int map_location_button=0x7f060036;
+        /**  Error strings 
+         */
+        public static final int not_connected=0x7f060037;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
+        public static final int unknown_geofence_error=0x7f06003b;
+        public static final int unknown_geofence_transition=0x7f06003f;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
