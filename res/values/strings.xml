@@ -16,6 +16,16 @@
 	<string name="setting_notification_description">allow notification about high collision rate area</string>
 	<string name="setting_voice_message_title">Voice Message</string>
 	<string name="setting_voice_message_description">allow to receive voice message when approaching high collision rate area</string>
+	<string name="welcome_page_logo">welcome page logo</string>
+	<string name="welcome_city_img">welcome page city image</string>
+	<string name="welcome_page_edmonton_logo">welcome page edmonton logo</string>
+	<string name="copyright_txt">\@2015 City of Edmonton. All rights reserved.</string>
+	<string name="drawerlist_item_count_description">count the collision</string>
+	
+	<string-array name="collision_count_bg">
+	    
+	    
+	</string-array>
 	
 	<!-- Error strings -->
     <string name="not_connected">GoogleApiClient no yet connected. Try again.</string>

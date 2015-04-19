@@ -7,6 +7,7 @@ import com.aaron.smarttravel.utilities.NavDrawerItem;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +54,23 @@ public class LeftDrawerListAdapter extends BaseAdapter{
 		TextView name_hotspot=(TextView)convertView.findViewById(R.id.hotspot_name);
 		TextView count_collision_hotspot=(TextView) convertView.findViewById(R.id.hotspot_collision_count);
 		
-		
-		count_collision_hotspot.setText(Integer.toString(navDrawerItems.get(position).getCount_collisions()));
+		int[] count_bgs=new int[]{
+				R.drawable.b1,R.drawable.b2,R.drawable.b3,R.drawable.b4,R.drawable.b5,
+				R.drawable.b6,R.drawable.b7,R.drawable.b8,R.drawable.b9,R.drawable.b10
+		};
+		int collision_count=navDrawerItems.get(position).getCount_collisions();
+		int count_rank=collision_count*10/86;
+		if (count_rank>9) {
+			count_rank=9;
+		}
+		count_collision_hotspot.setBackgroundResource(count_bgs[count_rank]);
+		count_collision_hotspot.setText(Integer.toString(collision_count));
+		Log.v("test", Integer.toString(navDrawerItems.get(position).getCount_collisions()));
 		type_hotspot.setText(navDrawerItems.get(position).getType_hotspot());
 		name_hotspot.setText(navDrawerItems.get(position).getName_hotspot());
+		
+		
+		
 		
 		return convertView;
 	}

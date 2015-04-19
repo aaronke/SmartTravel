@@ -203,11 +203,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// set geofences;
 		addGeofences(hotspots_arraylist);
 		
+		if (near_HotSpotEntry.getName()=="UnKnown") {
+			Log.v("Geofence", "unknown");
+		}else {
+			Log.v("Geofence", "clear something");
+			near_HotSpotEntry=new HotSpotEntry();
+		}
+		
 	}
 	
 	public void approaching_hotspot_alert(ArrayList<HotSpotEntry> hotspots_arraylist,Location current_locaiton){
 		HotSpotEntry lan_chengEntry=new HotSpotEntry();
-		lan_chengEntry.setLatLng(new LatLng(31.139622, 121.499752));
+		lan_chengEntry.setLatLng(new LatLng(31.144998, 121.517899));
 		lan_chengEntry.setName("LanCheng's Home");
 		hotspots_arraylist.add(lan_chengEntry);
 		HotSpotEntry yun_diEntry=new HotSpotEntry();
