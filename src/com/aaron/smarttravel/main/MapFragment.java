@@ -49,7 +49,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private PendingIntent geofenceIntent;
 	private GoogleApiClient geofenApiClient;
 	private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
-	private HotSpotEntry near_HotSpotEntry= new HotSpotEntry();
+	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
 	
 	@Override
@@ -60,6 +60,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		mapView=(MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
 		mapView.onResume();
+		
 		/*
 		View location_buttonView=((View)mapView.findViewById(1).getParent()).findViewById(2);
 		
@@ -205,13 +206,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	}
 	
 	public void approaching_hotspot_alert(ArrayList<HotSpotEntry> hotspots_arraylist,Location current_locaiton){
+		HotSpotEntry lan_chengEntry=new HotSpotEntry();
+		lan_chengEntry.setLatLng(new LatLng(31.139622, 121.499752));
+		lan_chengEntry.setName("LanCheng's Home");
+		hotspots_arraylist.add(lan_chengEntry);
+		HotSpotEntry yun_diEntry=new HotSpotEntry();
+		yun_diEntry.setLatLng(new LatLng(31.293021, 121.536683));
+		yun_diEntry.setName("YunDi Tech");
+		hotspots_arraylist.add(yun_diEntry);
 		
+		HotSpotEntry aaronEntry=new HotSpotEntry();
+		aaronEntry.setLatLng(new LatLng(53.523451, -113.510887));
+		aaronEntry.setName("Tester's Home");
+		hotspots_arraylist.add(aaronEntry);
 		for (int i = 0; i < hotspots_arraylist.size(); i++) {
 			Location temp_location= new Location("temp");
 			temp_location.setLatitude(hotspots_arraylist.get(i).getLatLng().latitude);
 			temp_location.setLongitude(hotspots_arraylist.get(i).getLatLng().longitude);
 			float distance=current_locaiton.distanceTo(temp_location);
-			if (distance< 250) {
+			if (distance< 400) {
 				if ( near_HotSpotEntry.getName()==hotspots_arraylist.get(i).getName()) {
 					// at the same hotspot, do nothing
 					Log.v("Geofence", "near hotspot123456");

@@ -27,7 +27,7 @@ public class SampleListFragment extends ListFragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view= inflater.inflate(R.layout.list, null);
+		View view= inflater.inflate(R.layout.left_drawer, null);
 	//	listView=(ListView) view.findViewById(R.id.list);
 		return view;
 	}

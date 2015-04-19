@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
 		
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
-		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragment()).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragmentRight()).commit();
 		
 	}
 

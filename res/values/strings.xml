@@ -6,7 +6,16 @@
 	<string name="action__right_search">Setting</string>
 	<string name="map_location_button">GPS location button</string>
 	
-	
+	<string name="left_drawer_logo">left drawer edmonton logo</string>
+	<string name="unknown">unknown</string>
+	<string name="left_drawer_collision_title">Collision HotSpot</string>
+	<string name="left_drawer_VRU_title">VRU HotSpot</string>
+	<string name="setting_gps_title">GPS</string>
+	<string name="setting_gps_description">using GPS to improve the accuracy of location </string>
+	<string name="setting_notification_title">Push Notification</string>
+	<string name="setting_notification_description">allow notification about high collision rate area</string>
+	<string name="setting_voice_message_title">Voice Message</string>
+	<string name="setting_voice_message_description">allow to receive voice message when approaching high collision rate area</string>
 	
 	<!-- Error strings -->
     <string name="not_connected">GoogleApiClient no yet connected. Try again.</string>
@@ -26,6 +35,6 @@
     <string name="geofence_transition_entered">Entered</string>
     <string name="geofence_transition_exited">Exited</string>
     <string name="unknown_geofence_transition">Unknown Transition</string>
-
+	
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
 </resources>

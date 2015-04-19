@@ -8,11 +8,7 @@
 	    <item name="android:actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
 	    <item name="android:icon">@android:color/transparent</item> 
     </style>
-    
-    
-    
-	
-    
+
 	<style name="Widget.MyTheme.ActionBar" parent="Widget.Sherlock.ActionBar">
 	    <item name="android:background">@color/actionbar_color</item>
 	    <item name="background">@color/actionbar_color</item>
@@ -28,4 +24,7 @@
     </string-array>
     
     <color name="actionbar_color">#60C3E3</color>
+    <color name="vertical_divider_bg">#AFAFAF</color>
+    <color name="left_drawer_bg">#C3C7C8</color>
+    <color name="horizontal_divider_bg">#60C3E3</color>
 </resources>
