@@ -4,8 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@color/left_drawer_bg"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    android:layout_margin="10dp">
     <ImageView 
         android:id="@+id/left_drawer_logo"
         android:layout_width="wrap_content"
@@ -18,24 +17,30 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="5dp"
 	    android:background="@color/vertical_divider_bg"/>
-    <LinearLayout 
+    <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:padding="10dp">
         <TextView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setting_gps_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:textSize="20sp"/>
-        <RadioButton 
+        <CheckBox 
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"/>
-    </LinearLayout>
+    </RelativeLayout>
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/setting_gps_description"/>
+        android:padding="10dp"
+        android:text="@string/setting_gps_description"
+        android:textColor="@color/drawlist_type_text_color"/>
     <View
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
@@ -44,24 +49,30 @@
 	    android:layout_marginLeft="16dp"
 	    android:layout_marginRight="16dp"
 	    android:layout_marginEnd="16dp"/>
-    <LinearLayout 
+    <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView 
+        android:padding="10dp">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setting_notification_title"
             android:textSize="20sp"/>
-        <RadioButton 
+        <CheckBox
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"/>
-    </LinearLayout>
+    </RelativeLayout>
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/setting_notification_description"/>
+        android:padding="10dp"
+        android:text="@string/setting_notification_description"
+        android:textColor="@color/drawlist_type_text_color"/>
     <View
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
@@ -70,24 +81,30 @@
 	    android:layout_marginLeft="16dp"
 	    android:layout_marginRight="16dp"
 	    android:layout_marginEnd="16dp"/>
-    <LinearLayout 
+    <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView 
+        android:padding="10dp">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/setting_voice_message_title"
             android:textSize="20sp"/>
-        <RadioButton 
+        <CheckBox
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"/>
-    </LinearLayout>
+    </RelativeLayout>
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/setting_voice_message_description"/>
+        android:padding="10dp"
+        android:text="@string/setting_voice_message_description"
+        android:textColor="@color/drawlist_type_text_color"/>
     <View
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"

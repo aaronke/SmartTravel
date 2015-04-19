@@ -40,6 +40,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status>{
 
@@ -238,11 +239,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				}else {
 					Log.v("Geofence", "near hotspot");
 					near_HotSpotEntry=hotspots_arraylist.get(i);
+					Toast.makeText(getActivity(), "Attention, High Collision Rate Area", Toast.LENGTH_LONG ).show();
 					textToSpeech=new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {			
 						@Override
 						public void onInit(int status) {
 							// TODO Auto-generated method stub
-						
 							if (status==TextToSpeech.SUCCESS) {
 								textToSpeech.setLanguage(Locale.UK);	
 								speakToText("Attention,High Collision Rate Area!");

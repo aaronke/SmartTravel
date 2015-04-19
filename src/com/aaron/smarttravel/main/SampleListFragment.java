@@ -16,19 +16,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class SampleListFragment extends ListFragment {
+public class SampleListFragment extends ListFragment implements View.OnClickListener{
 	//public String[] menus = { "Fragment1", "Fragment2", "Fragment3",
 	//		"Fragment4" };
 	public Context context;
+	TextView collision_countTextView;
+	TextView VRU_countTextView;
+	private RelativeLayout collision_relativeLayout, VRU_relativelayout;
+	View collision_dividerView,VRU_dividerView;
 	
 	ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
 	public ListView listView;
+	ArrayList<HotSpotEntry> intersection_arraylist,midblock_arraylist,VRU_arraylist;
+	LeftDrawerListAdapter leftDrawerListAdapte;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		View view= inflater.inflate(R.layout.left_drawer, null);
-	//	listView=(ListView) view.findViewById(R.id.list);
+		collision_countTextView=(TextView) view.findViewById(R.id.left_drawer_collosion_count);
+		VRU_countTextView=(TextView) view.findViewById(R.id.left_drawer_VRU_count);
+		listView=(ListView)view.findViewById(android.R.id.list);
+		collision_relativeLayout=(RelativeLayout)view.findViewById(R.id.left_drawer_button_collision);
+		VRU_relativelayout=(RelativeLayout) view.findViewById(R.id.left_drawer_button_VRU);
+		collision_dividerView=(View) view.findViewById(R.id.left_drawer_collision_divider);
+		VRU_dividerView=(View) view.findViewById(R.id.left_drawer_VRU_divider);
+		
+		collision_relativeLayout.setOnClickListener(this); 
+		collision_relativeLayout.setClickable(false);
+		VRU_relativelayout.setOnClickListener(this);
+		VRU_relativelayout.setClickable(true);
+		
+		collision_countTextView.setText("20");
+		VRU_countTextView.setText("22");
+
 		return view;
 	}
 
@@ -40,15 +64,16 @@ public class SampleListFragment extends ListFragment {
 	//	String[] names_hotspot=context.getResources().getStringArray(R.array.nav_drawer_items);
 		
 		HotspotParse my_HotspotParse=new HotspotParse();
-		ArrayList<HotSpotEntry> intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()));
-		ArrayList<HotSpotEntry> midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()));
-		ArrayList<HotSpotEntry> VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()));
+		 intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()));
+		 midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()));
+		 VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()));
 		
 		addItemToList(intersection_arraylist, "Intersection");
 		addItemToList(midblock_arraylist, "Midblock");
-		addItemToList(VRU_arraylist, "Midblock");
-		LeftDrawerListAdapter leftDrawerListAdapte=new LeftDrawerListAdapter(context, navDrawerItems);
+		//addItemToList(VRU_arraylist, "Midblock");
+		leftDrawerListAdapte=new LeftDrawerListAdapter(context, navDrawerItems);
 		setListAdapter(leftDrawerListAdapte);
+		
 		
 	}
 	public void addItemToList(ArrayList<HotSpotEntry> hotspot_array,String type_string){
@@ -102,4 +127,40 @@ public class SampleListFragment extends ListFragment {
 		}
 
 	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.left_drawer_button_collision:
+			collision_relativeLayout.setClickable(false);
+			VRU_relativelayout.setClickable(true);
+			collision_dividerView.setBackgroundResource(R.color.horizontal_divider_bg);
+			VRU_dividerView.setBackgroundResource(R.color.vertical_divider_bg);
+			
+			navDrawerItems.clear();
+			addItemToList(intersection_arraylist, "Intersection");
+			addItemToList(midblock_arraylist, "Midblock");
+			//addItemToList(VRU_arraylist, "Midblock");
+			leftDrawerListAdapte=new LeftDrawerListAdapter(context, navDrawerItems);
+			setListAdapter(leftDrawerListAdapte);
+			
+			break;
+		case R.id.left_drawer_button_VRU:
+			collision_relativeLayout.setClickable(true);
+			VRU_relativelayout.setClickable(false);
+			collision_dividerView.setBackgroundResource(R.color.vertical_divider_bg);
+			VRU_dividerView.setBackgroundResource(R.color.horizontal_divider_bg);
+			
+			navDrawerItems.clear();
+			addItemToList(VRU_arraylist, "Midblock");
+			leftDrawerListAdapte=new LeftDrawerListAdapter(context, navDrawerItems);
+			setListAdapter(leftDrawerListAdapte);
+			break;
+		default:
+			break;
+		}
+		
+	}
+
 }
