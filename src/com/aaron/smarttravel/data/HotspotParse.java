@@ -29,6 +29,7 @@ public class HotspotParse {
 					temp_HotSpot_Entry.setFatal_count(temp_jsonObject.getInt("FATAL"));
 					temp_HotSpot_Entry.setInjury_count(temp_jsonObject.getInt("INJURY"));
 					temp_HotSpot_Entry.setPDO_value(temp_jsonObject.getInt("PDO"));
+					temp_HotSpot_Entry.setRank(temp_jsonObject.getInt("RANK"));
 					temp_HotSpot_Entry.setLatLng(new LatLng(temp_jsonObject.getDouble("LAT"), temp_jsonObject.getDouble("LONG")));
 					
 					hotspot_ArrayList.add(temp_HotSpot_Entry);

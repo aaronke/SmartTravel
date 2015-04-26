@@ -10,7 +10,6 @@ import com.aaron.smarttravel.utilities.NavDrawerItem;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +95,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 
-		Fragment newContent = null;
+	//	Fragment newContent = null;
 		
 		/*switch (position) {
 		case 0:
@@ -113,11 +112,11 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 			break;
 
 		}*/
-		if (newContent != null)
-			switchFragment(newContent);
+	/*	if (newContent != null)
+			switchFragment(newContent);*/
 	}
 
-	private void switchFragment(Fragment fragment) {
+	/*private void switchFragment(Fragment fragment) {
 		if (getActivity() == null)
 			return;
 
@@ -126,7 +125,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 			fca.switchContent(fragment);
 		}
 
-	}
+	}*/
 
 	@Override
 	public void onClick(View v) {

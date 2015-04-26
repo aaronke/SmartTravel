@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -46,21 +47,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 	MapView mapView;
 	private GoogleMap googleMap;
+	public Context context;
 	private ArrayList<Geofence> my_geofence_arraylist=new ArrayList<Geofence>();
 	private PendingIntent geofenceIntent;
 	private GoogleApiClient geofenApiClient;
 	private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
 	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
+	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		
+		
 		View view=inflater.inflate(R.layout.main_map, container, false);
 		mapView=(MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		mapView.onResume();
+		//mapView.onResume();
 		
 		/*
 		View location_buttonView=((View)mapView.findViewById(1).getParent()).findViewById(2);
@@ -74,48 +79,56 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		location_buttonView.setLayoutParams(params);*/
 		buildGoogleApiClient();
 		
+		
 		try {
-			MapsInitializer.initialize(getActivity().getApplicationContext());
+			MapsInitializer.initialize(context);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		googleMap=mapView.getMap();
-		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 11);
+		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 10);
 		googleMap.animateCamera(cameraUpdate);
 		googleMap.setMyLocationEnabled(true);
 	//	googleMap.setTrafficEnabled(true);
 		googleMap.getUiSettings().setZoomControlsEnabled(true);
 		
-		getActivity();
-		LocationManager locationManager=(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+		//getActivity();
+		LocationManager locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria=new Criteria();
 		String best_location_provider=locationManager.getBestProvider(criteria, true);
 		
 		Location my_location=locationManager.getLastKnownLocation(best_location_provider);
+		loadHotSpotsData();
 		if (my_location!=null) {	
+			
+			googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(my_location.getLatitude(), my_location.getLongitude()), 12));
+			if (!hotspots_arraylist.isEmpty()) {
+				approaching_hotspot_alert(hotspots_arraylist, my_location);
+			}
 			onLocationChanged(my_location);
 		}
 		
-		locationManager.requestLocationUpdates(best_location_provider, 1000, 0, this);
+		locationManager.requestLocationUpdates(best_location_provider, 7000, 0, this);
 		
 		mapView.getMapAsync(this);
-		
-		
-		
-		
 		
 		return view;
 	}
 	
 	private void buildGoogleApiClient() {
 		// TODO Auto-generated method stub
-		geofenApiClient=new GoogleApiClient.Builder(getActivity())
+		geofenApiClient=new GoogleApiClient.Builder(context)
 		.addConnectionCallbacks(this)
 		.addOnConnectionFailedListener(this)
 		.addApi(LocationServices.API)
 		.build();
 	}
 
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		context=activity;
+	}
 	public void setHotSpots(GoogleMap mymap,ArrayList<HotSpotEntry> hotspots_ArrayList,int ICON_FLAG){
 		
 		for (int i = 0; i < hotspots_ArrayList.size(); i++) {
@@ -179,30 +192,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         if (geofenceIntent != null) {
             return geofenceIntent;
         }
-        Intent intent = new Intent(getActivity(), GeofenceTransitionsIntentService.class);
+        Intent intent = new Intent(context, GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        return PendingIntent.getService(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-	@Override
-	public void onMapReady(GoogleMap map) {
-		// TODO Auto-generated method stub
-		HotspotParse my_HotspotParse=new HotspotParse();
-		ArrayList<HotSpotEntry> intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()));
-		ArrayList<HotSpotEntry> midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()));
-		ArrayList<HotSpotEntry> VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()));
-		
+    
+    public void loadHotSpotsData(){
+    	HotspotParse my_HotspotParse=new HotspotParse();
+		intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", context));
+		midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", context));
+		VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", context));
 		
 		hotspots_arraylist.addAll(intersection_arraylist);
 		hotspots_arraylist.addAll(midblock_arraylist);
 		hotspots_arraylist.addAll(VRU_arraylist);
-		// set markers;
-		setHotSpots(map,intersection_arraylist,1);
-		setHotSpots(map, midblock_arraylist,1);
-		setHotSpots(map, VRU_arraylist ,2);
+    }
+    
+	@Override
+	public void onMapReady(GoogleMap map) {
+		// TODO Auto-generated method stub
 		
+		// set markers;
+		if (!hotspots_arraylist.isEmpty()) {
+			setHotSpots(map,intersection_arraylist,1);
+			setHotSpots(map, midblock_arraylist,1);
+			setHotSpots(map, VRU_arraylist ,2);
+		}		
 		// set geofences;
-		addGeofences(hotspots_arraylist);
+		// addGeofences(hotspots_arraylist);
 		
 		if (near_HotSpotEntry.getName()=="UnKnown") {
 			Log.v("Geofence", "unknown");
@@ -215,7 +233,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	
 	public void approaching_hotspot_alert(ArrayList<HotSpotEntry> hotspots_arraylist,Location current_locaiton){
 		HotSpotEntry lan_chengEntry=new HotSpotEntry();
-		lan_chengEntry.setLatLng(new LatLng(31.144998, 121.517899));
+		lan_chengEntry.setLatLng(new LatLng(31.146008, 121.513420));
 		lan_chengEntry.setName("LanCheng's Home");
 		hotspots_arraylist.add(lan_chengEntry);
 		HotSpotEntry yun_diEntry=new HotSpotEntry();
@@ -232,15 +250,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			temp_location.setLatitude(hotspots_arraylist.get(i).getLatLng().latitude);
 			temp_location.setLongitude(hotspots_arraylist.get(i).getLatLng().longitude);
 			float distance=current_locaiton.distanceTo(temp_location);
-			if (distance< 400) {
-				if ( near_HotSpotEntry.getName()==hotspots_arraylist.get(i).getName()) {
+			if (distance< 700) {
+				//if ( near_HotSpotEntry.getName()==hotspots_arraylist.get(i).getName()) {
 					// at the same hotspot, do nothing
-					Log.v("Geofence", "near hotspot123456");
-				}else {
+				//	Log.v("Geofence", "near hotspot123456");
+				//}else {
 					Log.v("Geofence", "near hotspot");
 					near_HotSpotEntry=hotspots_arraylist.get(i);
-					Toast.makeText(getActivity(), "Attention, High Collision Rate Area", Toast.LENGTH_LONG ).show();
-					textToSpeech=new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {			
+					Toast.makeText(context, "Attention, High Collision Rate Area", Toast.LENGTH_SHORT ).show();
+					textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
 						@Override
 						public void onInit(int status) {
 							// TODO Auto-generated method stub
@@ -251,7 +269,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 						}
 					});
 				
-				}
+				//}
 				
 			}
 		}
@@ -286,6 +304,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		super.onPause();
 		mapView.onPause();
+		Log.v("Test", "mapfragment onpause");
 	}
 
 	@Override
@@ -300,6 +319,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		super.onResume();
 		mapView.onResume();
+		Log.v("Test", "mapfragment onresume");
 	}
 
 	@Override
@@ -313,12 +333,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
+		// googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
 		
-		if (!hotspots_arraylist.isEmpty()) {
-			approaching_hotspot_alert(hotspots_arraylist, location);
+		if (!hotspots_arraylist.isEmpty()) {	
+			// do nothing
+		}else {
+			loadHotSpotsData();
 		}
-		
+		approaching_hotspot_alert(hotspots_arraylist, location);
 	}
 
 	@Override
@@ -345,7 +367,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		if (status.isSuccess()) {
 			Log.v("Geofence", "success");
 		}else {
-			String errorString=GeofenceErrorMessages.getErrorString(getActivity(), status.getStatusCode());
+			String errorString=GeofenceErrorMessages.getErrorString(context, status.getStatusCode());
 			Log.v("Geofence", errorString);
 		}
 	}

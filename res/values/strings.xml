@@ -7,7 +7,7 @@
 	<string name="map_location_button">GPS location button</string>
 	
 	<string name="left_drawer_logo">left drawer edmonton logo</string>
-	<string name="unknown">unknown</string>
+	<string name="unknown">null</string>
 	<string name="left_drawer_collision_title">Collision HotSpot</string>
 	<string name="left_drawer_VRU_title">VRU HotSpot</string>
 	<string name="setting_gps_title">GPS</string>
@@ -21,6 +21,11 @@
 	<string name="welcome_page_edmonton_logo">welcome page edmonton logo</string>
 	<string name="copyright_txt">\@2015 City of Edmonton. All rights reserved.</string>
 	<string name="drawerlist_item_count_description">count the collision</string>
+	<string name="info_box_rank_label">Rank:</string>
+	<string name="info_box_collisions_label">Collisions:</string>
+	<string name="info_box_distance_unit">m</string>
+	<string name="info_box_distance_title">distance</string>
+	
 	
 	<string-array name="collision_count_bg">
 	    

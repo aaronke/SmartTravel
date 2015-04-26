@@ -43,11 +43,11 @@ public class MainActivity extends BaseActivity {
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragmentRight()).commit();
 		
 	}
-
-	public void switchContent(Fragment fragment) {
+	
+	/*public void switchContent(Fragment fragment) {
 		mContent = fragment;
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 		getSlidingMenu().showContent();
-	}
+	}*/
 }
