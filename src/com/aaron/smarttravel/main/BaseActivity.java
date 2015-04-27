@@ -2,7 +2,8 @@ package com.aaron.smarttravel.main;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -48,14 +49,19 @@ public class BaseActivity extends SlidingFragmentActivity {
 		sm.setDrawingCacheEnabled(false);
 		*/
 		
+		LayoutInflater actionbar_vInflater=(LayoutInflater) getSupportActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSupportActionBar().setDisplayUseLogoEnabled(false);
-		getSupportActionBar().setIcon(null);
-		getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#ffffff\"><b>" + "Smart Travel" + "</b></font>"));
+		final View actionbar_view=actionbar_vInflater.inflate(R.layout.actionbar_custom, null);
+		final com.actionbarsherlock.app.ActionBar actionBar=getSupportActionBar();
 		
-	//	getSupportActionBar().setDisplayOptions(0,ActionBar.DISPLAY_USE_LOGO);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(actionbar_view);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		//actionBar.setDisplayUseLogoEnabled(false);
+		//actionBar.setIcon(null);
+		//getSupportActionBar().setTitle(Html.fromHtml("<font color=\"#ffffff\"><b>" + "Smart Travel" + "</b></font>"));
+	   //getSupportActionBar().setDisplayOptions(0,ActionBar.DISPLAY_USE_LOGO);
 		
 	}
 	

@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class HotspotParse {
 	
-		public ArrayList<HotSpotEntry> getHotspotEntries(String jsonString){
+		public ArrayList<HotSpotEntry> getHotspotEntries(String jsonString,String typeString){
 			ArrayList<HotSpotEntry> hotspot_ArrayList=new ArrayList<HotSpotEntry>();
 			
 			try {
@@ -24,6 +24,7 @@ public class HotspotParse {
 					HotSpotEntry temp_HotSpot_Entry=new HotSpotEntry();
 					JSONObject temp_jsonObject= hotspot_JsonArray.getJSONObject(i);
 					
+					temp_HotSpot_Entry.setType(typeString);
 					temp_HotSpot_Entry.setName(temp_jsonObject.getString("LOCATION"));
 					temp_HotSpot_Entry.setCollision_count(temp_jsonObject.getInt("COUNT"));
 					temp_HotSpot_Entry.setFatal_count(temp_jsonObject.getInt("FATAL"));

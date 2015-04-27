@@ -29,4 +29,6 @@
     <color name="horizontal_divider_bg">#60C3E3</color>
     <color name="welcome_page_bg">#43BAE2</color>
     <color name="drawlist_type_text_color">#AFB0B0</color>
+    <color name="VRU_text_color">#FFA800</color>
+    <color name="intersection_text_color">#E94E4E</color>
 </resources>

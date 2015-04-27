@@ -11,6 +11,7 @@ public class HotSpotEntry {
 	private int PDO_value;
 	private int rank;
 	private LatLng latLng;
+	private String type;
 	
 	public HotSpotEntry() {
 		// TODO Auto-generated constructor stub
@@ -21,8 +22,17 @@ public class HotSpotEntry {
 		this.PDO_value=0;
 		this.rank=0;
 		this.latLng=null;
+		this.type="Unknown";
 	}
 		
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getName() {
 		return name;
 	}

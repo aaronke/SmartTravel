@@ -9,7 +9,7 @@
         android:id="@+id/left_drawer_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/edmonton_logo"
+        android:src="@drawable/setting"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/left_drawer_logo"
         android:layout_margin="6dp"/>

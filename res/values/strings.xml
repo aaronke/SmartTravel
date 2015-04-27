@@ -24,7 +24,8 @@
 	<string name="info_box_rank_label">Rank:</string>
 	<string name="info_box_collisions_label">Collisions:</string>
 	<string name="info_box_distance_unit">m</string>
-	<string name="info_box_distance_title">distance</string>
+	<string name="info_box_distance_title">Distance</string>
+	<string name="action_logo_title">logo title</string>
 	
 	
 	<string-array name="collision_count_bg">

@@ -41,6 +41,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SlidingDrawer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status>{
@@ -55,7 +57,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
 	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
+	private TextView name_TextView,type_TextView,rank_TextView,collisions_TextView,distance_TextView,distance_unit_TextView;
+	@SuppressWarnings("deprecation")
+	public SlidingDrawer slidingDrawer;
 	
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -65,6 +72,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		View view=inflater.inflate(R.layout.main_map, container, false);
 		mapView=(MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
+		
+		name_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_name);
+		type_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_type);
+		rank_TextView=(TextView)view.findViewById(R.id.info_box_rank);
+		collisions_TextView=(TextView)view.findViewById(R.id.info_box_collisions);
+		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
+		distance_unit_TextView=(TextView)view.findViewById(R.id.info_box_distance_unit);
+		slidingDrawer=(SlidingDrawer)view.findViewById(R.id.SlidingDrawer);
 		//mapView.onResume();
 		
 		/*
@@ -115,6 +130,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		return view;
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void updateInfoBox(HotSpotEntry current_hotSpotEntry, String distance){
+		if (!slidingDrawer.isOpened()) {
+			slidingDrawer.open();
+			slidingDrawer.setVisibility(View.VISIBLE);
+		}
+		
+		name_TextView.setText(current_hotSpotEntry.getName());
+		type_TextView.setText(current_hotSpotEntry.getType());
+		rank_TextView.setText(current_hotSpotEntry.getRank()+"");
+		collisions_TextView.setText(""+current_hotSpotEntry.getCollision_count());
+		distance_TextView.setText(distance);
+		int color_type=context.getResources().getColor(R.color.intersection_text_color);
+		if (current_hotSpotEntry.getType()=="VRU") {
+			color_type=context.getResources().getColor(R.color.VRU_text_color);	
+		}
+		type_TextView.setTextColor(color_type);
+		distance_TextView.setTextColor(color_type);
+		distance_unit_TextView.setTextColor(color_type);
+		
+	}
 	private void buildGoogleApiClient() {
 		// TODO Auto-generated method stub
 		geofenApiClient=new GoogleApiClient.Builder(context)
@@ -200,9 +236,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     
     public void loadHotSpotsData(){
     	HotspotParse my_HotspotParse=new HotspotParse();
-		intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", context));
-		midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", context));
-		VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", context));
+		intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", context),"Intersection");
+		midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", context),"Midblock");
+		VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", context),"VRU");
 		
 		hotspots_arraylist.addAll(intersection_arraylist);
 		hotspots_arraylist.addAll(midblock_arraylist);
@@ -235,22 +271,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		HotSpotEntry lan_chengEntry=new HotSpotEntry();
 		lan_chengEntry.setLatLng(new LatLng(31.146008, 121.513420));
 		lan_chengEntry.setName("LanCheng's Home");
+		lan_chengEntry.setCollision_count(12);
+		lan_chengEntry.setRank(24);
+		lan_chengEntry.setType("Intersection");
 		hotspots_arraylist.add(lan_chengEntry);
 		HotSpotEntry yun_diEntry=new HotSpotEntry();
 		yun_diEntry.setLatLng(new LatLng(31.293021, 121.536683));
 		yun_diEntry.setName("YunDi Tech");
+		yun_diEntry.setCollision_count(45);
+		yun_diEntry.setRank(12);
+		yun_diEntry.setType("VRU");
 		hotspots_arraylist.add(yun_diEntry);
 		
 		HotSpotEntry aaronEntry=new HotSpotEntry();
 		aaronEntry.setLatLng(new LatLng(53.523451, -113.510887));
 		aaronEntry.setName("Tester's Home");
+		aaronEntry.setCollision_count(8);
+		aaronEntry.setRank(23);
+		aaronEntry.setType("VRU");
 		hotspots_arraylist.add(aaronEntry);
 		for (int i = 0; i < hotspots_arraylist.size(); i++) {
 			Location temp_location= new Location("temp");
 			temp_location.setLatitude(hotspots_arraylist.get(i).getLatLng().latitude);
 			temp_location.setLongitude(hotspots_arraylist.get(i).getLatLng().longitude);
-			float distance=current_locaiton.distanceTo(temp_location);
+			int distance=(int)current_locaiton.distanceTo(temp_location);
 			if (distance< 700) {
+				
+				updateInfoBox(hotspots_arraylist.get(i), String.valueOf(distance));
+				
 				//if ( near_HotSpotEntry.getName()==hotspots_arraylist.get(i).getName()) {
 					// at the same hotspot, do nothing
 				//	Log.v("Geofence", "near hotspot123456");

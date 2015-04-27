@@ -1181,16 +1181,17 @@ containing a value of this type.
         public static final int abs__split_action_bar_is_narrow=0x7f090001;
     }
     public static final class color {
+        public static final int VRU_text_color=0x7f070023;
         public static final int abs__background_holo_dark=0x7f070017;
         public static final int abs__background_holo_light=0x7f070018;
         public static final int abs__bright_foreground_disabled_holo_dark=0x7f07001b;
         public static final int abs__bright_foreground_disabled_holo_light=0x7f07001c;
         public static final int abs__bright_foreground_holo_dark=0x7f070019;
         public static final int abs__bright_foreground_holo_light=0x7f07001a;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f070023;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f070024;
-        public static final int abs__primary_text_holo_dark=0x7f070025;
-        public static final int abs__primary_text_holo_light=0x7f070026;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f070025;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f070026;
+        public static final int abs__primary_text_holo_dark=0x7f070027;
+        public static final int abs__primary_text_holo_light=0x7f070028;
         public static final int actionbar_color=0x7f07001d;
         public static final int common_action_bar_splitter=0x7f070009;
         /**  Sign-in Button Colors 
@@ -1204,10 +1205,11 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f070006;
         public static final int common_signin_btn_light_text_focused=0x7f070007;
         public static final int common_signin_btn_light_text_pressed=0x7f070005;
-        public static final int common_signin_btn_text_dark=0x7f070027;
-        public static final int common_signin_btn_text_light=0x7f070028;
+        public static final int common_signin_btn_text_dark=0x7f070029;
+        public static final int common_signin_btn_text_light=0x7f07002a;
         public static final int drawlist_type_text_color=0x7f070022;
         public static final int horizontal_divider_bg=0x7f070020;
+        public static final int intersection_text_color=0x7f070024;
         public static final int left_drawer_bg=0x7f07001f;
         public static final int vertical_divider_bg=0x7f07001e;
         public static final int wallet_bright_foreground_disabled_holo_light=0x7f07000f;
@@ -1228,8 +1230,8 @@ containing a value of this type.
         public static final int wallet_hint_foreground_holo_light=0x7f070011;
         public static final int wallet_holo_blue_light=0x7f070015;
         public static final int wallet_link_text_light=0x7f070016;
-        public static final int wallet_primary_text_holo_light=0x7f070029;
-        public static final int wallet_secondary_text_holo_dark=0x7f07002a;
+        public static final int wallet_primary_text_holo_light=0x7f07002b;
+        public static final int wallet_secondary_text_holo_dark=0x7f07002c;
         public static final int welcome_page_bg=0x7f070021;
     }
     public static final class dimen {
@@ -1505,15 +1507,16 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f0200a4;
         public static final int relativelayout_normal=0x7f0200a5;
         public static final int relativelayout_pressed=0x7f0200a6;
-        public static final int shadow=0x7f0200a7;
-        public static final int shadowright=0x7f0200a8;
-        public static final int title_smarttravel=0x7f0200a9;
-        public static final int top_bg=0x7f0200aa;
-        public static final int welcome_city=0x7f0200ab;
-        public static final int welcome_logo=0x7f0200ac;
+        public static final int setting=0x7f0200a7;
+        public static final int shadow=0x7f0200a8;
+        public static final int shadowright=0x7f0200a9;
+        public static final int title_smarttravel=0x7f0200aa;
+        public static final int top_bg=0x7f0200ab;
+        public static final int welcome_city=0x7f0200ac;
+        public static final int welcome_logo=0x7f0200ad;
     }
     public static final class id {
-        public static final int SlidingDrawer=0x7f0b005d;
+        public static final int SlidingDrawer=0x7f0b005e;
         public static final int abs__action_bar=0x7f0b003b;
         public static final int abs__action_bar_container=0x7f0b003a;
         public static final int abs__action_bar_subtitle=0x7f0b002c;
@@ -1553,7 +1556,8 @@ containing a value of this type.
         public static final int abs__textButton=0x7f0b002e;
         public static final int abs__title=0x7f0b0036;
         public static final int abs__up=0x7f0b0001;
-        public static final int action_settings=0x7f0b0074;
+        public static final int actionBarLogo=0x7f0b004d;
+        public static final int action_settings=0x7f0b0075;
         public static final int adjust_height=0x7f0b0007;
         public static final int adjust_width=0x7f0b0008;
         public static final int book_now=0x7f0b0017;
@@ -1561,8 +1565,8 @@ containing a value of this type.
         public static final int buy_now=0x7f0b0018;
         public static final int buy_with_google=0x7f0b0019;
         public static final int classic=0x7f0b001b;
-        public static final int contentLayout=0x7f0b005f;
-        public static final int content_frame=0x7f0b004f;
+        public static final int contentLayout=0x7f0b0060;
+        public static final int content_frame=0x7f0b0050;
         public static final int disableHome=0x7f0b0021;
         public static final int donate_with_google=0x7f0b001a;
         public static final int edit_query=0x7f0b0041;
@@ -1571,45 +1575,45 @@ containing a value of this type.
         public static final int holo_dark=0x7f0b000e;
         public static final int holo_light=0x7f0b000f;
         public static final int homeAsUp=0x7f0b0022;
-        public static final int hotspot_collision_count=0x7f0b0052;
-        public static final int hotspot_name=0x7f0b0051;
-        public static final int hotspot_type=0x7f0b0050;
+        public static final int hotspot_collision_count=0x7f0b0053;
+        public static final int hotspot_name=0x7f0b0052;
+        public static final int hotspot_type=0x7f0b0051;
         public static final int hybrid=0x7f0b000a;
-        public static final int info_box_collisions=0x7f0b0066;
-        public static final int info_box_collisions_label=0x7f0b0065;
-        public static final int info_box_distance=0x7f0b0068;
-        public static final int info_box_distance_title=0x7f0b006a;
-        public static final int info_box_distance_unit=0x7f0b0069;
-        public static final int info_box_horizontal_divider=0x7f0b0067;
-        public static final int info_box_hotspot_name=0x7f0b0060;
-        public static final int info_box_hotspot_type=0x7f0b0061;
-        public static final int info_box_rank=0x7f0b0064;
-        public static final int info_box_rank_label=0x7f0b0063;
-        public static final int info_box_vertical_divider=0x7f0b0062;
+        public static final int info_box_collisions=0x7f0b0067;
+        public static final int info_box_collisions_label=0x7f0b0066;
+        public static final int info_box_distance=0x7f0b0069;
+        public static final int info_box_distance_title=0x7f0b006b;
+        public static final int info_box_distance_unit=0x7f0b006a;
+        public static final int info_box_horizontal_divider=0x7f0b0068;
+        public static final int info_box_hotspot_name=0x7f0b0061;
+        public static final int info_box_hotspot_type=0x7f0b0062;
+        public static final int info_box_rank=0x7f0b0065;
+        public static final int info_box_rank_label=0x7f0b0064;
+        public static final int info_box_vertical_divider=0x7f0b0063;
         public static final int left=0x7f0b0027;
-        public static final int left_drawer_VRU_count=0x7f0b0059;
-        public static final int left_drawer_VRU_divider=0x7f0b005b;
-        public static final int left_drawer_VRU_title=0x7f0b005a;
-        public static final int left_drawer_button_VRU=0x7f0b0058;
-        public static final int left_drawer_button_collision=0x7f0b0054;
-        public static final int left_drawer_collision_divider=0x7f0b0057;
-        public static final int left_drawer_collision_title=0x7f0b0056;
-        public static final int left_drawer_collosion_count=0x7f0b0055;
-        public static final int left_drawer_logo=0x7f0b0053;
+        public static final int left_drawer_VRU_count=0x7f0b005a;
+        public static final int left_drawer_VRU_divider=0x7f0b005c;
+        public static final int left_drawer_VRU_title=0x7f0b005b;
+        public static final int left_drawer_button_VRU=0x7f0b0059;
+        public static final int left_drawer_button_collision=0x7f0b0055;
+        public static final int left_drawer_collision_divider=0x7f0b0058;
+        public static final int left_drawer_collision_title=0x7f0b0057;
+        public static final int left_drawer_collosion_count=0x7f0b0056;
+        public static final int left_drawer_logo=0x7f0b0054;
         public static final int listMode=0x7f0b001f;
-        public static final int llMain=0x7f0b004d;
-        public static final int map=0x7f0b005c;
+        public static final int llMain=0x7f0b004e;
+        public static final int map=0x7f0b005d;
         public static final int margin=0x7f0b002a;
         public static final int match_parent=0x7f0b0015;
-        public static final int menu_frame=0x7f0b006b;
-        public static final int menu_frame_two=0x7f0b006c;
+        public static final int menu_frame=0x7f0b006c;
+        public static final int menu_frame_two=0x7f0b006d;
         public static final int monochrome=0x7f0b001d;
         public static final int none=0x7f0b0009;
         public static final int normal=0x7f0b000b;
         public static final int production=0x7f0b0010;
         public static final int right=0x7f0b0028;
-        public static final int row_icon=0x7f0b006d;
-        public static final int row_title=0x7f0b006e;
+        public static final int row_icon=0x7f0b006e;
+        public static final int row_title=0x7f0b006f;
         public static final int sandbox=0x7f0b0011;
         public static final int satellite=0x7f0b000c;
         public static final int selected_view=0x7f0b0006;
@@ -1618,17 +1622,17 @@ containing a value of this type.
         public static final int showHome=0x7f0b0024;
         public static final int showTitle=0x7f0b0025;
         public static final int slide=0x7f0b001e;
-        public static final int slideHandle=0x7f0b005e;
-        public static final int slidingmenumain=0x7f0b006f;
+        public static final int slideHandle=0x7f0b005f;
+        public static final int slidingmenumain=0x7f0b0070;
         public static final int strict_sandbox=0x7f0b0012;
         public static final int tabMode=0x7f0b0020;
         public static final int terrain=0x7f0b000d;
-        public static final int tvFragmentName=0x7f0b004e;
+        public static final int tvFragmentName=0x7f0b004f;
         public static final int useLogo=0x7f0b0026;
-        public static final int welcome_city_img=0x7f0b0071;
-        public static final int welcome_city_logo=0x7f0b0072;
-        public static final int welcome_copyright_txt=0x7f0b0073;
-        public static final int welcome_logo=0x7f0b0070;
+        public static final int welcome_city_img=0x7f0b0072;
+        public static final int welcome_city_logo=0x7f0b0073;
+        public static final int welcome_copyright_txt=0x7f0b0074;
+        public static final int welcome_logo=0x7f0b0071;
         public static final int wrap_content=0x7f0b0016;
     }
     public static final class integer {
@@ -1658,19 +1662,20 @@ containing a value of this type.
         public static final int abs__search_dropdown_item_icons_2line=0x7f030012;
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
-        public static final int activity_main=0x7f030015;
-        public static final int content_frame=0x7f030016;
-        public static final int drawer_list_item=0x7f030017;
-        public static final int left_drawer=0x7f030018;
-        public static final int main_map=0x7f030019;
-        public static final int menu_frame=0x7f03001a;
-        public static final int menu_frame_two=0x7f03001b;
-        public static final int right_drawer=0x7f03001c;
-        public static final int row=0x7f03001d;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
-        public static final int sherlock_spinner_item=0x7f03001f;
-        public static final int slidingmenumain=0x7f030020;
-        public static final int welcome_page=0x7f030021;
+        public static final int actionbar_custom=0x7f030015;
+        public static final int activity_main=0x7f030016;
+        public static final int content_frame=0x7f030017;
+        public static final int drawer_list_item=0x7f030018;
+        public static final int left_drawer=0x7f030019;
+        public static final int main_map=0x7f03001a;
+        public static final int menu_frame=0x7f03001b;
+        public static final int menu_frame_two=0x7f03001c;
+        public static final int right_drawer=0x7f03001d;
+        public static final int row=0x7f03001e;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
+        public static final int sherlock_spinner_item=0x7f030020;
+        public static final int slidingmenumain=0x7f030021;
+        public static final int welcome_page=0x7f030022;
     }
     public static final class menu {
         public static final int actionbar_actions=0x7f0d0000;
@@ -1720,6 +1725,7 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f06002d;
         public static final int accept=0x7f060002;
         public static final int action__right_search=0x7f060035;
+        public static final int action_logo_title=0x7f06004a;
         public static final int app_name=0x7f060033;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
@@ -1834,15 +1840,15 @@ containing a value of this type.
         public static final int create_calendar_title=0x7f060004;
         public static final int decline=0x7f060003;
         public static final int drawerlist_item_count_description=0x7f060045;
-        public static final int geofence_not_available=0x7f06004b;
-        public static final int geofence_too_many_geofences=0x7f06004c;
-        public static final int geofence_too_many_pending_intents=0x7f06004d;
+        public static final int geofence_not_available=0x7f06004c;
+        public static final int geofence_too_many_geofences=0x7f06004d;
+        public static final int geofence_too_many_pending_intents=0x7f06004e;
         /**  Transition type strings 
          */
-        public static final int geofence_transition_entered=0x7f060050;
-        public static final int geofence_transition_exited=0x7f060051;
-        public static final int geofence_transition_invalid_type=0x7f06004f;
-        public static final int geofence_transition_notification_text=0x7f060053;
+        public static final int geofence_transition_entered=0x7f060051;
+        public static final int geofence_transition_exited=0x7f060052;
+        public static final int geofence_transition_invalid_type=0x7f060050;
+        public static final int geofence_transition_notification_text=0x7f060054;
         public static final int hello_world=0x7f060034;
         public static final int info_box_collisions_label=0x7f060047;
         public static final int info_box_distance_title=0x7f060049;
@@ -1854,7 +1860,7 @@ containing a value of this type.
         public static final int map_location_button=0x7f060036;
         /**  Error strings 
          */
-        public static final int not_connected=0x7f06004a;
+        public static final int not_connected=0x7f06004b;
         public static final int setting_gps_description=0x7f06003c;
         public static final int setting_gps_title=0x7f06003b;
         public static final int setting_notification_description=0x7f06003e;
@@ -1864,8 +1870,8 @@ containing a value of this type.
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
         public static final int unknown=0x7f060038;
-        public static final int unknown_geofence_error=0x7f06004e;
-        public static final int unknown_geofence_transition=0x7f060052;
+        public static final int unknown_geofence_error=0x7f06004f;
+        public static final int unknown_geofence_transition=0x7f060053;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

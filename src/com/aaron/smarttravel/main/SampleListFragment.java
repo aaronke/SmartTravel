@@ -63,9 +63,9 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	//	String[] names_hotspot=context.getResources().getStringArray(R.array.nav_drawer_items);
 		
 		HotspotParse my_HotspotParse=new HotspotParse();
-		 intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()));
-		 midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()));
-		 VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()));
+		 intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", getActivity()),"Intersection");
+		 midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", getActivity()),"Midblock");
+		 VRU_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("VRU_top_x.json", getActivity()),"VRU");
 		
 		addItemToList(intersection_arraylist, "Intersection");
 		addItemToList(midblock_arraylist, "Midblock");
