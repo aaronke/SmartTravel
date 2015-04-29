@@ -2,6 +2,8 @@ package com.aaron.smarttravel.main;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -41,6 +43,11 @@ public class MainActivity extends BaseActivity {
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragmentRight()).commit();
+		
+		
+		getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings),
+				Context.MODE_PRIVATE);
+		
 		
 	}
 	

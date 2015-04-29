@@ -2,18 +2,36 @@ package com.aaron.smarttravel.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 public class SampleListFragmentRight extends Fragment {
 	
 	public Context context;
+	SharedPreferences sharedPreferences_settings;
+	CheckBox gps_checkbox,notification_checkbox,voice_message_checkbox;
+	SharedPreferences.Editor setting_Editor;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.right_drawer, null);
+		
+		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		View view=inflater.inflate(R.layout.right_drawer, null);
+		
+		gps_checkbox=(CheckBox)view.findViewById(R.id.setting_gps_checkbox);
+		notification_checkbox=(CheckBox)view.findViewById(R.id.setting_notification_checkbox);
+		voice_message_checkbox=(CheckBox)view.findViewById(R.id.setting_voice_checkbox);
+		
+		gps_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true));
+		notification_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), false));
+		voice_message_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true));
+		
+		
+		return view;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -30,4 +48,24 @@ public class SampleListFragmentRight extends Fragment {
 		super.onAttach(activity);
 		context=activity;
 	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		setting_Editor=sharedPreferences_settings.edit();
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_gps), gps_checkbox.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_checkbox.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_checkbox.isChecked());
+		
+		setting_Editor.commit();
+		super.onDestroy();
+	}
+
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+	
+	
 }

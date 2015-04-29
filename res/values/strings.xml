@@ -26,7 +26,10 @@
 	<string name="info_box_distance_unit">m</string>
 	<string name="info_box_distance_title">Distance</string>
 	<string name="action_logo_title">logo title</string>
-	
+	<string name="preferences_settings">com.aaron.smarttravel.preference_settings</string>
+	<string name="preferences_setting_gps">com.aaron.smarttravel.preference_settings.gps</string>
+	<string name="preferences_setting_notification">com.aaron.smarttravel.preference_settings.notification</string>
+	<string name="preferences_setting_voice_message">com.aaron.smarttravel.preference_settings.voice_message</string>
 	
 	<string-array name="collision_count_bg">
 	    
