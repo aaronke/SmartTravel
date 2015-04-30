@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class SampleListFragmentRight extends Fragment {
+public class SampleListFragmentRight extends Fragment implements OnCheckedChangeListener{
 	
 	public Context context;
 	SharedPreferences sharedPreferences_settings;
@@ -27,9 +29,12 @@ public class SampleListFragmentRight extends Fragment {
 		voice_message_checkbox=(CheckBox)view.findViewById(R.id.setting_voice_checkbox);
 		
 		gps_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true));
-		notification_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), false));
+		notification_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true));
 		voice_message_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true));
 		
+		gps_checkbox.setOnCheckedChangeListener(this);
+		notification_checkbox.setOnCheckedChangeListener(this);
+		voice_message_checkbox.setOnCheckedChangeListener(this);
 		
 		return view;
 	}
@@ -52,12 +57,7 @@ public class SampleListFragmentRight extends Fragment {
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		setting_Editor=sharedPreferences_settings.edit();
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_gps), gps_checkbox.isChecked());
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_checkbox.isChecked());
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_checkbox.isChecked());
-		
-		setting_Editor.commit();
+		updateSetting();
 		super.onDestroy();
 	}
 
@@ -66,6 +66,34 @@ public class SampleListFragmentRight extends Fragment {
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
+	
+	
+	public void updateSetting(){
+		setting_Editor=sharedPreferences_settings.edit();
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_gps), gps_checkbox.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_checkbox.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_checkbox.isChecked());
+		
+		setting_Editor.commit();
+	}
+	
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		// TODO Auto-generated method stub
+			switch (buttonView.getId()) {
+			case R.id.setting_gps_checkbox:
+				
+				break;
+			case R.id.setting_voice_checkbox:
+				if (isChecked) {
+					
+				}
+			default:
+				break;
+			}
+			
+			updateSetting();
+		}
 	
 	
 }

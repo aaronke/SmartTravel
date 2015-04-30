@@ -3,8 +3,10 @@ package com.aaron.smarttravel.main;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 
 public class MainActivity extends BaseActivity {
@@ -48,6 +50,11 @@ public class MainActivity extends BaseActivity {
 		getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings),
 				Context.MODE_PRIVATE);
 		
+		LocationManager locationManager=(LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			startActivity(viewIntent);
+		}
 		
 	}
 	

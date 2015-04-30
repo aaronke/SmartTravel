@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -60,6 +61,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private TextView name_TextView,type_TextView,rank_TextView,collisions_TextView,distance_TextView,distance_unit_TextView;
 	@SuppressWarnings("deprecation")
 	public SlidingDrawer slidingDrawer;
+	private SharedPreferences sharedPreferences_settings;
+	LocationManager locationManager;
 	
 	
 	@SuppressWarnings("deprecation")
@@ -108,11 +111,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		googleMap.getUiSettings().setZoomControlsEnabled(true);
 		
 		//getActivity();
-		LocationManager locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		Criteria criteria=new Criteria();
-		String best_location_provider=locationManager.getBestProvider(criteria, true);
-		
-		Location my_location=locationManager.getLastKnownLocation(best_location_provider);
+		locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		Location my_location=locationManager.getLastKnownLocation(getBestProvider());
 		loadHotSpotsData();
 		if (my_location!=null) {	
 			
@@ -123,11 +124,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			onLocationChanged(my_location);
 		}
 		
-		locationManager.requestLocationUpdates(best_location_provider, 7000, 0, this);
+		locationManager.requestLocationUpdates(getBestProvider(), 7000, 0, this);
+		
+		
 		
 		mapView.getMapAsync(this);
 		
 		return view;
+	}
+	
+	public String getBestProvider(){
+		Criteria criteria=new Criteria();
+		String best_provider=locationManager.getBestProvider(criteria, true);;
+		
+		if (!sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true)) {
+			best_provider=LocationManager.NETWORK_PROVIDER;
+		}
+		return best_provider;
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -305,17 +318,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				//}else {
 					Log.v("Geofence", "near hotspot");
 					near_HotSpotEntry=hotspots_arraylist.get(i);
-					Toast.makeText(context, "Attention, High Collision Rate Area", Toast.LENGTH_SHORT ).show();
-					textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
-						@Override
-						public void onInit(int status) {
-							// TODO Auto-generated method stub
-							if (status==TextToSpeech.SUCCESS) {
-								textToSpeech.setLanguage(Locale.UK);	
-								speakToText("Attention,High Collision Rate Area!");
+					if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true)) {
+						Toast.makeText(context, "Attention, High Collision Rate Area", Toast.LENGTH_SHORT ).show();
+					}
+					
+					if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
+						textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
+							@Override
+							public void onInit(int status) {
+								// TODO Auto-generated method stub
+								if (status==TextToSpeech.SUCCESS) {
+									textToSpeech.setLanguage(Locale.UK);	
+									speakToText("Attention,High Collision Rate Area!");
+								}
 							}
-						}
-					});
+						});
+					}
+					
 				
 				//}
 				
@@ -331,6 +350,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public View getView() {
 		// TODO Auto-generated method stub
+		Log.v("Test", "mapfragment getview");
 		return super.getView();
 	}
 
@@ -394,13 +414,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
-		
+		Log.v("Test", provider+"is disabled");
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
-		
+		Log.v("Test", provider+"is abled");
 	}
 
 	@Override
