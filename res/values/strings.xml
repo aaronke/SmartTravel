@@ -30,6 +30,9 @@
 	<string name="preferences_setting_gps">com.aaron.smarttravel.preference_settings.gps</string>
 	<string name="preferences_setting_notification">com.aaron.smarttravel.preference_settings.notification</string>
 	<string name="preferences_setting_voice_message">com.aaron.smarttravel.preference_settings.voice_message</string>
+	<string name="preferences_first_time">com.aaron.smarttravel.preference_first_time</string>
+	<string name="introduction_description">introduction to the features</string>
+	<string name="introduction_button">Got it</string>
 	
 	<string-array name="collision_count_bg">
 	    
