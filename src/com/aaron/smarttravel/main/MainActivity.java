@@ -14,8 +14,6 @@ public class MainActivity extends BaseActivity {
 
 	private Fragment mContent;
 	
-	private SharedPreferences my_sharedPreferences;
-	
 	public MainActivity() {
 		super(R.string.app_name);
 	}
@@ -24,19 +22,7 @@ public class MainActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		my_sharedPreferences=getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		
-		Boolean first_timeBoolean=my_sharedPreferences.getBoolean(getString(R.string.preferences_first_time), true);
-		if (first_timeBoolean) {
-			
-			SharedPreferences.Editor editor_first_time=my_sharedPreferences.edit();
-			editor_first_time.putBoolean(getString(R.string.preferences_first_time), false);
-			editor_first_time.commit();
-			Intent introductionIntent=new Intent(MainActivity.this,IntroductionActivity.class);
-			
-			startActivity(introductionIntent);
-			finish();
-		}
 		
 		// setSlidingActionBarEnabled(true);
 		if (savedInstanceState != null)
@@ -44,9 +30,7 @@ public class MainActivity extends BaseActivity {
 					savedInstanceState, "mContent");
 
 		if (mContent == null){
-			mContent = new MapFragment();
-			
-			
+			mContent = new MapFragment();	
 		}
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);

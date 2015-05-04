@@ -33,6 +33,82 @@
 	<string name="preferences_first_time">com.aaron.smarttravel.preference_first_time</string>
 	<string name="introduction_description">introduction to the features</string>
 	<string name="introduction_button">Got it</string>
+	<string name="term_of_use_title">Term of Use</string>
+	<string name="term_of_use_disagree">Not Agree</string>
+	<string name="term_of_use_agree">Agree</string>
+	<string name="term_of_use_context">
+1.	Acceptance of Terms
+The City of Edmonton (“City”) provides the Edmonton 311 mobile application (“311 App”) subject to the following Terms of Use Agreement (“Agreement”), which may be updated by the City from time to time. By accessing and using the 311 App, you accept and agree to be bound by this Agreement. Review these terms of use carefully; if you do not agree with any part of this Agreement, do not install or use the 311 App.
+
+2.	Ability to Accept Terms of Use
+By installing and using the 311 App, you are confirming that you are at least 18 years of age and are fully able and competent to accept and be bound by the terms of this Agreement.
+
+3.	Personal Information
+The 311 App allows you to report a service request to the City and provides you the option to submit related photographs taken using your mobile device as well as your geographic location. For certain service requests, you must provide your name and contact information so the City can appropriately respond to your request. For other service requests, providing this information is optional. 
+
+All personal information requested or required is collected under the authority of section 33(c) of the Freedom of Information and Protection of Privacy Act (Alberta) (FOIP Act) for the purpose of responding to your service request and enforcing municipal bylaws. This information will be collected, used and disclosed in accordance with the FOIP Act. In particular, personal information submitted through the 311 App will be disclosed to appropriate business areas within the City so they may respond to your service request. In addition, if the service request leads to bylaw enforcement, your personal information may be required to be disclosed as part of the court proceeding. If you have any questions about the collection or use of this information, please contact the Manager, Call Centre Operations, 300D Edmonton City Centre West, 780-495-0607.
+
+4. Device information
+
+By installing and using the 311 App, you agree that the City may collect and use information about your mobile device, including but not limited to your mobile telephone number. The City may collect and use this information for the purpose of contacting you about service requests submitted through the 311 App or providing you with general information about the 311 App and/or related City programs. If you have any questions about the collection or use of this information, please contact the Manager, Call Centre Operations, 300D Edmonton City Centre West, 780-495-0607.
+
+5.	Description of 311 App
+The 311 App is available as an Android and iOS mobile application that allows you to do the following:
+
+submit service requests to the City, such as pothole and graffiti reporting;
+submit photographs related to the service request and taken using your mobile device;
+ record and submit your geographic location, as recorded by your mobile device when the service request is submitted;
+view the status of service requests you have submitted;
+view certain service requests submitted by other users.
+You assume all responsibility for obtaining access to the 311 App, and that access may involve third-party fees (such as Internet service provider or airtime charges) for which you are solely responsible. By providing the 311 App, the City makes no representations or warranties that any information or content provided to you through the 311 App is accurate, complete, reliable, or error-free.
+
+You are not permitted to submit, and the City reserves the option to refuse to accept, service requests containing photographs or other information containing offensive or inappropriate material or images of identifiable individuals or other personally identifying information. Any photographs or other information meeting these criteria, at the sole discretion of the City, will be permanently deleted and the corresponding service request may be automatically closed without further action by the City. Please also see section 9, User Conduct.
+
+6.	Limitation of Liability and Disclaimer of Warranties and Conditions
+Your use of the 311 App is solely at your own risk and you are fully responsible for any consequences arising from your use of the 311 App. All content, information, and services provided to you through the 311 App are provided on an “as is” basis and on an “as available” basis.
+
+The City disclaims all warranties or conditions, express or implied, relating to the 311 App or other products and services contemplated under this Agreement, including without limitation, implied warranties and conditions of merchantability and fitness for any particular purpose or non-infringement. The City does not assume responsibility for the content or quality of the 311 App or any content therein.
+
+YOU EXPRESSLY UNDERSTAND AND AGREE THAT THE CITY IS NOT LIABLE TO YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL OR OTHER DAMAGES, INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA, OR OTHER INTANGIBLE LOSSES RESULTING FROM:
+
+(i)	YOUR USE OF, OR ACCESS TO, OR INABILITY TO USE OR ACCESS THE 311 APP;
+(ii)	ANY CONDUCT OR SUBMISSIONS OF ANY THIRD PARTY USING THE 311 APP; INCLUDING, WITHOUT LIMITATION, ANY DEFAMATORY, OFFENSIVE OR ILLEGAL CONDUCT OF OTHER USERS OR THIRD PARTIES;
+(iii)	ANY SUBMISSIONS OR OTHER INFORMATION, INCLUDING PERSONAL INFORMATION, OBTAINED BY A THIRD PARTY FROM YOUR USE OF THE 311 APP;
+(iv)	YOUR FAILURE TO DISABLE THE LOCATION COLLECTION DATA FEATURE IN YOUR ELECTRONIC DEVICE OR SMARTPHONE;
+(v)	UNAUTHORIZED ACCESS, USE OR ALTERATION OF YOUR SUBMISSIONS, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE) OR ANY OTHER LEGAL PRINCIPLE.
+
+YOU EXPRESSLY AGREE THAT THE CITY IS NOT RESPONSIBLE FOR ANY CONTACT OR INTERACTION BETWEEN YOU AND ANY OTHER USER OF THE 311 APP AND THAT YOU BEAR THE SOLE RISK OF ACCESSING OR USING THE 311 APP AND SUBMITTING OR POSTING SERVICE REQUESTS TO THE 311 APP, INCLUDING FOR THE POSTING OF SERVICE REQUESTS THAT CONTAIN PERSONAL INFORMATION WHICH MAY IDENTIFY YOU OR YOUR LOCATION.
+
+7.	Indemnity
+You agree to indemnify, defend and hold harmless the City and its officials, officers, employees and authorized representatives from and against any liability or any form of loss injury, demand, action, cost, expense or claim of any kind, (including lawyer’s fees), relating in any way to your use of the 311 App, including, but not limited to, your connection to the 311 App, your use of the 311 App or any contents therein, any submissions made to the 311 App by you or another user, or your use of a third party’s submissions to the 311 App.
+
+8.	Copyright and Intellectual Property Rights
+The 311 App and all of its contents are protected by Canadian and International copyright and trademark laws and may not be used or reproduced without the express written consent of the City. Unauthorized use of the 311 App or its contents may violate copyright, trademark and other laws. Copying, repackaging, redistributing or modifying the 311 App, in whole or in part, in printed or electronic format, is strictly prohibited.
+
+The City grants you a limited, non-exclusive, non-transferable licence to access and make personal use of the 311 App for the non-commercial purpose of submitting and reviewing service requests. You are prohibited from modifying the 311 App or its contents in any manner whatsoever.
+
+No derivative use of the 311 App or its contents or any use of data mining, robots, spiders, search/retrieval applications or similar data-gathering and extraction tools is permitted. Any unauthorized use of the 311 App automatically terminates the license granted by this Agreement.
+
+If you submit a service request, including any photographs and your geographic location, you hereby grant the City an irrevocable, non-exclusive, royalty-free right to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and display such submissions worldwide and you irrevocably waive all moral rights to such submissions. You represent and warrant that you own or otherwise control all rights to any submissions made and that your submissions do not violate this Agreement. You understand that the City does not guarantee any confidentiality with respect to any information submitted using the 311 App. In addition, you agree that you are not entitled to any compensation or reimbursement of any kind from the City for your submissions under any circumstances.
+
+9.	User Conduct
+If you use the 311 App to submit a service request, photograph, or other information that the City, in its sole discretion, deems to be untrue, inaccurate, offensive, defamatory, threatening, obscene, not current, incomplete, or generally of a nature that does not pertain to the designated topic or theme or does not comply with this Agreement, or the City has reasonable grounds to suspect that such information is untrue, inaccurate, offensive, defamatory, threatening, obscene, not current, incomplete or generally of a nature that does not pertain to the designated topic or theme or does not comply with this Agreement, the City has the right to suspend or terminate your account and any service requests you may have submitted, and may refuse you current or future use of the 311 App (or any portion thereof) and immediately terminate this Agreement without notice to you.
+
+You agree and acknowledge that the City has no obligation to pre-screen service requests submitted using the 311 App, and that the displaying of a service request, including any related photographs or geographic locations, in the 311 App does not imply, state, or represent that the City has confirmed or accepts the validity of the service request. The City retains the option, at all times and at its sole discretion, to refuse or remove any information submitted or displayed in the 311 App, including but not limited to any photographs, information, or content that violates this agreement or is deemed offensive, objectionable, or inappropriate.
+
+10.	Links
+If the City provides any links or other direction to third party content or websites through the 311 App, you agree that such content is provided solely as a convenience to you. Third party content or websites are independently developed by parties other than the City and the City assumes no responsibility for the accuracy or appropriateness of the information contained in such content or websites. The inclusion of any link to another website or any other external content does not imply an endorsement by the City and should not be construed as an endorsement of that party or its product or services. If you decide to access such external links or websites, you do so entirely at your own risk.
+
+11.	Modification, Severability and Waiver
+The City reserves the right at any time and from time to time to modify or discontinue, temporarily or permanently, the 311 App (or any part of it), with or without notice. You agree that the City will not be liable to you or to any third party for any modification, suspension or discontinuation of the 311 App (or any part of it).
+
+Your use of the 311 App is subject to this Agreement, including any amendments. In the event any of the terms or conditions in this Agreement should be determined to be invalid, void or for any reason unenforceable, that condition will be deemed to be severable and not affect the validity and enforceability of any remaining condition.
+
+The City’s failure to assert any right or provision under this Agreement shall not constitute a waiver of such right or provision.
+
+12.	Governing Law and Jurisdiction
+The use of the 311 App is governed by the laws of the Province of Alberta. You agree to submit to the exclusive personal jurisdiction and venue of the courts located in Edmonton, Alberta. The United Nations Convention on Contracts for the International Sale of Goods does not apply.
+	</string>
 	
 	<string-array name="collision_count_bg">
 	    
