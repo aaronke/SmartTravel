@@ -3,33 +3,8 @@ package com.aaron.smarttravel.main;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.aaron.smarttravel.data.HotspotParse;
-import com.aaron.smarttravel.geofence.GeofenceErrorMessages;
-import com.aaron.smarttravel.geofence.GeofenceTransitionsIntentService;
-import com.aaron.smarttravel.utilities.HotSpotEntry;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -46,26 +21,36 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status>{
+import com.aaron.smarttravel.data.HotspotParse;
+import com.aaron.smarttravel.utilities.HotSpotEntry;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+@SuppressWarnings("deprecation")
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener{
 
 	MapView mapView;
 	private GoogleMap googleMap;
 	public Context context;
 	private ArrayList<Geofence> my_geofence_arraylist=new ArrayList<Geofence>();
-	private PendingIntent geofenceIntent;
-	private GoogleApiClient geofenApiClient;
 	private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
 	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
 	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
 	private TextView name_TextView,type_TextView,rank_TextView,collisions_TextView,distance_TextView,distance_unit_TextView;
-	@SuppressWarnings("deprecation")
 	public SlidingDrawer slidingDrawer;
 	private SharedPreferences sharedPreferences_settings;
 	LocationManager locationManager;
 	
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -95,7 +80,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
 		params.setMargins(80, 0, 0, 80);
 		location_buttonView.setLayoutParams(params);*/
-		buildGoogleApiClient();
 		
 		
 		try {
@@ -104,7 +88,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			// TODO: handle exception
 		}
 		googleMap=mapView.getMap();
-		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 10);
+		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 12);
 		googleMap.animateCamera(cameraUpdate);
 		googleMap.setMyLocationEnabled(true);
 	//	googleMap.setTrafficEnabled(true);
@@ -143,7 +127,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		return best_provider;
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void updateInfoBox(HotSpotEntry current_hotSpotEntry, String distance){
 		if (!slidingDrawer.isOpened()) {
 			slidingDrawer.open();
@@ -164,14 +147,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		distance_unit_TextView.setTextColor(color_type);
 		
 	}
-	private void buildGoogleApiClient() {
-		// TODO Auto-generated method stub
-		geofenApiClient=new GoogleApiClient.Builder(context)
-		.addConnectionCallbacks(this)
-		.addOnConnectionFailedListener(this)
-		.addApi(LocationServices.API)
-		.build();
-	}
+	
 
 	@Override
 	public void onAttach(Activity activity){
@@ -194,14 +170,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 	}
 	
-	// Geofence request;
-	private GeofencingRequest getGeofencingRequest(){
-		
-		GeofencingRequest.Builder builder=new GeofencingRequest.Builder();
-		builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER|GeofencingRequest.INITIAL_TRIGGER_DWELL);
-		builder.addGeofences(my_geofence_arraylist);
-		return builder.build();
-	}
 	
 	// add Geofences to geofencelist
 	public void addGeofences(ArrayList<HotSpotEntry> hotspots_arraylist){
@@ -225,27 +193,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER|Geofence.GEOFENCE_TRANSITION_DWELL|Geofence.GEOFENCE_TRANSITION_EXIT).build();
 		
 		my_geofence_arraylist.add(temp_geofence);
-	//	geofenceHandler=new GeofenceHandler(getActivity(), my_geofence_arraylist);
+	
 		
-		try {
-			LocationServices.GeofencingApi.addGeofences(geofenApiClient, 
-					getGeofencingRequest(), getGeofencePendingIntent()).setResultCallback(this);
-				Log.v("Geofence", "test");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 	}
 
-    private PendingIntent getGeofencePendingIntent() {
-        // Reuse the PendingIntent if we already have it.
-        if (geofenceIntent != null) {
-            return geofenceIntent;
-        }
-        Intent intent = new Intent(context, GeofenceTransitionsIntentService.class);
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
-        // addGeofences() and removeGeofences().
-        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
+    
     
     public void loadHotSpotsData(){
     	HotspotParse my_HotspotParse=new HotspotParse();
@@ -378,7 +330,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
-		geofenApiClient.connect();
+		
 		super.onStart();
 	}
 
@@ -393,7 +345,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
-		geofenApiClient.disconnect();
+	
 		super.onStop();
 		
 	}
@@ -428,36 +380,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void onResult(Status status) {
-		// TODO Auto-generated method stub
-		if (status.isSuccess()) {
-			Log.v("Geofence", "success");
-		}else {
-			String errorString=GeofenceErrorMessages.getErrorString(context, status.getStatusCode());
-			Log.v("Geofence", errorString);
-		}
-	}
-
-	@Override
-	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
-		Log.v("Geofence", "connection failed");
-	}
-
-	@Override
-	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
-		Log.v("Geofence", "connected");
-	}
-
-	@Override
-	public void onConnectionSuspended(int arg0) {
-		// TODO Auto-generated method stub
-		Log.v("Geofence", "connection suspended");
-	}
-		
 	
 
 }

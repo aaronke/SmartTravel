@@ -2,9 +2,10 @@ package com.aaron.smarttravel.main;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,7 +22,6 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		
 		
 		// setSlidingActionBarEnabled(true);
@@ -51,9 +51,31 @@ public class MainActivity extends BaseActivity {
 				Context.MODE_PRIVATE);
 		
 		LocationManager locationManager=(LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-			startActivity(viewIntent);
+			AlertDialog.Builder location_settingBuilder=new AlertDialog.Builder(this);
+			
+			location_settingBuilder.setTitle(R.string.location_setting_alert_title)
+			.setPositiveButton(R.string.location_setting_positive, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					startActivity(viewIntent);
+				}
+			});
+			location_settingBuilder.setNegativeButton(R.string.location_setting_nagetive, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+				}
+			});
+			
+			AlertDialog location_Dialog=location_settingBuilder.create();
+			location_Dialog.show();
 		}
 		
 	}

@@ -45,7 +45,8 @@
             android:layout_gravity="center"
             android:background="@android:color/white"
             android:text="@string/term_of_use_disagree"
-            android:textColor="@color/actionbar_color" />
+            android:textColor="@color/actionbar_color" 
+            />
 
         <Button
             android:id="@+id/term_of_use_agree_button"

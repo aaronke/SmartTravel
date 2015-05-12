@@ -36,6 +36,12 @@
 	<string name="term_of_use_title">Term of Use</string>
 	<string name="term_of_use_disagree">Not Agree</string>
 	<string name="term_of_use_agree">Agree</string>
+	<string name="location_setting_alert_title">Google Map Would Like to Use Your Current Location</string>
+	<string name="location_setting_positive">OK</string>
+	<string name="location_setting_nagetive">Don\'t Allow</string>
+	
+	
+	
 	<string name="term_of_use_context">
 1.	Acceptance of Terms
 The City of Edmonton (“City”) provides the Edmonton 311 mobile application (“311 App”) subject to the following Terms of Use Agreement (“Agreement”), which may be updated by the City from time to time. By accessing and using the 311 App, you accept and agree to be bound by this Agreement. Review these terms of use carefully; if you do not agree with any part of this Agreement, do not install or use the 311 App.

@@ -1,12 +1,7 @@
 package com.aaron.smarttravel.geofence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.aaron.smarttravel.main.R;
@@ -54,19 +49,19 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
-            List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+         //   List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             // Get the transition details as a String.
-            String geofenceTransitionDetails = getGeofenceTransitionDetails(
+          /*  String geofenceTransitionDetails = getGeofenceTransitionDetails(
                     this,
                     geofenceTransition,
                     triggeringGeofences
-            );
+            );*/
 
             // Send notification and log the transition details.
           //  sendNotification(geofenceTransitionDetails);
             Log.v("Geofence", "i am working,yeah");
-            Log.i(TAG, geofenceTransitionDetails);
+           
         } else {
             // Log the error.
             Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition));
@@ -81,7 +76,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * @param triggeringGeofences   The geofence(s) triggered.
      * @return                      The transition details formatted as String.
      */
-    private String getGeofenceTransitionDetails(
+    /*private String getGeofenceTransitionDetails(
             Context context,
             int geofenceTransition,
             List<Geofence> triggeringGeofences) {
@@ -96,7 +91,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
 
         return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
-    }
+    }*/
 
     /**
      * Posts a notification in the notification bar when a transition is detected.
@@ -150,7 +145,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
      * @param transitionType    A transition type constant defined in Geofence
      * @return                  A String indicating the type of transition
      */
-    private String getTransitionString(int transitionType) {
+    /*private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
                 return getString(R.string.geofence_transition_entered);
@@ -159,5 +154,5 @@ public class GeofenceTransitionsIntentService extends IntentService {
             default:
                 return getString(R.string.unknown_geofence_transition);
         }
-    }
+    }*/
 }
