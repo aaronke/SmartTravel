@@ -8,15 +8,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Switch;
 
 public class SampleListFragmentRight extends Fragment implements OnCheckedChangeListener{
 	
 	public Context context;
 	SharedPreferences sharedPreferences_settings;
-	CheckBox gps_checkbox,notification_checkbox,voice_message_checkbox;
+	Switch gps_switch,notification_switch,voice_message_switch;
 	SharedPreferences.Editor setting_Editor;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,17 +24,15 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		View view=inflater.inflate(R.layout.right_drawer, null);
 		
-		gps_checkbox=(CheckBox)view.findViewById(R.id.setting_gps_checkbox);
-		notification_checkbox=(CheckBox)view.findViewById(R.id.setting_notification_checkbox);
-		voice_message_checkbox=(CheckBox)view.findViewById(R.id.setting_voice_checkbox);
 		
-		gps_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true));
-		notification_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true));
-		voice_message_checkbox.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true));
+		notification_switch=(Switch)view.findViewById(R.id.setting_notification_switch);
+		voice_message_switch=(Switch)view.findViewById(R.id.setting_voice_switch);
 		
-		gps_checkbox.setOnCheckedChangeListener(this);
-		notification_checkbox.setOnCheckedChangeListener(this);
-		voice_message_checkbox.setOnCheckedChangeListener(this);
+		notification_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true));
+		voice_message_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true));
+		
+		notification_switch.setOnCheckedChangeListener(this);
+		voice_message_switch.setOnCheckedChangeListener(this);
 		
 		return view;
 	}
@@ -70,9 +68,8 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 	
 	public void updateSetting(){
 		setting_Editor=sharedPreferences_settings.edit();
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_gps), gps_checkbox.isChecked());
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_checkbox.isChecked());
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_checkbox.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_switch.isChecked());
+		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_switch.isChecked());
 		
 		setting_Editor.commit();
 	}
@@ -81,10 +78,7 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 			switch (buttonView.getId()) {
-			case R.id.setting_gps_checkbox:
-				
-				break;
-			case R.id.setting_voice_checkbox:
+			case R.id.setting_voice_switch:
 				if (isChecked) {
 					
 				}
