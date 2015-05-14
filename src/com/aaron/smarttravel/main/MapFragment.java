@@ -165,6 +165,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				icon_res=R.drawable.hotspot_point;
 			}
 			MarkerOptions markerOptions=new MarkerOptions().position(temp_location).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);
+			markerOptions.title(hotspots_ArrayList.get(i).getName());
+			markerOptions.snippet("Collision Count:"+hotspots_ArrayList.get(i).getCollision_count()+",Rank:"+hotspots_ArrayList.get(i).getRank());
 			mymap.addMarker(markerOptions);		
 		}
 		
@@ -260,7 +262,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			temp_location.setLatitude(hotspots_arraylist.get(i).getLatLng().latitude);
 			temp_location.setLongitude(hotspots_arraylist.get(i).getLatLng().longitude);
 			int distance=(int)current_locaiton.distanceTo(temp_location);
-			if (distance< 700) {
+			if (distance< 500) {
 				
 				updateInfoBox(hotspots_arraylist.get(i), String.valueOf(distance));
 				
