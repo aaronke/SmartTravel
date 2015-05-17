@@ -1,12 +1,12 @@
 package com.aaron.smarttravel.utilities;
 
-public class DataTypeObject {
+public class DayTypeObject {
 	private Boolean weekday;
 	private Boolean weekend;
 	private String date;
 	private Boolean school_day;
 	
-	public DataTypeObject(){
+	public DayTypeObject(){
 		weekend=false;
 		weekend=true;
 		date="unknown";
