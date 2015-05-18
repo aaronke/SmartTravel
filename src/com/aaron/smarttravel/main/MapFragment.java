@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.data.HotspotParse;
+import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
@@ -214,10 +215,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		hotspots_arraylist.addAll(midblock_arraylist);
 		hotspots_arraylist.addAll(VRU_arraylist);
 		
-		DataParseFromJson test_dataParseFromJson=new DataParseFromJson();
-		ArrayList<DayTypeObject> temp=test_dataParseFromJson.getDataTypeObjects(test_dataParseFromJson.loadJsonString("days.json", context));
-		
-		Log.v("STTest", temp.size()+"content:");
     }
     
 	@Override
@@ -305,6 +302,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 	}
 	
+	private String getWarningMessage(Location currentLocation){
+		String message="";
+			HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
+			dbHelper.getNearbyLocation(currentLocation).getLoc_code();
+		return message;
+	}
 	 public static void speakToText(String string){
 	    	
 	    	textToSpeech.speak(string, TextToSpeech.QUEUE_FLUSH, null);

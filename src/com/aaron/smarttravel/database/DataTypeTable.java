@@ -6,7 +6,7 @@ public final class DataTypeTable {
 	
 	public DataTypeTable(){}
 	
-	public static abstract class DataTypeEntry implements BaseColumns{
+	public static abstract class DayTypeEntry implements BaseColumns{
 		
 		public static final String TABLE_NAME="TBL_WM_DATATYPE";
 		public static final String COLUMN_WEEKDAY="weekday";

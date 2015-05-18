@@ -24,7 +24,7 @@ public class DataParseFromJson {
 			JSONObject jsonObject=new JSONObject(jsonString);
 			JSONArray array=jsonObject.getJSONArray("locations");
 			
-			Log.v("STTest", array.length()+"");
+			Log.v("STTest", array.length()+"Orinal");
 			for (int i = 0; i < array.length(); i++) {
 				
 				CollisionLocationObject temp_CollisionLocationObject=new CollisionLocationObject();
