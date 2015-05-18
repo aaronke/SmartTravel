@@ -2,9 +2,13 @@ package com.aaron.smarttravel.data;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import android.content.Context;
+import android.util.Log;
+
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
@@ -20,12 +24,13 @@ public class DataParseFromJson {
 			JSONObject jsonObject=new JSONObject(jsonString);
 			JSONArray array=jsonObject.getJSONArray("locations");
 			
+			Log.v("STTest", array.length()+"");
 			for (int i = 0; i < array.length(); i++) {
 				
 				CollisionLocationObject temp_CollisionLocationObject=new CollisionLocationObject();
 				JSONObject temp_jsonObject=array.getJSONObject(i);
 				
-				if (temp_jsonObject.getString("roadway_portion")!=null) {
+				if (temp_jsonObject.has("roadway_portion")) {
 					temp_CollisionLocationObject.setLocation_name(temp_jsonObject.getString("location_name"));
 					temp_CollisionLocationObject.setLatitude(temp_jsonObject.getDouble("latitude"));
 					temp_CollisionLocationObject.setLongitude(temp_jsonObject.getDouble("longitude"));
@@ -52,6 +57,8 @@ public class DataParseFromJson {
 		try {
 			JSONObject jsonObject=new JSONObject(jsonString);
 			JSONArray array=jsonObject.getJSONArray("reasons");
+			
+			Log.v("STTest", array.length()+"");
 			
 			for (int i = 0; i < array.length(); i++) {
 				WMReasonConditionObject temp_wmReasonConditionObject=new WMReasonConditionObject();
@@ -84,6 +91,7 @@ public class DataParseFromJson {
 			JSONObject jsonObject=new JSONObject(jsonString);
 			JSONArray array=jsonObject.getJSONArray("location_reason");
 			
+			Log.v("STTest", array.length()+"");
 			for (int i = 0; i < array.length(); i++) {
 				LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 				JSONObject temp_jsonObject=array.getJSONObject(i);
@@ -91,15 +99,21 @@ public class DataParseFromJson {
 				temp_locationReasonObject.setTotal(temp_jsonObject.getInt("total"));
 				temp_locationReasonObject.setWarning_priority(temp_jsonObject.getInt("warning_priority"));
 				temp_locationReasonObject.setReason_id(temp_jsonObject.getInt("reason_id"));
-				temp_locationReasonObject.setTravel_direction(temp_jsonObject.getString("travel_direction"));
+				if (temp_jsonObject.has("travel_direction") ) {
+					temp_locationReasonObject.setTravel_direction(temp_jsonObject.getString("travel_direction"));
+				}else {
+					temp_locationReasonObject.setTravel_direction("unknown");
+				}
+				
 				temp_locationReasonObject.setLoc_code(temp_jsonObject.getString("loc_code"));
 				
 				objects_ArrayList.add(temp_locationReasonObject);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			Log.v("STTest", "problems");
 		}
-		
+		Log.v("STTest", objects_ArrayList.size()+"");
 		return objects_ArrayList;
 	}
 	
@@ -110,6 +124,7 @@ public class DataParseFromJson {
 			JSONObject jsonObject=new JSONObject(jsonString);
 			JSONArray array=jsonObject.getJSONArray("days");
 			
+			Log.v("STTest", array.length()+"");
 			for (int i = 0; i < array.length(); i++) {
 				DayTypeObject temp_DayTypeObject=new DayTypeObject();
 				JSONObject temp_jsonObject=array.getJSONObject(i);

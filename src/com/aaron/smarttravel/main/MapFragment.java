@@ -21,9 +21,13 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.data.HotspotParse;
+import com.aaron.smarttravel.utilities.CollisionLocationObject;
+import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
-import com.google.android.gms.location.Geofence;
+import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,7 +44,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	MapView mapView;
 	private GoogleMap googleMap;
 	public Context context;
-	private ArrayList<Geofence> my_geofence_arraylist=new ArrayList<Geofence>();
 	private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
 	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
@@ -174,7 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	
 	
 	// add Geofences to geofencelist
-	public void addGeofences(ArrayList<HotSpotEntry> hotspots_arraylist){
+	/*public void addGeofences(ArrayList<HotSpotEntry> hotspots_arraylist){
 		
 		for (int i = 0; i < hotspots_arraylist.size(); i++) {
 			Geofence temp_geofence=new Geofence.Builder()
@@ -197,7 +200,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		my_geofence_arraylist.add(temp_geofence);
 	
 		
-	}
+	}*/
 
     
     
@@ -210,6 +213,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		hotspots_arraylist.addAll(intersection_arraylist);
 		hotspots_arraylist.addAll(midblock_arraylist);
 		hotspots_arraylist.addAll(VRU_arraylist);
+		
+		DataParseFromJson test_dataParseFromJson=new DataParseFromJson();
+		ArrayList<DayTypeObject> temp=test_dataParseFromJson.getDataTypeObjects(test_dataParseFromJson.loadJsonString("days.json", context));
+		
+		Log.v("STTest", temp.size()+"content:");
     }
     
 	@Override
