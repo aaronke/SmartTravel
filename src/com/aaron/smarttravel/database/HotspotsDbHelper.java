@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.util.Log;
 
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DataTypeTable.DayTypeEntry;
@@ -139,6 +140,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_CollisionLocationObject.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
 				temp_CollisionLocationObject.setLocation_name(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
 				temp_CollisionLocationObject.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));	
+				Log.v("STTest", "location_name:"+temp_CollisionLocationObject.getLocation_name());
 				break;
 			}
 			cursor.moveToNext();
@@ -149,14 +151,35 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 	public LocationReasonObject getLocationReasonByLocCode(String loc_codeString){
 		LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 		SQLiteDatabase db=this.getReadableDatabase();
-		Cursor cursor=db.rawQuery("select * from "+LocationReasonEntry.TABLE_NAME, null);
-		cursor.moveToFirst();
-		while(!cursor.isAfterLast()){
-			if (cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_LOC_CODE))==loc_codeString) {
-				
-			}
+		
+		Cursor cursor=db.rawQuery("select * from "+LocationReasonEntry.TABLE_NAME+" where "+LocationReasonEntry.COLUMN_LOC_CODE+"="+loc_codeString+" ", null);
+		
+		if (cursor.moveToFirst()) {
+			temp_locationReasonObject.setLoc_code(loc_codeString);
+			temp_locationReasonObject.setReason_id(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_REASON_ID)));
+			temp_locationReasonObject.setTotal(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TOTAL)));
+			temp_locationReasonObject.setTravel_direction(cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TRAVEL_DIRECTION)));
+			temp_locationReasonObject.setWarning_priority(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_WARNING_PRIORITY)));
 		}
+		
 		return temp_locationReasonObject;
+	}
+	public WMReasonConditionObject getWMReasonConditionByReasonID(int reason_id){
+		WMReasonConditionObject temp_WMReasonConditionObject=new WMReasonConditionObject();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ReasonConditionEntry.TABLE_NAME+" where "+ ReasonConditionEntry.COLUMN_REASON_ID+"= "+reason_id, null);
+		if (cursor.moveToFirst()) {
+			temp_WMReasonConditionObject.setEnd_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_END_TIME)));
+			temp_WMReasonConditionObject.setMonth(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_MONTH)));
+			temp_WMReasonConditionObject.setReason(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_REASON)));
+			temp_WMReasonConditionObject.setReason_id(reason_id);
+			temp_WMReasonConditionObject.setScholl_day(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_SCHOLL_DAY))==1 ? true: false);
+			temp_WMReasonConditionObject.setStart_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_START_TIME)));
+			temp_WMReasonConditionObject.setWarning_message(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WARNING_MESSAGE)));
+			temp_WMReasonConditionObject.setWeekday(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))==1? true: false);
+			temp_WMReasonConditionObject.setWeekend(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKEND))==1? true: false);
+		}
+		return temp_WMReasonConditionObject;
 	}
 	
 	public void insertLocationReasonTableData(ArrayList<LocationReasonObject> arrayList){

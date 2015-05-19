@@ -21,8 +21,7 @@
 	<string name="welcome_page_edmonton_logo">welcome page edmonton logo</string>
 	<string name="copyright_txt">\@2015 City of Edmonton. All rights reserved.</string>
 	<string name="drawerlist_item_count_description">count the collision</string>
-	<string name="info_box_rank_label">Rank:</string>
-	<string name="info_box_collisions_label">Collisions:</string>
+	<string name="info_box_reason">Default Reason for HotSpot, no specific meaning, take it easy!</string>
 	<string name="info_box_distance_unit">m</string>
 	<string name="info_box_distance_title">Distance</string>
 	<string name="action_logo_title">logo title</string>

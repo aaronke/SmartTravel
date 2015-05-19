@@ -2,6 +2,13 @@
     {
         "total": 9,
         "warning_priority": 1,
+        "reason_id": 24,
+        "travel_direction": "SOUTH",
+        "loc_code": "Test"
+    },
+    {
+        "total": 9,
+        "warning_priority": 1,
         "reason_id": 4,
         "travel_direction": "SOUTH",
         "loc_code": "0034526S-NW50-0"

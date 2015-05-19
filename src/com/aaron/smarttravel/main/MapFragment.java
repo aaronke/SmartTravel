@@ -20,14 +20,12 @@ import android.view.ViewGroup;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.data.HotspotParse;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
-import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +47,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
 	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
-	private TextView name_TextView,type_TextView,rank_TextView,collisions_TextView,distance_TextView,distance_unit_TextView;
+	private TextView name_TextView,reason_TextView,distance_TextView,distance_unit_TextView;
 	public SlidingDrawer slidingDrawer;
 	private SharedPreferences sharedPreferences_settings;
 	LocationManager locationManager;
@@ -66,9 +64,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		mapView.onCreate(savedInstanceState);
 		
 		name_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_name);
-		type_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_type);
-		rank_TextView=(TextView)view.findViewById(R.id.info_box_rank);
-		collisions_TextView=(TextView)view.findViewById(R.id.info_box_collisions);
+		reason_TextView=(TextView)view.findViewById(R.id.info_box_reason);
 		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
 		distance_unit_TextView=(TextView)view.findViewById(R.id.info_box_distance_unit);
 		slidingDrawer=(SlidingDrawer)view.findViewById(R.id.SlidingDrawer);
@@ -106,9 +102,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		if (my_location!=null) {	
 			
 			googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(my_location.getLatitude(), my_location.getLongitude()), 12));
-			if (!hotspots_arraylist.isEmpty()) {
+			/*if (!hotspots_arraylist.isEmpty()) {
 				approaching_hotspot_alert(hotspots_arraylist, my_location);
-			}
+			}*/
+			//checkForLocationForWarning(my_location);
 			onLocationChanged(my_location);
 		}
 		
@@ -131,24 +128,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		return best_provider;
 	}
 	
-	private void updateInfoBox(HotSpotEntry current_hotSpotEntry, String distance){
+	private void updateInfoBox(TopInfoEntry topInfoEntry){
 		if (!slidingDrawer.isOpened()) {
 			slidingDrawer.open();
 			slidingDrawer.setVisibility(View.VISIBLE);
 		}
 		
-		name_TextView.setText(current_hotSpotEntry.getName());
-		type_TextView.setText(current_hotSpotEntry.getType());
-		rank_TextView.setText(current_hotSpotEntry.getRank()+"");
-		collisions_TextView.setText(""+current_hotSpotEntry.getCollision_count());
-		distance_TextView.setText(distance);
-		int color_type=context.getResources().getColor(R.color.intersection_text_color);
-		if (current_hotSpotEntry.getType()=="VRU") {
-			color_type=context.getResources().getColor(R.color.VRU_text_color);	
-		}
-		type_TextView.setTextColor(color_type);
-		distance_TextView.setTextColor(color_type);
-		distance_unit_TextView.setTextColor(color_type);
+		name_TextView.setText(topInfoEntry.getLocation_name());
+		reason_TextView.setText(topInfoEntry.getHotspot_reason());
+		distance_TextView.setText(topInfoEntry.getDistance());
 		
 	}
 	
@@ -269,7 +257,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			int distance=(int)current_locaiton.distanceTo(temp_location);
 			if (distance< 500) {
 				
-				updateInfoBox(hotspots_arraylist.get(i), String.valueOf(distance));
+				//updateInfoBox(hotspots_arraylist.get(i), String.valueOf(distance));
 				
 				//if ( near_HotSpotEntry.getName()==hotspots_arraylist.get(i).getName()) {
 					// at the same hotspot, do nothing
@@ -302,11 +290,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 	}
 	
-	private String getWarningMessage(Location currentLocation){
-		String message="";
+	public void checkForLocationForWarning(Location currentLocation){
+
+		final TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
+		if (temp_topinfoEntry.getLocation_name()!="unknown") {
+			updateInfoBox(temp_topinfoEntry);
+			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true)) {
+				Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
+			}
+			
+			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
+				textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
+					@Override
+					public void onInit(int status) {
+						// TODO Auto-generated method stub
+						if (status==TextToSpeech.SUCCESS) {
+							textToSpeech.setLanguage(Locale.UK);	
+							speakToText(temp_topinfoEntry.getWarning_message());
+						}
+					}
+				});
+			}
+		}
+		
+		
+	}
+	private TopInfoEntry getWarningMessage(Location currentLocation){
 			HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
-			dbHelper.getNearbyLocation(currentLocation).getLoc_code();
-		return message;
+			CollisionLocationObject temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
+			TopInfoEntry temp_TopInfoEntry=new TopInfoEntry();
+			if (temp_collision_location.getLoc_code()!="unknown") {
+			LocationReasonObject temp_location_reason=dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code());
+			WMReasonConditionObject temp_location_condition=dbHelper.getWMReasonConditionByReasonID(temp_location_reason.getReason_id());
+				temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
+				temp_TopInfoEntry.setHotspot_reason(temp_location_condition.getReason());
+				temp_TopInfoEntry.setWarning_message(temp_location_condition.getWarning_message());
+				Location temp_hotspotLocation=new Location("temp");
+				temp_hotspotLocation.setLatitude(temp_collision_location.getLatitude());
+				temp_hotspotLocation.setLongitude(temp_collision_location.getLongitude());
+				int distance=(int)currentLocation.distanceTo(temp_hotspotLocation);
+				temp_TopInfoEntry.setDistance(distance);
+			}
+			
+		return temp_TopInfoEntry;
 	}
 	 public static void speakToText(String string){
 	    	
@@ -373,7 +399,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		}else {
 			loadHotSpotsData();
 		}
-		approaching_hotspot_alert(hotspots_arraylist, location);
+		//approaching_hotspot_alert(hotspots_arraylist, location);
+		//checkForLocationForWarning(location);
 	}
 
 	@Override

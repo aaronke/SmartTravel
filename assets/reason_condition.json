@@ -251,5 +251,16 @@
         "month": "101111001111",
         "start_time": "08:00",
         "school_day": "TRUE"
+    },
+    {
+        "warnig_message": "SCHOOL ZONE AHEAD!! PLEASE SLOW DOWN",
+        "weekday": "TRUE",
+        "reason": "It's the test Location, take it easy!",
+        "weekend": "FALSE",
+        "end_time": "16:30",
+        "reason_id": 24,
+        "month": "101111001111",
+        "start_time": "08:00",
+        "school_day": "TRUE"
     }
 ]}
