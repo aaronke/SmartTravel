@@ -105,7 +105,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			/*if (!hotspots_arraylist.isEmpty()) {
 				approaching_hotspot_alert(hotspots_arraylist, my_location);
 			}*/
-			//checkForLocationForWarning(my_location);
+			checkForLocationForWarning(my_location);
 			onLocationChanged(my_location);
 		}
 		
@@ -136,7 +136,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		name_TextView.setText(topInfoEntry.getLocation_name());
 		reason_TextView.setText(topInfoEntry.getHotspot_reason());
-		distance_TextView.setText(topInfoEntry.getDistance());
+		distance_TextView.setText(topInfoEntry.getDistance()+"");
 		
 	}
 	
@@ -400,7 +400,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			loadHotSpotsData();
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
-		//checkForLocationForWarning(location);
+		checkForLocationForWarning(location);
 	}
 
 	@Override

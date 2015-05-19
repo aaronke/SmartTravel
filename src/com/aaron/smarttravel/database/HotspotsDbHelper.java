@@ -152,7 +152,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 		SQLiteDatabase db=this.getReadableDatabase();
 		
-		Cursor cursor=db.rawQuery("select * from "+LocationReasonEntry.TABLE_NAME+" where "+LocationReasonEntry.COLUMN_LOC_CODE+"="+loc_codeString+" ", null);
+		Cursor cursor=db.rawQuery("select * from "+LocationReasonEntry.TABLE_NAME+" where "+LocationReasonEntry.COLUMN_LOC_CODE+"=?", new String[] {loc_codeString});
 		
 		if (cursor.moveToFirst()) {
 			temp_locationReasonObject.setLoc_code(loc_codeString);

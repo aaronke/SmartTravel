@@ -17,7 +17,7 @@
 	    android:orientation="vertical"
     	android:layout_gravity="center_horizontal|top"
 	    android:rotation="180"
-	    android:visibility="visible"
+	    android:visibility="invisible"
 	    android:layout_height="190dp">
 		<RelativeLayout
 			android:id="@+id/contentLayout"
