@@ -17,12 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aaron.smarttravel.data.HotspotParse;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
@@ -31,15 +32,17 @@ import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressWarnings("deprecation")
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener{
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,View.OnClickListener{
 
 	MapView mapView;
 	private GoogleMap googleMap;
@@ -49,10 +52,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	public static TextToSpeech textToSpeech;
 	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
 	private TextView name_TextView,reason_TextView,distance_TextView;
-	public SlidingDrawer slidingDrawer;
+	public SlidingDrawer slidingDrawer,bottom_sldingDrawer;
 	private SharedPreferences sharedPreferences_settings;
 	LocationManager locationManager;
-	
+	//private static final String SCHOOL_ZONE="SCHOOL ZONE";
+	private static final String INTERSECTION="INTERSECTION";
+	private static final String MID_AVENUE="MID AVENUE";
+	private static final String MID_STREET="MID STREET";
+	HotspotsDbHelper dbHelper;
+	private TextView bottom_location_name_textview,bottom_direction_textview,bottom_reason_textview,bottom_total_textview;
+	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -67,7 +76,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		reason_TextView=(TextView)view.findViewById(R.id.info_box_reason);
 		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
 		slidingDrawer=(SlidingDrawer)view.findViewById(R.id.SlidingDrawer);
+		bottom_sldingDrawer=(SlidingDrawer)view.findViewById(R.id.bottom_SlidingDrawer);
+		bottom_location_name_textview=(TextView)view.findViewById(R.id.bottom_info_location_name);
+		bottom_direction_textview=(TextView)view.findViewById(R.id.bottom_info_content_direction);
+		bottom_reason_textview=(TextView)view.findViewById(R.id.bottom_info_content_reason);
+		bottom_total_textview=(TextView)view.findViewById(R.id.bottom_info_content_total);
+		
+		slidinghanderLayout=(LinearLayout)view.findViewById(R.id.slideHandle);
+		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
+		
+		slidinghanderLayout.setOnClickListener(this);
+		bottom_slidinghanderLayout.setOnClickListener(this);
+		
 		//mapView.onResume();
+		
+		dbHelper=new HotspotsDbHelper(context);
 		
 		/*
 		View location_buttonView=((View)mapView.findViewById(1).getParent()).findViewById(2);
@@ -92,12 +115,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		googleMap.setMyLocationEnabled(true);
 	//	googleMap.setTrafficEnabled(true);
 		googleMap.getUiSettings().setZoomControlsEnabled(true);
+		googleMap.setOnMarkerClickListener(this);
 		
 		//getActivity();
 		locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		Location my_location=locationManager.getLastKnownLocation(getBestProvider());
-		loadHotSpotsData();
+	//	loadHotSpotsData();
 		if (my_location!=null) {	
 			
 			googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(my_location.getLatitude(), my_location.getLongitude()), 12));
@@ -129,8 +153,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		if (!slidingDrawer.isOpened()) {
 			slidingDrawer.open();
 			slidingDrawer.setVisibility(View.VISIBLE);
+			
 		}
-		
+		bottom_sldingDrawer.close();
+		bottom_sldingDrawer.setVisibility(View.INVISIBLE);
 		name_TextView.setText(topInfoEntry.getLocation_name());
 		reason_TextView.setText(topInfoEntry.getHotspot_reason());
 		distance_TextView.setText(topInfoEntry.getDistance()+"");
@@ -143,19 +169,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		super.onAttach(activity);
 		context=activity;
 	}
-	public void setHotSpots(GoogleMap mymap,ArrayList<HotSpotEntry> hotspots_ArrayList,int ICON_FLAG){
+	public void setHotSpots(GoogleMap mymap,ArrayList<CollisionLocationObject> hotspots_ArrayList,int Type_Flag){
 		
 		for (int i = 0; i < hotspots_ArrayList.size(); i++) {
-			LatLng temp_location=hotspots_ArrayList.get(i).getLatLng();
+			
+			CollisionLocationObject temp_object=hotspots_ArrayList.get(i);
 			int icon_res=R.drawable.hotspot_point;
-			if (ICON_FLAG==2) {
-				icon_res=R.drawable.hotspot_vru_point;
-			}else {
+			if (Type_Flag==1) {
 				icon_res=R.drawable.hotspot_point;
+			}else {
+				icon_res=R.drawable.hotspot_vru_point;
 			}
-			MarkerOptions markerOptions=new MarkerOptions().position(temp_location).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);
-			markerOptions.title(hotspots_ArrayList.get(i).getName());
-			markerOptions.snippet("Collision Count:"+hotspots_ArrayList.get(i).getCollision_count()+",Rank:"+hotspots_ArrayList.get(i).getRank());
+			LatLng tempLatLng=new LatLng(temp_object.getLatitude(), temp_object.getLongitude());
+			MarkerOptions markerOptions=new MarkerOptions().position(tempLatLng).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);
+			markerOptions.title(temp_object.getLocation_name());
 			mymap.addMarker(markerOptions);		
 		}
 		
@@ -190,7 +217,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     
     
-    public void loadHotSpotsData(){
+  /*  public void loadHotSpotsData(){
     	HotspotParse my_HotspotParse=new HotspotParse();
 		intersection_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("intersection_top_10.json", context),"Intersection");
 		midblock_arraylist=my_HotspotParse.getHotspotEntries(my_HotspotParse.loadJsonString("midblock_top_10.json", context),"Midblock");
@@ -200,18 +227,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		hotspots_arraylist.addAll(midblock_arraylist);
 		hotspots_arraylist.addAll(VRU_arraylist);
 		
-    }
+    }*/
     
+	
 	@Override
 	public void onMapReady(GoogleMap map) {
 		// TODO Auto-generated method stub
 		
-		// set markers;
-		if (!hotspots_arraylist.isEmpty()) {
-			setHotSpots(map,intersection_arraylist,1);
-			setHotSpots(map, midblock_arraylist,1);
-			setHotSpots(map, VRU_arraylist ,2);
-		}		
+		// set markers;		
+
+		setHotSpots(map, dbHelper.getCollisionObjectsByType(INTERSECTION),1);
+		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_AVENUE), 2);
+		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_STREET), 2);
 		// set geofences;
 		// addGeofences(hotspots_arraylist);
 		
@@ -394,7 +421,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		if (!hotspots_arraylist.isEmpty()) {	
 			// do nothing
 		}else {
-			loadHotSpotsData();
+		//	loadHotSpotsData();
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
 		Log.v("STTest", "location updated");
@@ -418,6 +445,62 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		// TODO Auto-generated method stub
+		String locaiton_name=marker.getTitle();
+		LocationReasonObject tempReasonObject=dbHelper.getLocationReasonByLocCode(
+				dbHelper.getcolllicionObjectByName(locaiton_name).getLoc_code());
+		WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
+		
+		BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
+		tempBottomInfoItem.setLocation_name(locaiton_name);
+		tempBottomInfoItem.setReason(tempConditionObject.getReason());
+		tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
+		tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
+		
+		UpdateBottomInfoUI(tempBottomInfoItem);
+		return true;
+	}
 	
+	public void UpdateBottomInfoUI(BottomInfoItem item_content){
+		
+		slidingDrawer.close();
+		bottom_location_name_textview.setText(item_content.getLocation_name());
+		bottom_direction_textview.setText(item_content.getDirection());
+		bottom_reason_textview.setText(item_content.getReason());
+		bottom_total_textview.setText(item_content.getTotal()+"");
+		bottom_sldingDrawer.open();
+		bottom_sldingDrawer.setVisibility(View.VISIBLE);
+		
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.slideHandle:
+			if (slidingDrawer.isOpened()) {
+				slidingDrawer.close();
+			}else {
+				slidingDrawer.open();
+				bottom_sldingDrawer.setVisibility(View.INVISIBLE);
+			}
+			break;
+		case R.id.bottom_slideHandle:
+			if (bottom_sldingDrawer.isOpened()) {
+				bottom_sldingDrawer.close();
+			}else {
+				bottom_sldingDrawer.open();
+			}
+			break;
+
+		default:
+			break;
+		}
+		Log.v("STTest", "button clicked");
+	}
 
 }

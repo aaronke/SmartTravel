@@ -40,6 +40,9 @@
 	<string name="location_setting_alert_title">Google Map Would Like to Use Your Current Location</string>
 	<string name="location_setting_positive">OK</string>
 	<string name="location_setting_nagetive">Don\'t Allow</string>
+	<string name="bottom_info_title_Direction">Direction</string>
+	<string name="bottom_info_title_Reason">Reason</string>
+	<string name="bottom_info_title_Total">Total</string>
 	
 	
 	

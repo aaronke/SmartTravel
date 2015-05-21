@@ -207,6 +207,42 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			cursor.close();
 			return navDrawerItems;
 	}
+	public ArrayList<CollisionLocationObject> getCollisionObjectsByType(String typeString){
+		ArrayList<CollisionLocationObject> tempArrayList=new ArrayList<CollisionLocationObject>();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
+				CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ?", new String[]{typeString});
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			CollisionLocationObject temp_object=new CollisionLocationObject();
+			temp_object.setLocation_name(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
+			temp_object.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
+			temp_object.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
+			temp_object.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
+			temp_object.setRoadway_portion(typeString);
+			
+			tempArrayList.add(temp_object);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		return tempArrayList;
+	}
+	
+	public CollisionLocationObject getcolllicionObjectByName(String locaiton_name){
+		CollisionLocationObject temp_object=new CollisionLocationObject();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
+				CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME +"= ?", new String[]{locaiton_name});
+		
+		if (cursor.moveToFirst()) {
+			temp_object.setLocation_name(locaiton_name);
+			temp_object.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
+			temp_object.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
+			temp_object.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
+			temp_object.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
+		}
+		return temp_object;
+	}
 	
 	public void insertLocationReasonTableData(ArrayList<LocationReasonObject> arrayList){
 		
