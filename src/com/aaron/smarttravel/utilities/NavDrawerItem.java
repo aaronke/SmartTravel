@@ -4,16 +4,9 @@ public class NavDrawerItem {
 	private String type_hotspot;
 	private  String name_hotspot;
 	private int count_collisions;
-	
+
 	public NavDrawerItem() {}
 	
-	public NavDrawerItem(String type, String name, int count ){
-		
-		this.type_hotspot=type;
-		this.name_hotspot=name;
-		this.count_collisions=count;
-	}
-
 	public String getType_hotspot() {
 		return type_hotspot;
 	}

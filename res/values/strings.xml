@@ -8,8 +8,10 @@
 	
 	<string name="left_drawer_logo">left drawer edmonton logo</string>
 	<string name="unknown">null</string>
-	<string name="left_drawer_collision_title">Collision HotSpot</string>
-	<string name="left_drawer_VRU_title">VRU HotSpot</string>
+	<string name="left_drawer_intersection_title">Intersection</string>
+	<string name="left_drawer_Mid_Avenue_title">Mid Avenue</string>
+	<string name="left_drawer_Mid_Street_title">Mid Street</string>
+	<string name="left_drawer_School_Zone_title">School Zone</string>
 	<string name="setting_gps_title">GPS</string>
 	<string name="setting_gps_description">using GPS to improve the accuracy of location </string>
 	<string name="setting_notification_title">Push Notification</string>

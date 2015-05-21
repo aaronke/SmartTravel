@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.aaron.smarttravel.data.HotspotParse;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
@@ -44,14 +45,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private GoogleMap googleMap;
 	public Context context;
 	private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
-	private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
+	//private HotSpotEntry near_HotSpotEntry=new HotSpotEntry();
 	public static TextToSpeech textToSpeech;
 	ArrayList<HotSpotEntry> intersection_arraylist, midblock_arraylist,VRU_arraylist;
-	private TextView name_TextView,reason_TextView,distance_TextView,distance_unit_TextView;
+	private TextView name_TextView,reason_TextView,distance_TextView;
 	public SlidingDrawer slidingDrawer;
 	private SharedPreferences sharedPreferences_settings;
 	LocationManager locationManager;
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +66,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		name_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_name);
 		reason_TextView=(TextView)view.findViewById(R.id.info_box_reason);
 		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
-		distance_unit_TextView=(TextView)view.findViewById(R.id.info_box_distance_unit);
 		slidingDrawer=(SlidingDrawer)view.findViewById(R.id.SlidingDrawer);
 		//mapView.onResume();
 		
@@ -109,9 +108,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			onLocationChanged(my_location);
 		}
 		
-		locationManager.requestLocationUpdates(getBestProvider(), 7000, 0, this);
-		
-		
+		locationManager.requestLocationUpdates(getBestProvider(), 5000, 0, this);
 		
 		mapView.getMapAsync(this);
 		
@@ -218,16 +215,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// set geofences;
 		// addGeofences(hotspots_arraylist);
 		
-		if (near_HotSpotEntry.getName()=="UnKnown") {
+		/*if (near_HotSpotEntry.getName()=="UnKnown") {
 			Log.v("Geofence", "unknown");
 		}else {
 			Log.v("Geofence", "clear something");
 			near_HotSpotEntry=new HotSpotEntry();
-		}
+		}*/
 		
 	}
 	
-	public void approaching_hotspot_alert(ArrayList<HotSpotEntry> hotspots_arraylist,Location current_locaiton){
+	/*public void approaching_hotspot_alert(ArrayList<HotSpotEntry> hotspots_arraylist,Location current_locaiton){
 		HotSpotEntry lan_chengEntry=new HotSpotEntry();
 		lan_chengEntry.setLatLng(new LatLng(31.146008, 121.513420));
 		lan_chengEntry.setName("LanCheng's Home");
@@ -288,7 +285,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			}
 		}
 		
-	}
+	}*/
 	
 	public void checkForLocationForWarning(Location currentLocation){
 
@@ -400,6 +397,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			loadHotSpotsData();
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
+		Log.v("STTest", "location updated");
 		checkForLocationForWarning(location);
 	}
 

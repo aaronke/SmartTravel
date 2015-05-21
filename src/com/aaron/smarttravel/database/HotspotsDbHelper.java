@@ -17,6 +17,7 @@ import com.aaron.smarttravel.database.ReasonConditionTable.ReasonConditionEntry;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.NavDrawerItem;
 import com.aaron.smarttravel.utilities.NewVersionObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 
@@ -145,6 +146,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			}
 			cursor.moveToNext();
 		}
+		cursor.close();
 		return temp_CollisionLocationObject;
 	}
 	
@@ -161,7 +163,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_locationReasonObject.setTravel_direction(cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TRAVEL_DIRECTION)));
 			temp_locationReasonObject.setWarning_priority(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_WARNING_PRIORITY)));
 		}
-		
+		cursor.close();
 		return temp_locationReasonObject;
 	}
 	public WMReasonConditionObject getWMReasonConditionByReasonID(int reason_id){
@@ -179,7 +181,31 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_WMReasonConditionObject.setWeekday(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))==1? true: false);
 			temp_WMReasonConditionObject.setWeekend(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKEND))==1? true: false);
 		}
+		cursor.close();
 		return temp_WMReasonConditionObject;
+	}
+	
+	public ArrayList<NavDrawerItem> getAllObjectsByType(String typeString){
+			ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
+			SQLiteDatabase db=this.getReadableDatabase();
+			Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
+			CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ?", new String[]{typeString});
+			String temp_loc_code;
+			LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				NavDrawerItem temp_navDrawerItem=new NavDrawerItem();
+				temp_navDrawerItem.setName_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
+				temp_navDrawerItem.setType_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
+				temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
+				temp_locationReasonObject=getLocationReasonByLocCode(temp_loc_code);
+				temp_navDrawerItem.setCount_collisions(temp_locationReasonObject.getTotal());
+				
+				navDrawerItems.add(temp_navDrawerItem);
+				cursor.moveToNext();
+			}
+			cursor.close();
+			return navDrawerItems;
 	}
 	
 	public void insertLocationReasonTableData(ArrayList<LocationReasonObject> arrayList){
@@ -258,5 +284,6 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			db.insert(NewVersionEntry.TABLE_NAME, null, temp_contentValues);
 		}
 	}
+	
 	
 }
