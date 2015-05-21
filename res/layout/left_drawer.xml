@@ -33,6 +33,7 @@
 	            android:layout_height="match_parent"
 	            android:id="@+id/left_drawer_button_intersection"
 	            android:layout_gravity="top"
+	            android:background="?android:attr/selectableItemBackground"
 	            android:layout_weight="1">
 	            <TextView 
 	                android:id="@+id/left_drawer_intersection_count"
@@ -73,6 +74,7 @@
 	            android:layout_height="wrap_content"
 	            android:id="@+id/left_drawer_button_Mid_Avenue"
 	            android:layout_gravity="bottom"
+	            android:background="?android:attr/selectableItemBackground"
 	            android:layout_weight="1">
 	            <TextView 
 	                android:id="@+id/left_drawer_Mid_Avenue_count"
@@ -113,6 +115,7 @@
 	            android:layout_height="wrap_content"
 	            android:id="@+id/left_drawer_button_Mid_Street"
 	            android:layout_gravity="bottom"
+	            android:background="?android:attr/selectableItemBackground"
 	            android:layout_weight="1">
 	            <TextView 
 	                android:id="@+id/left_drawer_Mid_Street_count"
@@ -137,7 +140,7 @@
 	                android:background="@color/vertical_divider_bg"
 	                android:layout_toRightOf="@id/left_drawer_Mid_Street_title"
 	                android:layout_toEndOf="@id/left_drawer_Mid_Street_title"
-	                android:layout_alignParentRight="true"
+	                android:layout_alignParentRight="true"   
 	                android:layout_alignParentEnd="true"/>
 	        </RelativeLayout>
 	        <View 
@@ -153,6 +156,7 @@
 	            android:layout_height="wrap_content"
 	            android:id="@+id/left_drawer_button_School_Zone"
 	            android:layout_gravity="bottom"
+	            android:background="?android:attr/selectableItemBackground"
 	            android:layout_weight="1">
 	            <TextView 
 	                android:id="@+id/left_drawer_School_Zone_count"
@@ -160,7 +164,7 @@
 	                android:layout_height="wrap_content"
 	                android:layout_marginTop="50dp"
 	                android:gravity="center"
-	                android:textColor="@android:color/holo_red_light"
+	                android:textColor="@android:color/holo_orange_light"
 	                android:textSize="35sp"
 	                android:text="@string/unknown"/>
 	            <TextView 
