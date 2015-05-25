@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
+import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
@@ -237,8 +238,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// set markers;		
 
 		setHotSpots(map, dbHelper.getCollisionObjectsByType(INTERSECTION),1);
-		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_AVENUE), 2);
-		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_STREET), 2);
+		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_AVENUE), 1);
+		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_STREET), 1);
 		// set geofences;
 		// addGeofences(hotspots_arraylist);
 		
@@ -343,8 +344,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 			CollisionLocationObject temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
 			TopInfoEntry temp_TopInfoEntry=new TopInfoEntry();
+			DataHandler dataHandler=new DataHandler();
+			
 			if (temp_collision_location.getLoc_code()!="unknown") {
-			LocationReasonObject temp_location_reason=dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code());
+			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()));
 			WMReasonConditionObject temp_location_condition=dbHelper.getWMReasonConditionByReasonID(temp_location_reason.getReason_id());
 				temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
 				temp_TopInfoEntry.setHotspot_reason(temp_location_condition.getReason());
@@ -449,18 +452,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		// TODO Auto-generated method stub
-		String locaiton_name=marker.getTitle();
-		LocationReasonObject tempReasonObject=dbHelper.getLocationReasonByLocCode(
-				dbHelper.getcolllicionObjectByName(locaiton_name).getLoc_code());
-		WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
+		String location_name=marker.getTitle();
+		DataHandler dHandler=new DataHandler();
 		
-		BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
-		tempBottomInfoItem.setLocation_name(locaiton_name);
-		tempBottomInfoItem.setReason(tempConditionObject.getReason());
-		tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
-		tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
-		
-		UpdateBottomInfoUI(tempBottomInfoItem);
+		UpdateBottomInfoUI(dHandler.getBottomInfoItemByLocaitonName(context, location_name));
 		return true;
 	}
 	
@@ -473,7 +468,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		bottom_total_textview.setText(item_content.getTotal()+"");
 		bottom_sldingDrawer.open();
 		bottom_sldingDrawer.setVisibility(View.VISIBLE);
-		
 		
 	}
 

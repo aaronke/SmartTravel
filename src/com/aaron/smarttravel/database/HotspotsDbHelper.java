@@ -15,6 +15,7 @@ import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
 import com.aaron.smarttravel.database.NewVersionTable.NewVersionEntry;
 import com.aaron.smarttravel.database.ReasonConditionTable.ReasonConditionEntry;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
+import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
@@ -135,7 +136,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			Location tempLocation=new Location("temp");
 			tempLocation.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
 			tempLocation.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
-			if (currentLocation.distanceTo(tempLocation)<500) {
+			if (currentLocation.distanceTo(tempLocation)<200) {
 				temp_CollisionLocationObject.setLatitude(tempLocation.getLatitude());
 				temp_CollisionLocationObject.setLongitude(tempLocation.getLongitude());
 				temp_CollisionLocationObject.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
@@ -150,21 +151,29 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		return temp_CollisionLocationObject;
 	}
 	
-	public LocationReasonObject getLocationReasonByLocCode(String loc_codeString){
-		LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
+	public ArrayList<LocationReasonObject> getLocationReasonByLocCode(String loc_codeString){
+		
+		ArrayList<LocationReasonObject> temp_arraylist_LocationReasonObjects=new ArrayList<LocationReasonObject>();
+		
 		SQLiteDatabase db=this.getReadableDatabase();
 		
 		Cursor cursor=db.rawQuery("select * from "+LocationReasonEntry.TABLE_NAME+" where "+LocationReasonEntry.COLUMN_LOC_CODE+"=?", new String[] {loc_codeString});
+		cursor.moveToFirst();
 		
-		if (cursor.moveToFirst()) {
+		while(!cursor.isAfterLast()) {
+			LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 			temp_locationReasonObject.setLoc_code(loc_codeString);
 			temp_locationReasonObject.setReason_id(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_REASON_ID)));
 			temp_locationReasonObject.setTotal(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TOTAL)));
 			temp_locationReasonObject.setTravel_direction(cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TRAVEL_DIRECTION)));
 			temp_locationReasonObject.setWarning_priority(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_WARNING_PRIORITY)));
+			
+			temp_arraylist_LocationReasonObjects.add(temp_locationReasonObject);
+			
+			cursor.moveToNext();
 		}
 		cursor.close();
-		return temp_locationReasonObject;
+		return temp_arraylist_LocationReasonObjects;
 	}
 	public WMReasonConditionObject getWMReasonConditionByReasonID(int reason_id){
 		WMReasonConditionObject temp_WMReasonConditionObject=new WMReasonConditionObject();
@@ -193,12 +202,15 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			String temp_loc_code;
 			LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 			cursor.moveToFirst();
+			DataHandler dataHandler=new DataHandler();
+			
 			while (!cursor.isAfterLast()) {
 				NavDrawerItem temp_navDrawerItem=new NavDrawerItem();
 				temp_navDrawerItem.setName_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
 				temp_navDrawerItem.setType_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
 				temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
-				temp_locationReasonObject=getLocationReasonByLocCode(temp_loc_code);
+				
+				temp_locationReasonObject=dataHandler.getHighestPriorityReasonObject(getLocationReasonByLocCode(temp_loc_code));
 				temp_navDrawerItem.setCount_collisions(temp_locationReasonObject.getTotal());
 				
 				navDrawerItems.add(temp_navDrawerItem);
@@ -207,6 +219,8 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			cursor.close();
 			return navDrawerItems;
 	}
+	
+	
 	public ArrayList<CollisionLocationObject> getCollisionObjectsByType(String typeString){
 		ArrayList<CollisionLocationObject> tempArrayList=new ArrayList<CollisionLocationObject>();
 		SQLiteDatabase db=this.getReadableDatabase();

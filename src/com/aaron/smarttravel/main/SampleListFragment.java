@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.LeftDrawerListAdapter;
+import com.aaron.smarttravel.utilities.BottomInfoItem;
+import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 public class SampleListFragment extends ListFragment implements View.OnClickListener{
 	//public String[] menus = { "Fragment1", "Fragment2", "Fragment3",
 	//		"Fragment4" };
+	OnSampleListFragmentListener mcallback;
 	public Context context;
 	TextView intersection_count_textView,mid_avenue_count_textView,mid_street_count_textView,school_zone_count_textView;
 	private RelativeLayout intersection_relativeLayout, Mid_Avenue_relativelayout,mid_Street_relativeLayout,school_zone_relativeLayout;
@@ -38,6 +42,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	private static final String MID_STREET="MID STREET";
 	HotspotsDbHelper dbHelper;
 	View view;
+	
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 		
 		return view;
 	}
-
+	
 	public void UpdateUI(int layout_id){
 		
 		intersection_dividerView.setBackgroundResource(R.color.vertical_divider_bg);
@@ -135,10 +140,27 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	public void onAttach(Activity activity){
 		super.onAttach(activity);
 		context=activity;
+		
+		try {
+			mcallback=(OnSampleListFragmentListener) activity;
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ClassCastException(activity.toString()+"must implement OnsampleListFragmentListener");
+		}
 	}
+	
+	public interface OnSampleListFragmentListener{
+		public void onitemselected(BottomInfoItem bottomInfoitem);
+	}
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-
+		
+		TextView name_textView=(TextView)v.findViewById(R.id.hotspot_name);
+		String location_name=(String) name_textView.getText();
+		DataHandler dHandler=new DataHandler();
+		mcallback.onitemselected(dHandler.getBottomInfoItemByLocaitonName(context, location_name));
+		
 	//	Fragment newContent = null;
 		
 		/*switch (position) {
@@ -170,6 +192,8 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 		}
 
 	}*/
+	
+	
 	
 	@Override
 	public void onClick(View v) {

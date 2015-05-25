@@ -1,5 +1,7 @@
 package com.aaron.smarttravel.main;
 
+import com.aaron.smarttravel.main.SampleListFragment.OnSampleListFragmentListener;
+import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.app.AlertDialog;
@@ -10,10 +12,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnSampleListFragmentListener {
 
 	private Fragment mContent;
+	private MapFragment map_fragment;
 	
 	public MainActivity() {
 		super(R.string.app_name);
@@ -31,6 +35,7 @@ public class MainActivity extends BaseActivity {
 
 		if (mContent == null){
 			mContent = new MapFragment();	
+			map_fragment=(MapFragment)mContent;
 		}
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
@@ -78,6 +83,20 @@ public class MainActivity extends BaseActivity {
 			location_Dialog.show();
 		}
 		
+	}
+
+	@Override
+	public void onitemselected(BottomInfoItem bottomInfoitem) {
+		// TODO Auto-generated method stub
+		
+		MapFragment temp_mapFragment=(MapFragment)getSupportFragmentManager().findFragmentById(map_fragment.getId());
+		
+		if (temp_mapFragment!=null) {
+			map_fragment.UpdateBottomInfoUI(bottomInfoitem);
+			toggle();
+		}else {
+			Log.v("STTest", "fail to transfer message");
+		}
 	}
 	
 	/*public void switchContent(Fragment fragment) {
