@@ -10,7 +10,7 @@ import android.location.Location;
 import android.util.Log;
 
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
-import com.aaron.smarttravel.database.DataTypeTable.DayTypeEntry;
+import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
 import com.aaron.smarttravel.database.NewVersionTable.NewVersionEntry;
 import com.aaron.smarttravel.database.ReasonConditionTable.ReasonConditionEntry;
@@ -167,9 +167,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_locationReasonObject.setTotal(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TOTAL)));
 			temp_locationReasonObject.setTravel_direction(cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TRAVEL_DIRECTION)));
 			temp_locationReasonObject.setWarning_priority(cursor.getInt(cursor.getColumnIndex(LocationReasonEntry.COLUMN_WARNING_PRIORITY)));
-			
 			temp_arraylist_LocationReasonObjects.add(temp_locationReasonObject);
-			
 			cursor.moveToNext();
 		}
 		cursor.close();
@@ -178,7 +176,8 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 	public WMReasonConditionObject getWMReasonConditionByReasonID(int reason_id){
 		WMReasonConditionObject temp_WMReasonConditionObject=new WMReasonConditionObject();
 		SQLiteDatabase db=this.getReadableDatabase();
-		Cursor cursor=db.rawQuery("select * from "+ReasonConditionEntry.TABLE_NAME+" where "+ ReasonConditionEntry.COLUMN_REASON_ID+"= "+reason_id, null);
+		Cursor cursor=db.rawQuery("select * from "+ReasonConditionEntry.TABLE_NAME+" where "+ ReasonConditionEntry.COLUMN_REASON_ID+"= "+
+		reason_id, null);
 		if (cursor.moveToFirst()) {
 			temp_WMReasonConditionObject.setEnd_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_END_TIME)));
 			temp_WMReasonConditionObject.setMonth(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_MONTH)));
@@ -188,10 +187,27 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_WMReasonConditionObject.setStart_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_START_TIME)));
 			temp_WMReasonConditionObject.setWarning_message(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WARNING_MESSAGE)));
 			temp_WMReasonConditionObject.setWeekday(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))==1? true: false);
+			Log.v("STTest", cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))+"weekday");
 			temp_WMReasonConditionObject.setWeekend(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKEND))==1? true: false);
 		}
 		cursor.close();
 		return temp_WMReasonConditionObject;
+	}
+	
+	public DayTypeObject getDayTypeObjectByDay(String day_of_year){
+		DayTypeObject temp_dayTypeObject=new DayTypeObject();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ DayTypeEntry.TABLE_NAME +" where "+ DayTypeEntry.COLUMN_DATE+"=?"
+		, new String[]{day_of_year});
+		if (cursor.moveToFirst()) {
+			temp_dayTypeObject.setDate(cursor.getColumnName(cursor.getColumnIndex(DayTypeEntry.COLUMN_DATE)));
+			temp_dayTypeObject.setSchool_day(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_SCHOLL_DAY))==1? true:false);
+			temp_dayTypeObject.setWeekday(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_WEEKDAY))==1? true:false);
+			temp_dayTypeObject.setWeekend(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_WEEKEND))==1? true:false);
+		}
+		cursor.close();
+		
+		return temp_dayTypeObject;
 	}
 	
 	public ArrayList<NavDrawerItem> getAllObjectsByType(String typeString){

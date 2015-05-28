@@ -2,9 +2,9 @@ package com.aaron.smarttravel.database;
 
 import android.provider.BaseColumns;
 
-public final class DataTypeTable {
+public final class DateTypeTable {
 	
-	public DataTypeTable(){}
+	public DateTypeTable(){}
 	
 	public static abstract class DayTypeEntry implements BaseColumns{
 		

@@ -349,14 +349,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			if (temp_collision_location.getLoc_code()!="unknown") {
 			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()));
 			WMReasonConditionObject temp_location_condition=dbHelper.getWMReasonConditionByReasonID(temp_location_reason.getReason_id());
-				temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
-				temp_TopInfoEntry.setHotspot_reason(temp_location_condition.getReason());
-				temp_TopInfoEntry.setWarning_message(temp_location_condition.getWarning_message());
-				Location temp_hotspotLocation=new Location("temp");
-				temp_hotspotLocation.setLatitude(temp_collision_location.getLatitude());
-				temp_hotspotLocation.setLongitude(temp_collision_location.getLongitude());
-				int distance=(int)currentLocation.distanceTo(temp_hotspotLocation);
-				temp_TopInfoEntry.setDistance(distance);
+				if (temp_location_reason.getReason_id()!=-1) {
+					temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
+					temp_TopInfoEntry.setHotspot_reason(temp_location_condition.getReason());
+					temp_TopInfoEntry.setWarning_message(temp_location_condition.getWarning_message());
+					Location temp_hotspotLocation=new Location("temp");
+					temp_hotspotLocation.setLatitude(temp_collision_location.getLatitude());
+					temp_hotspotLocation.setLongitude(temp_collision_location.getLongitude());
+					int distance=(int)currentLocation.distanceTo(temp_hotspotLocation);
+					temp_TopInfoEntry.setDistance(distance);
+				}
 			}
 			
 		return temp_TopInfoEntry;
