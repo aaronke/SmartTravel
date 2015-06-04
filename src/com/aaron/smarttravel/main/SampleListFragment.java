@@ -150,7 +150,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	}
 	
 	public interface OnSampleListFragmentListener{
-		public void onitemselected(BottomInfoItem bottomInfoitem);
+		public void onitemselected(ArrayList<BottomInfoItem> arrayList);
 	}
 	
 	@Override
@@ -159,7 +159,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 		TextView name_textView=(TextView)v.findViewById(R.id.hotspot_name);
 		String location_name=(String) name_textView.getText();
 		DataHandler dHandler=new DataHandler();
-		mcallback.onitemselected(dHandler.getBottomInfoItemByLocaitonName(context, location_name));
+		mcallback.onitemselected( dHandler.getBottomInfoItemByLocaitonName(context, location_name));
 		
 	//	Fragment newContent = null;
 		

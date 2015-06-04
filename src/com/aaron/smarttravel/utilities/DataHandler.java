@@ -82,21 +82,26 @@ public class DataHandler {
 		
 		return false;
 	}
-	public BottomInfoItem getBottomInfoItemByLocaitonName(Context context,String location_name){
+	public ArrayList<BottomInfoItem> getBottomInfoItemByLocaitonName(Context context,String location_name){
+		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
-		LocationReasonObject tempReasonObject=getHighestPriorityReasonObject(
-				dbHelper.getLocationReasonByLocCode(
-						dbHelper.getcolllicionObjectByName(location_name).getLoc_code()));
+		ArrayList<LocationReasonObject> temp_location_list=dbHelper.getLocationReasonByLocCode(
+				dbHelper.getcolllicionObjectByName(location_name).getLoc_code());
+		for (int i = 0; i < temp_location_list.size(); i++) {
+			LocationReasonObject tempReasonObject= temp_location_list.get(i);
+			WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
+			BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
+			tempBottomInfoItem.setLocation_name(location_name);
+			tempBottomInfoItem.setReason(tempConditionObject.getReason());
+			tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
+			tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
+			arrayList_items.add(tempBottomInfoItem);
+		}
+		
 						
-		WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
 		
-		BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
-		tempBottomInfoItem.setLocation_name(location_name);
-		tempBottomInfoItem.setReason(tempConditionObject.getReason());
-		tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
-		tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
 		
-		return tempBottomInfoItem;
+		return arrayList_items;
 	}
 
 }

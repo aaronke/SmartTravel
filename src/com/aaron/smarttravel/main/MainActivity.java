@@ -1,5 +1,7 @@
 package com.aaron.smarttravel.main;
 
+import java.util.ArrayList;
+
 import com.aaron.smarttravel.main.SampleListFragment.OnSampleListFragmentListener;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -81,18 +83,18 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 			
 			AlertDialog location_Dialog=location_settingBuilder.create();
 			location_Dialog.show();
-		}
-		
+		}	
 	}
 
+	
 	@Override
-	public void onitemselected(BottomInfoItem bottomInfoitem) {
+	public void onitemselected(ArrayList<BottomInfoItem> arrayList) {
 		// TODO Auto-generated method stub
 		
 		MapFragment temp_mapFragment=(MapFragment)getSupportFragmentManager().findFragmentById(map_fragment.getId());
 		
 		if (temp_mapFragment!=null) {
-			map_fragment.UpdateBottomInfoUI(bottomInfoitem);
+			map_fragment.UpdateBottomInfoUI(arrayList);
 			toggle();
 		}else {
 			Log.v("STTest", "fail to transfer message");

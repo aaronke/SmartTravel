@@ -18,11 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.aaron.smarttravel.drawer.BottomListAdapter;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DataHandler;
@@ -61,8 +63,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private static final String MID_AVENUE="MID AVENUE";
 	private static final String MID_STREET="MID STREET";
 	HotspotsDbHelper dbHelper;
-	private TextView bottom_location_name_textview,bottom_direction_textview,bottom_reason_textview,bottom_total_textview;
+	private TextView bottom_location_name_textview;
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
+	private ListView bottom_list;
+	private BottomListAdapter bottomListAdapter;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -79,9 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		slidingDrawer=(SlidingDrawer)view.findViewById(R.id.SlidingDrawer);
 		bottom_sldingDrawer=(SlidingDrawer)view.findViewById(R.id.bottom_SlidingDrawer);
 		bottom_location_name_textview=(TextView)view.findViewById(R.id.bottom_info_location_name);
-		bottom_direction_textview=(TextView)view.findViewById(R.id.bottom_info_content_direction);
-		bottom_reason_textview=(TextView)view.findViewById(R.id.bottom_info_content_reason);
-		bottom_total_textview=(TextView)view.findViewById(R.id.bottom_info_content_total);
+		bottom_list=(ListView)view.findViewById(R.id.bottom_list);
 		
 		slidinghanderLayout=(LinearLayout)view.findViewById(R.id.slideHandle);
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
@@ -461,13 +463,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		return true;
 	}
 	
-	public void UpdateBottomInfoUI(BottomInfoItem item_content){
+	public void UpdateBottomInfoUI(ArrayList<BottomInfoItem> arrayList_items){
 		
 		slidingDrawer.close();
-		bottom_location_name_textview.setText(item_content.getLocation_name());
-		bottom_direction_textview.setText(item_content.getDirection());
-		bottom_reason_textview.setText(item_content.getReason());
-		bottom_total_textview.setText(item_content.getTotal()+"");
+		bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
+		
+		bottomListAdapter=new BottomListAdapter(context, arrayList_items);
+		bottom_list.setAdapter(bottomListAdapter);
 		bottom_sldingDrawer.open();
 		bottom_sldingDrawer.setVisibility(View.VISIBLE);
 		
