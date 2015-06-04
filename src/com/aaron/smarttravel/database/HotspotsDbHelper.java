@@ -136,7 +136,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			Location tempLocation=new Location("temp");
 			tempLocation.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
 			tempLocation.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
-			if (currentLocation.distanceTo(tempLocation)<200) {
+			if (currentLocation.distanceTo(tempLocation)<100) {
 				temp_CollisionLocationObject.setLatitude(tempLocation.getLatitude());
 				temp_CollisionLocationObject.setLongitude(tempLocation.getLongitude());
 				temp_CollisionLocationObject.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
