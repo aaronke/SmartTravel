@@ -200,7 +200,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		Cursor cursor=db.rawQuery("select * from "+ DayTypeEntry.TABLE_NAME +" where "+ DayTypeEntry.COLUMN_DATE+"=?"
 		, new String[]{day_of_year});
 		if (cursor.moveToFirst()) {
-			temp_dayTypeObject.setDate(cursor.getColumnName(cursor.getColumnIndex(DayTypeEntry.COLUMN_DATE)));
+			temp_dayTypeObject.setDate(cursor.getString(cursor.getColumnIndex(DayTypeEntry.COLUMN_DATE)));
 			temp_dayTypeObject.setSchool_day(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_SCHOLL_DAY))==1? true:false);
 			temp_dayTypeObject.setWeekday(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_WEEKDAY))==1? true:false);
 			temp_dayTypeObject.setWeekend(cursor.getInt(cursor.getColumnIndex(DayTypeEntry.COLUMN_WEEKEND))==1? true:false);

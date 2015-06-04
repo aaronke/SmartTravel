@@ -65,14 +65,14 @@ public class DataParseFromJson {
 				JSONObject temp_JsonObject=array.getJSONObject(i);
 				
 				temp_wmReasonConditionObject.setWarning_message(temp_JsonObject.getString("warnig_message"));
-				temp_wmReasonConditionObject.setWeekday(temp_JsonObject.getString("weekday")=="TRUE"? true:false);
+				temp_wmReasonConditionObject.setWeekday(temp_JsonObject.getString("weekday").startsWith("TRUE")? true:false);
 				temp_wmReasonConditionObject.setReason(temp_JsonObject.getString("reason"));
-				temp_wmReasonConditionObject.setWeekend(temp_JsonObject.getString("weekend")=="TRUE"? true: false);
+				temp_wmReasonConditionObject.setWeekend(temp_JsonObject.getString("weekend").startsWith("TRUE")? true: false);
 				temp_wmReasonConditionObject.setEnd_time(temp_JsonObject.getString("end_time"));
 				temp_wmReasonConditionObject.setReason_id(temp_JsonObject.getInt("reason_id"));
 				temp_wmReasonConditionObject.setMonth(temp_JsonObject.getString("month"));
 				temp_wmReasonConditionObject.setStart_time(temp_JsonObject.getString("start_time"));
-				temp_wmReasonConditionObject.setScholl_day(temp_JsonObject.getString("school_day")=="TRUE"? true: false);
+				temp_wmReasonConditionObject.setScholl_day(temp_JsonObject.getString("school_day").startsWith("TRUE")? true: false);
 				
 				objects_ArrayList.add(temp_wmReasonConditionObject);
 				
@@ -129,10 +129,10 @@ public class DataParseFromJson {
 				DayTypeObject temp_DayTypeObject=new DayTypeObject();
 				JSONObject temp_jsonObject=array.getJSONObject(i);
 				
-				temp_DayTypeObject.setWeekday(temp_jsonObject.getString("weekday")=="TRUE"? true: false);
-				temp_DayTypeObject.setWeekend(temp_jsonObject.getString("weekend")=="TRUE" ? true: false);
+				temp_DayTypeObject.setWeekday(temp_jsonObject.getString("weekday").startsWith("TRUE")? true: false);
+				temp_DayTypeObject.setWeekend(temp_jsonObject.getString("weekend").startsWith("TRUE")? true: false);
 				temp_DayTypeObject.setDate(temp_jsonObject.getString("date"));
-				temp_DayTypeObject.setSchool_day(temp_jsonObject.getString("school_day")=="TRUE"? true: false);
+				temp_DayTypeObject.setSchool_day(temp_jsonObject.getString("school_day").startsWith("TRUE")? true: false);
 				
 				object_ArrayList.add(temp_DayTypeObject);
 			}
