@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
 
 public class IntroductionActivity extends Activity{
 
-	private Button got_it_button;
+	private ImageView got_it_button;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -17,7 +17,7 @@ public class IntroductionActivity extends Activity{
 		
 		setContentView(R.layout.introduction_page);
 		getActionBar().hide();
-		got_it_button=(Button)findViewById(R.id.introduction_button);
+		got_it_button=(ImageView)findViewById(R.id.introduction_got_it);
 		
 		got_it_button.setOnClickListener(new OnClickListener() {
 			
