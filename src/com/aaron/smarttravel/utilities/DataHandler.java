@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 
@@ -85,8 +86,10 @@ public class DataHandler {
 	public ArrayList<BottomInfoItem> getBottomInfoItemByLocaitonName(Context context,String location_name){
 		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
+		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
 		ArrayList<LocationReasonObject> temp_location_list=dbHelper.getLocationReasonByLocCode(
-				dbHelper.getcolllicionObjectByName(location_name).getLoc_code());
+				temp_collisionLocationObject.getLoc_code());
+		LatLng temp_latLng=new LatLng(temp_collisionLocationObject.getLatitude(), temp_collisionLocationObject.getLongitude());
 		for (int i = 0; i < temp_location_list.size(); i++) {
 			LocationReasonObject tempReasonObject= temp_location_list.get(i);
 			WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
@@ -95,6 +98,7 @@ public class DataHandler {
 			tempBottomInfoItem.setReason(tempConditionObject.getReason());
 			tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
 			tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
+			tempBottomInfoItem.setLocationLatLng(temp_latLng);
 			arrayList_items.add(tempBottomInfoItem);
 		}
 		

@@ -467,6 +467,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		slidingDrawer.close();
 		bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
+		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 14);
+		googleMap.animateCamera(cameraUpdate);
 		
 		bottomListAdapter=new BottomListAdapter(context, arrayList_items);
 		bottom_list.setAdapter(bottomListAdapter);

@@ -1,16 +1,27 @@
 package com.aaron.smarttravel.utilities;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class BottomInfoItem {
 	
 	private String location_name;
 	private String reason;
 	private String direction;
 	private int Total;
+	private LatLng locationLatLng;
 	
 	public BottomInfoItem(){}
 
 	public int getTotal() {
 		return Total;
+	}
+
+	public LatLng getLocationLatLng() {
+		return locationLatLng;
+	}
+
+	public void setLocationLatLng(LatLng locationLatLng) {
+		this.locationLatLng = locationLatLng;
 	}
 
 	public void setTotal(int total) {

@@ -1,27 +1,27 @@
 {"locations":[
     {
-        "location_name": "Test's Home",
+        "location_name": "Test's Home 1",
         "roadway_portion": "SCHOOL ZONE",
         "longitude": 121.513420,
         "latitude": 31.146008,
         "loc_code": "Test"
     },
     {
-        "location_name": "Test's Home",
+        "location_name": "Test's Home 2",
         "roadway_portion": "SCHOOL ZONE",
         "longitude": 121.536683,
         "latitude": 31.293021,
         "loc_code": "Test"
     },
     {
-        "location_name": "Test's Home",
+        "location_name": "Test's Home 3",
         "roadway_portion": "SCHOOL ZONE",
         "longitude": -113.510887,
         "latitude": 53.523451,
         "loc_code": "Test"
     },
     {
-        "location_name": "Test's Home",
+        "location_name": "Test's Home 4",
         "roadway_portion": "SCHOOL ZONE",
         "longitude": -113.529447,
         "latitude": 53.526528,
