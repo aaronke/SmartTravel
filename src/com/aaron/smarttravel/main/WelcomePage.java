@@ -1,12 +1,15 @@
 package com.aaron.smarttravel.main;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +18,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 public class WelcomePage extends Activity {
@@ -23,6 +27,11 @@ public class WelcomePage extends Activity {
     private static int SPLASH_TIME_OUT = 2000;
 	private SharedPreferences my_sharedPreferences;
 	private Intent new_intent;
+	private static final String LOCATION_URL="http://101.231.116.154:8080/STRESTWeb/collisionLocation/jsonOfList";
+	private static final String LOCATION_REASON_URL="http://101.231.116.154:8080/STRESTWeb/locationReason/jsonOfList";
+	private static final String DAYTYPE_URL="http://101.231.116.154:8080/STRESTWeb/wmDayType/jsonOfList";
+	private static final String REASON_CONDITION_URL="http://101.231.116.154:8080/STRESTWeb/wmReasonCondition/jsonOfList";
+	private static final String NEW_VERSION_URL="http://101.231.116.154:8080/STRESTWeb/newVersion/json";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,7 @@ public class WelcomePage extends Activity {
         my_sharedPreferences=getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		
 		Boolean first_timeBoolean=my_sharedPreferences.getBoolean(getString(R.string.preferences_first_time), true);
+		
 		if (first_timeBoolean) {
 			Toast.makeText(getApplicationContext(), "loading data...please wait few seconds", Toast.LENGTH_LONG ).show();
 			
@@ -100,6 +110,7 @@ public class WelcomePage extends Activity {
 		ArrayList<LocationReasonObject> locationReasonObjects_temp=test_dataParseFromJson.getLocationReasonObjects(test_dataParseFromJson.loadJsonString("location_reason.json", context));
 		ArrayList<WMReasonConditionObject> locationConditionObjects_temp=test_dataParseFromJson.getReasonConditionObjects(test_dataParseFromJson.loadJsonString("reason_condition.json", context));
 		ArrayList<DayTypeObject> dayTypeObjects_temp=test_dataParseFromJson.getDataTypeObjects(test_dataParseFromJson.loadJsonString("days.json", context));
+		
 		
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		dbHelper.insertCollisionLocationTableData(collisionLocationObjects_temp);

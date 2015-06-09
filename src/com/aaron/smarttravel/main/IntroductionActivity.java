@@ -26,9 +26,7 @@ public class IntroductionActivity extends Activity{
 				// TODO Auto-generated method stub
 				Intent main_activityIntent=new Intent(IntroductionActivity.this, MainActivity.class);
 				startActivity(main_activityIntent);
-				
 				finish();
-				
 			}
 		});
 		

@@ -1,4 +1,4 @@
-{"locations":[
+[
     {
         "location_name": "Test's Home 1",
         "roadway_portion": "SCHOOL ZONE",
@@ -4285,4 +4285,4 @@
         "latitude": 53.5636544363,
         "loc_code": "SCHOOLZONE_1431"
     }
-]}
+]

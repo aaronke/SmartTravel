@@ -1,4 +1,4 @@
-{"reasons":[
+[
     {
         "warnig_message": "ATTENTION!! MORNING RUSH HOUR HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
@@ -263,4 +263,4 @@
         "start_time": "08:00",
         "school_day": "TRUE"
     }
-]}
+]
