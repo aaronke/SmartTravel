@@ -200,8 +200,10 @@ public class DataParseFromJson {
 				inputStream.close();
 			}
 		}
+		Log.v("STTest","hello,i am working");
 		return jsonString;
 	}
+	
 	public String loadJsonString(String filename,Context context){
 			String json=null;
 			
