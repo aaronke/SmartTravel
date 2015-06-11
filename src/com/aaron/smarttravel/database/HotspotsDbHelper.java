@@ -214,7 +214,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
 			SQLiteDatabase db=this.getReadableDatabase();
 			Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
-			CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ?", new String[]{typeString});
+			CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ? ORDER BY "+CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME, new String[]{typeString});
 			String temp_loc_code;
 			LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 			cursor.moveToFirst();
@@ -227,9 +227,12 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
 				
 				temp_locationReasonObject=dataHandler.getHighestPriorityReasonObject(getLocationReasonByLocCode(temp_loc_code));
-				temp_navDrawerItem.setCount_collisions(temp_locationReasonObject.getTotal());
+				if (temp_locationReasonObject.getTotal()==-1) {
+				}else {
+					temp_navDrawerItem.setCount_collisions(temp_locationReasonObject.getTotal());
+					navDrawerItems.add(temp_navDrawerItem);
+				}
 				
-				navDrawerItems.add(temp_navDrawerItem);
 				cursor.moveToNext();
 			}
 			cursor.close();
@@ -241,7 +244,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		ArrayList<CollisionLocationObject> tempArrayList=new ArrayList<CollisionLocationObject>();
 		SQLiteDatabase db=this.getReadableDatabase();
 		Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
-				CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ?", new String[]{typeString});
+				CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ? ORDER BY "+CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME, new String[]{typeString});
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			CollisionLocationObject temp_object=new CollisionLocationObject();

@@ -32,7 +32,6 @@ public class HotspotParse {
 					temp_HotSpot_Entry.setPDO_value(temp_jsonObject.getInt("PDO"));
 					temp_HotSpot_Entry.setRank(temp_jsonObject.getInt("RANK"));
 					temp_HotSpot_Entry.setLatLng(new LatLng(temp_jsonObject.getDouble("LAT"), temp_jsonObject.getDouble("LONG")));
-					
 					hotspot_ArrayList.add(temp_HotSpot_Entry);
 				}
 				
@@ -42,7 +41,6 @@ public class HotspotParse {
 			}
 			
 		return hotspot_ArrayList;
-		
 	}
 
 	public  String loadJsonString(String filename,Context mycontext){
