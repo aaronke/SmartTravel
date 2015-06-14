@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 import org.apache.http.client.ClientProtocolException;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -203,13 +200,15 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 					String new_versionString=test_dataParseFromJson.getNewVersionString(result);
 					String old_versionString=dbHelper.getVersionString();
 					Log.v("STTest", "oldversion:"+old_versionString+"newversion:"+new_versionString);
-					if (!old_versionString.contentEquals(new_versionString)) {
-						new DownloadWebpageTask().execute(REASON_CONDITION_URL);
-						new DownloadWebpageTask().execute(LOCATION_URL);
-						new DownloadWebpageTask().execute(LOCATION_REASON_URL);
-						new DownloadWebpageTask().execute(DAYTYPE_URL);
-						dbHelper.insertNewVersionTableData(new_versionString);
-					}	
+					if (old_versionString!=null) {
+						if (!new_versionString.contentEquals(old_versionString)) {
+							new DownloadWebpageTask().execute(REASON_CONDITION_URL);
+							new DownloadWebpageTask().execute(LOCATION_URL);
+							new DownloadWebpageTask().execute(LOCATION_REASON_URL);
+							new DownloadWebpageTask().execute(DAYTYPE_URL);
+							dbHelper.insertNewVersionTableData(new_versionString);
+						}	
+					}
 					break;
 				default:
 					break;

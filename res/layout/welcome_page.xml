@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/welcome_page_bg"
+    android:background="@drawable/welcome_page_logo2"
     android:paddingBottom="10dp"
     android:orientation="vertical">
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/welcome_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,5 +34,5 @@
 	    android:paddingTop="10dp"
 	    android:textColor="@android:color/white"
 	    android:text="@string/copyright_txt"
-	    android:layout_marginBottom="5dp"/>
+	    android:layout_marginBottom="5dp"/> -->
 </LinearLayout>

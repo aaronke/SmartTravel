@@ -1516,6 +1516,7 @@ containing a value of this type.
         public static final int top_bg=0x7f0200ad;
         public static final int welcome_city=0x7f0200ae;
         public static final int welcome_logo=0x7f0200af;
+        public static final int welcome_page_logo2=0x7f0200b0;
     }
     public static final class id {
         public static final int SlidingDrawer=0x7f0b006b;
@@ -1559,7 +1560,7 @@ containing a value of this type.
         public static final int abs__title=0x7f0b0036;
         public static final int abs__up=0x7f0b0001;
         public static final int actionBarLogo=0x7f0b004d;
-        public static final int action_settings=0x7f0b008d;
+        public static final int action_settings=0x7f0b0089;
         public static final int adjust_height=0x7f0b0007;
         public static final int adjust_width=0x7f0b0008;
         public static final int book_now=0x7f0b0017;
@@ -1655,10 +1656,6 @@ containing a value of this type.
         public static final int terrain=0x7f0b000d;
         public static final int tvFragmentName=0x7f0b004f;
         public static final int useLogo=0x7f0b0026;
-        public static final int welcome_city_img=0x7f0b008a;
-        public static final int welcome_city_logo=0x7f0b008b;
-        public static final int welcome_copyright_txt=0x7f0b008c;
-        public static final int welcome_logo=0x7f0b0089;
         public static final int wrap_content=0x7f0b0016;
     }
     public static final class integer {

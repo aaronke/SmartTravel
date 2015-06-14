@@ -65,7 +65,7 @@ public class WelcomePage extends Activity {
 							SharedPreferences.Editor editor_first_time=my_sharedPreferences.edit();
 							editor_first_time.putBoolean(getString(R.string.preferences_first_time), false);
 							editor_first_time.commit();
-							new_intent=new Intent(WelcomePage.this,TermOfUseActivity.class);
+							new_intent=new Intent(WelcomePage.this,IntroductionActivity.class);
 							startActivity(new_intent);
 							finish();
 						}
