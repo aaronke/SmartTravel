@@ -18,6 +18,8 @@
 	<string name="setting_notification_description">allow notification about high collision rate area</string>
 	<string name="setting_voice_message_title">Voice Message</string>
 	<string name="setting_voice_message_description">allow to receive voice message when approaching high collision rate area</string>
+	<string name="setting_check_update_title">Check Update</string>
+	<string name="setting_check_update_description">allow to check update automatically</string>
 	<string name="welcome_page_logo">welcome page logo</string>
 	<string name="welcome_city_img">welcome page city image</string>
 	<string name="welcome_page_edmonton_logo">welcome page edmonton logo</string>
@@ -28,7 +30,7 @@
 	<string name="info_box_distance_title">Distance</string>
 	<string name="action_logo_title">logo title</string>
 	<string name="preferences_settings">com.aaron.smarttravel.preference_settings</string>
-	<string name="preferences_setting_gps">com.aaron.smarttravel.preference_settings.gps</string>
+	<string name="preferences_setting_check_update">com.aaron.smarttravel.preference_settings.check_update</string>
 	<string name="preferences_setting_notification">com.aaron.smarttravel.preference_settings.notification</string>
 	<string name="preferences_setting_voice_message">com.aaron.smarttravel.preference_settings.voice_message</string>
 	<string name="preferences_first_time">com.aaron.smarttravel.preference_first_time</string>

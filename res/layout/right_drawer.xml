@@ -84,4 +84,37 @@
 	    android:layout_marginLeft="16dp"
 	    android:layout_marginRight="16dp"
 	    android:layout_marginEnd="16dp"/>
+    <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_check_update_title"
+            android:textSize="20sp"/>
+        <Switch
+            android:id="@+id/setting_update_switch"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"/>
+    </RelativeLayout>
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/setting_check_update_description"
+        android:textColor="@color/drawlist_type_text_color"/>
+    <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="@color/vertical_divider_bg"
+	    android:layout_marginStart="16dp"
+	    android:layout_marginLeft="16dp"
+	    android:layout_marginRight="16dp"
+	    android:layout_marginEnd="16dp"/>
 </LinearLayout>

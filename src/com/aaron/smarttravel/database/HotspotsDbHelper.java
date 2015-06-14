@@ -353,7 +353,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 	public void insertNewVersionTableData(String versionString){
 		
 		SQLiteDatabase db=this.getWritableDatabase();
-		if (versionString.isEmpty()) {
+		if (!versionString.isEmpty()) {
 			db.delete(NewVersionEntry.TABLE_NAME, null, null);
 			ContentValues temp_contentValues=new ContentValues();
 			NewVersionObject temp_object=new NewVersionObject();

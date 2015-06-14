@@ -16,6 +16,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -68,11 +69,16 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 			mContent = new MapFragment();	
 			map_fragment=(MapFragment)mContent;
 		}
-		ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
-		if (networkInfo!=null && networkInfo.isConnected()) {
-			new DownloadWebpageTask().execute(NEW_VERSION_URL);
+		SharedPreferences sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		Boolean check_updateBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_check_update), true);
+		if (check_updateBoolean) {
+			ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+			if (networkInfo!=null && networkInfo.isConnected()) {
+				new DownloadWebpageTask().execute(NEW_VERSION_URL);
+			}
 		}
+		
 		getSlidingMenu().setMode(SlidingMenu.LEFT_RIGHT);
 		getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		
@@ -120,7 +126,6 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 		}	
 	}
 
-	
 	@Override
 	public void onitemselected(ArrayList<BottomInfoItem> arrayList) {
 		// TODO Auto-generated method stub
@@ -198,7 +203,7 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 					String new_versionString=test_dataParseFromJson.getNewVersionString(result);
 					String old_versionString=dbHelper.getVersionString();
 					Log.v("STTest", "oldversion:"+old_versionString+"newversion:"+new_versionString);
-					if (old_versionString!=new_versionString) {
+					if (!old_versionString.contentEquals(new_versionString)) {
 						new DownloadWebpageTask().execute(REASON_CONDITION_URL);
 						new DownloadWebpageTask().execute(LOCATION_URL);
 						new DownloadWebpageTask().execute(LOCATION_REASON_URL);

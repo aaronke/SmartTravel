@@ -147,9 +147,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		Criteria criteria=new Criteria();
 		String best_provider=locationManager.getBestProvider(criteria, true);
 		
-		if (!sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true)) {
+		/*if (!sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true)) {
 			best_provider=LocationManager.NETWORK_PROVIDER;
-		}
+		}*/
 		return best_provider;
 	}
 	
