@@ -67,6 +67,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private BottomListAdapter bottomListAdapter;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	
 	public String getBestProvider(){
 		Criteria criteria=new Criteria();
-		String best_provider=locationManager.getBestProvider(criteria, true);;
+		String best_provider=locationManager.getBestProvider(criteria, true);
 		
 		if (!sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true)) {
 			best_provider=LocationManager.NETWORK_PROVIDER;
@@ -188,9 +189,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			markerOptions.title(temp_object.getLocation_name());
 			mymap.addMarker(markerOptions);		
 		}
-		
 	}
-	
 	
 	// add Geofences to geofencelist
 	/*public void addGeofences(ArrayList<HotSpotEntry> hotspots_arraylist){
@@ -431,7 +430,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		//	loadHotSpotsData();
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
-		Log.v("STTest", "location updated");
+		
 		checkForLocationForWarning(location);
 	}
 
@@ -500,7 +499,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		default:
 			break;
 		}
-		Log.v("STTest", "button clicked");
+		
 	}
 
 }

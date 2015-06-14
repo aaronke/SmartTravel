@@ -1,4 +1,5 @@
 package com.aaron.smarttravel.database;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -121,7 +122,6 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_contentValues.put(CollisionLocationEntry.COLUMN_NAME_LOC_CODE, temp_Object.getLoc_code());
 				temp_contentValues.put(CollisionLocationEntry.COLUMN_NAME_LATITUDE, temp_Object.getLatitude());
 				temp_contentValues.put(CollisionLocationEntry.COLUMN_NAME_LONGITUDE, temp_Object.getLongitude());
-				
 				db.insert(CollisionLocationEntry.TABLE_NAME, null, temp_contentValues);				
 			}
 		}
@@ -136,13 +136,13 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			Location tempLocation=new Location("temp");
 			tempLocation.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
 			tempLocation.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
-			if (currentLocation.distanceTo(tempLocation)<100) {
+			if (currentLocation.distanceTo(tempLocation)<150) {
 				temp_CollisionLocationObject.setLatitude(tempLocation.getLatitude());
 				temp_CollisionLocationObject.setLongitude(tempLocation.getLongitude());
 				temp_CollisionLocationObject.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
 				temp_CollisionLocationObject.setLocation_name(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
 				temp_CollisionLocationObject.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));	
-				Log.v("STTest", "location_name:"+temp_CollisionLocationObject.getLocation_name());
+				
 				break;
 			}
 			cursor.moveToNext();
@@ -187,7 +187,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_WMReasonConditionObject.setStart_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_START_TIME)));
 			temp_WMReasonConditionObject.setWarning_message(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WARNING_MESSAGE)));
 			temp_WMReasonConditionObject.setWeekday(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))==1? true: false);
-			Log.v("STTest", cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))+"weekday");
+			
 			temp_WMReasonConditionObject.setWeekend(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKEND))==1? true: false);
 		}
 		cursor.close();
@@ -244,7 +244,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		ArrayList<CollisionLocationObject> tempArrayList=new ArrayList<CollisionLocationObject>();
 		SQLiteDatabase db=this.getReadableDatabase();
 		Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
-				CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ? ORDER BY "+CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME, new String[]{typeString});
+				CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ?", new String[]{typeString});
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			CollisionLocationObject temp_object=new CollisionLocationObject();
@@ -275,6 +275,15 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_object.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
 		}
 		return temp_object;
+	}
+	public String getVersionString(){
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery(" select * from "+NewVersionEntry.TABLE_NAME, null);
+		if (cursor.moveToFirst()) {
+			return cursor.getString(cursor.getColumnIndex(NewVersionEntry.COLUMN_VERSION));
+		}else {
+			return null;
+		}		
 	}
 	
 	public void insertLocationReasonTableData(ArrayList<LocationReasonObject> arrayList){

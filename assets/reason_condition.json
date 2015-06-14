@@ -1,6 +1,6 @@
 [
     {
-        "warnig_message": "ATTENTION!! MORNING RUSH HOUR HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!! MORNING RUSH HOUR HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 AM PEAK (Weekday and Non Holiday) 06:00-09:00 Collision Intersections in Edmonton",
         "weekend": "FALSE",
@@ -11,7 +11,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! MORNING RUSH HOUR HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!! MORNING RUSH HOUR HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 AM PEAK (Weekday and Non Holiday) 06:00-09:00 Collision Midblocks by Directions in Edmonton",
         "weekend": "FALSE",
@@ -22,7 +22,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! AFTERNOON RUSH HOUR HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!! AFTERNOON RUSH HOUR HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 PM PEAK (Weekday and Non Holiday) 16:00-19:00 Collision Intersections in Edmonton",
         "weekend": "FALSE",
@@ -33,7 +33,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! AFTERNOON RUSH HOUR HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!! AFTERNOON RUSH HOUR HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 PM PEAK (Weekday and Non Holiday) 16:00-19:00 Collision Midblocks by Directions in Edmonton",
         "weekend": "FALSE",
@@ -44,7 +44,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! WEEKEND EARLY MORNING HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!! WEEKEND EARLY MORNING HIGH RISK COLLISION LOCATION",
         "weekday": "FALSE",
         "reason": "2013-2014 Top 5 WEEKEND EARLY MORNING 00:00-04:00 Collision Intersections in Edmonton",
         "weekend": "TRUE",
@@ -55,7 +55,7 @@
         "school_day": "FALSE"
     },
     {
-        "warnig_message": "ATTENTION!! WEEKEND EARLY MORNING HIGH RISK COLLISION LOCATION\n",
+        "warning_message": "ATTENTION!! WEEKEND EARLY MORNING HIGH RISK COLLISION LOCATION\n",
         "weekday": "FALSE",
         "reason": "2013-2014 Top 3 WEEKEND EARLY MORNING 00:00-04:00 Collision Midblocks by Directions in Edmonton",
         "weekend": "TRUE",
@@ -66,7 +66,7 @@
         "school_day": "FALSE"
     },
     {
-        "warnig_message": "WATCH OUT FOR PEDESTRIAN!! HIGH-RISK PEDESTRIAN COLLISION LOCATION.\n",
+        "warning_message": "WATCH OUT FOR PEDESTRIAN!! HIGH-RISK PEDESTRIAN COLLISION LOCATION.\n",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 PEDESTRIAN Collision Intersections in Edmonton",
         "weekend": "TRUE",
@@ -77,7 +77,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "WATCH OUT FOR PEDESTRIAN!! HIGH-RISK PEDESTRIAN COLLISION LOCATION.\n",
+        "warning_message": "WATCH OUT FOR PEDESTRIAN!! HIGH-RISK PEDESTRIAN COLLISION LOCATION.\n",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 1 PEDESTRIAN Collision Midblocks By Directions in Edmonton",
         "weekend": "TRUE",
@@ -88,7 +88,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "WATCH OUT FOR CYCLIST!! HIGH-RISK CYCLIST COLLISION LOCATION.\n",
+        "warning_message": "WATCH OUT FOR CYCLIST!! HIGH-RISK CYCLIST COLLISION LOCATION.\n",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 BICYCLE Collision Intersections MAY-OCTOBER in Edmonton",
         "weekend": "TRUE",
@@ -99,7 +99,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "WATCH OUT FOR CYCLIST!! HIGH-RISK CYCLIST COLLISION LOCATION.\n",
+        "warning_message": "WATCH OUT FOR CYCLIST!! HIGH-RISK CYCLIST COLLISION LOCATION.\n",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 BICYCLE Collision Midblock by Directions MAY-OCTOBER in Edmonton",
         "weekend": "TRUE",
@@ -110,7 +110,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! HIGH RISK MOTORCYCLIST COLLISION LOCATION",
+        "warning_message": "ATTENTION!! HIGH RISK MOTORCYCLIST COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 MOTORCYCLE Collision Intersections MAY-SEPTEMBER in Edmonton",
         "weekend": "TRUE",
@@ -121,7 +121,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! HIGH RISK MOTORCYCLIST COLLISION LOCATION",
+        "warning_message": "ATTENTION!! HIGH RISK MOTORCYCLIST COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 1 MOTORCYCLE Collision Midblocks by Directions MAY-SEPTEMBER in Edmonton",
         "weekend": "TRUE",
@@ -132,7 +132,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "HIGH RISK REAR-END COLLISION LOCATION. INCREASE GAP!!",
+        "warning_message": "HIGH RISK REAR-END COLLISION LOCATION. INCREASE GAP!!",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 FLWD TOO CLOSELY  at Intersection By Directions  in Edmonton",
         "weekend": "TRUE",
@@ -143,7 +143,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "HIGH RISK REAR-END COLLISION LOCATION. INCREASE GAP!!",
+        "warning_message": "HIGH RISK REAR-END COLLISION LOCATION. INCREASE GAP!!",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 10 FLWD TOO CLOSELY at Midblock by Directions in Edmonton",
         "weekend": "TRUE",
@@ -154,7 +154,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! HIGH-RISK LEFT TURN COLLISION LOCATION",
+        "warning_message": "ATTENTION!! HIGH-RISK LEFT TURN COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 LFT TURN X PATH at Intersection  in Edmonton",
         "weekend": "TRUE",
@@ -165,7 +165,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!!  RED-LIGHT RUNNING HIGH RISK COLLISION LOCATION",
+        "warning_message": "ATTENTION!!  RED-LIGHT RUNNING HIGH RISK COLLISION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 FLD OBS.TRAF.SIG at Intersection  in Edmonton",
         "weekend": "TRUE",
@@ -176,7 +176,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!!  HIGH RISK STOP SIGN VIOLATION LOCATION",
+        "warning_message": "ATTENTION!!  HIGH RISK STOP SIGN VIOLATION LOCATION",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 STOP SIGN VIOLTN at Intersection  in Edmonton",
         "weekend": "TRUE",
@@ -187,7 +187,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "CHECK BLINDSPOT!! HIGH RISK IMPROPER LANE CHANGE COLLISION. ",
+        "warning_message": "CHECK BLINDSPOT!! HIGH RISK IMPROPER LANE CHANGE COLLISION. ",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 CHNG. LANES IMPR at Intersection By Directions in Edmonton",
         "weekend": "TRUE",
@@ -198,7 +198,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "CHECK BLINDSPOT!! HIGH RISK IMPROPER LANE CHANGE COLLISION. ",
+        "warning_message": "CHECK BLINDSPOT!! HIGH RISK IMPROPER LANE CHANGE COLLISION. ",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 10 CHNG. LANES IMPR at Midblock by Directions in Edmonton",
         "weekend": "TRUE",
@@ -209,7 +209,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!!  HIGH RISK RUNNING OFF THE ROAD",
+        "warning_message": "ATTENTION!!  HIGH RISK RUNNING OFF THE ROAD",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 5 RAN OFF ROAD at Midblock by Directions in Edmonton",
         "weekend": "TRUE",
@@ -220,7 +220,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! HIGH RISK COLLISION AREA",
+        "warning_message": "ATTENTION!! HIGH RISK COLLISION AREA",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 Intersections in Edmonton",
         "weekend": "TRUE",
@@ -231,7 +231,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "ATTENTION!! HIGH RISK COLLISION AREA",
+        "warning_message": "ATTENTION!! HIGH RISK COLLISION AREA",
         "weekday": "TRUE",
         "reason": "2013-2014 Top 20 Midblocks By Directions in Edmonton",
         "weekend": "TRUE",
@@ -242,7 +242,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "SCHOOL ZONE AHEAD!! PLEASE SLOW DOWN",
+        "warning_message": "SCHOOL ZONE AHEAD!! PLEASE SLOW DOWN",
         "weekday": "TRUE",
         "reason": "School Zone (School Days between 08:00 and 16:30)",
         "weekend": "FALSE",
@@ -253,7 +253,7 @@
         "school_day": "TRUE"
     },
     {
-        "warnig_message": "SCHOOL ZONE AHEAD!! PLEASE SLOW DOWN",
+        "warning_message": "SCHOOL ZONE AHEAD!! PLEASE SLOW DOWN",
         "weekday": "TRUE",
         "reason": "It's the test Location, take it easy!",
         "weekend": "FALSE",

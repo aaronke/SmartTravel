@@ -1,23 +1,8 @@
 package com.aaron.smarttravel.data;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -73,13 +58,13 @@ public class DataParseFromJson {
 			
 			JSONArray array=new JSONArray(jsonString);
 			
-			Log.v("STTest", array.length()+"");
+			Log.v("STTest", "ReasonConditionList:"+array.length()+"");
 			
 			for (int i = 0; i < array.length(); i++) {
 				WMReasonConditionObject temp_wmReasonConditionObject=new WMReasonConditionObject();
 				JSONObject temp_JsonObject=array.getJSONObject(i);
 				
-				temp_wmReasonConditionObject.setWarning_message(temp_JsonObject.getString("warnig_message"));
+				temp_wmReasonConditionObject.setWarning_message(temp_JsonObject.getString("warning_message"));
 				temp_wmReasonConditionObject.setWeekday(temp_JsonObject.getString("weekday").startsWith("TRUE")? true:false);
 				temp_wmReasonConditionObject.setReason(temp_JsonObject.getString("reason"));
 				temp_wmReasonConditionObject.setWeekend(temp_JsonObject.getString("weekend").startsWith("TRUE")? true: false);
@@ -171,38 +156,6 @@ public class DataParseFromJson {
 		return versionString;
 	}
 	
-	public String getJsonStringFromURL(String urlString) throws IOException{
-		String jsonString="";
-		InputStream inputStream = null;
-		int len=300000;
-		try {
-			URL url=new URL(urlString);
-			HttpsURLConnection connection=(HttpsURLConnection)url.openConnection();
-			connection.setReadTimeout(10000);
-			connection.setConnectTimeout(15000);
-			connection.setRequestMethod("GET");
-			connection.setDoInput(true);
-			int response=connection.getResponseCode();
-			Log.v("STTest","response code:"+response);
-				inputStream=connection.getInputStream();
-				Reader reader=new InputStreamReader(inputStream,"UTF-8");
-				char[] buffer=new char[len];
-				reader.read(buffer);
-			jsonString= new String(buffer);
-		} catch (UnsupportedEncodingException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}catch (ClientProtocolException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}finally{
-			if (inputStream!=null) {
-				inputStream.close();
-			}
-		}
-		Log.v("STTest","hello,i am working");
-		return jsonString;
-	}
 	
 	public String loadJsonString(String filename,Context context){
 			String json=null;
