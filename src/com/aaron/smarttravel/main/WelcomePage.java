@@ -8,19 +8,14 @@ import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 public class WelcomePage extends Activity {

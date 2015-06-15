@@ -1,15 +1,11 @@
 package com.aaron.smarttravel.database;
-import java.io.StreamCorruptedException;
 import java.util.ArrayList;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
-import android.util.Log;
-
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
@@ -136,7 +132,8 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			Location tempLocation=new Location("temp");
 			tempLocation.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
 			tempLocation.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
-			if (currentLocation.distanceTo(tempLocation)<150) {
+			double distance=currentLocation.distanceTo(tempLocation);
+			if (distance<200) {
 				temp_CollisionLocationObject.setLatitude(tempLocation.getLatitude());
 				temp_CollisionLocationObject.setLongitude(tempLocation.getLongitude());
 				temp_CollisionLocationObject.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));

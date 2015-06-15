@@ -67,6 +67,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private BottomListAdapter bottomListAdapter;
+	private static int VOICE_MESSAGE_INDICATOR=0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,7 +137,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			onLocationChanged(my_location);
 		}
 		
-		locationManager.requestLocationUpdates(getBestProvider(), 5000, 0, this);
+		locationManager.requestLocationUpdates(getBestProvider(), 1000, 0, this);
 		
 		mapView.getMapAsync(this);
 		
@@ -147,9 +148,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		Criteria criteria=new Criteria();
 		String best_provider=locationManager.getBestProvider(criteria, true);
 		
-		/*if (!sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_gps), true)) {
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			best_provider=LocationManager.NETWORK_PROVIDER;
-		}*/
+		}
 		return best_provider;
 	}
 	
@@ -317,7 +318,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	}*/
 	
 	public void checkForLocationForWarning(Location currentLocation){
-
+		Log.v("STTest", "Location:"+currentLocation.getProvider());
 		final TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
 		if (temp_topinfoEntry.getLocation_name()!="unknown") {
 			updateInfoBox(temp_topinfoEntry);
@@ -326,16 +327,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			}
 			
 			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
-				textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
-					@Override
-					public void onInit(int status) {
-						// TODO Auto-generated method stub
-						if (status==TextToSpeech.SUCCESS) {
-							textToSpeech.setLanguage(Locale.UK);	
-							speakToText(temp_topinfoEntry.getWarning_message());
+				if (VOICE_MESSAGE_INDICATOR==0||VOICE_MESSAGE_INDICATOR==3||VOICE_MESSAGE_INDICATOR==8) {
+					VOICE_MESSAGE_INDICATOR+=1;
+					textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
+						@Override
+						public void onInit(int status) {
+							// TODO Auto-generated method stub
+							if (status==TextToSpeech.SUCCESS) {
+								textToSpeech.setLanguage(Locale.UK);	
+								speakToText(temp_topinfoEntry.getWarning_message());
+							}
 						}
-					}
-				});
+					});
+				}
+				
+			}else {
+				VOICE_MESSAGE_INDICATOR=0;
 			}
 		}
 		
