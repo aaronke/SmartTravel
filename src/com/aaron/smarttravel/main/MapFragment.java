@@ -67,7 +67,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private BottomListAdapter bottomListAdapter;
-	private static int VOICE_MESSAGE_INDICATOR=0;
+	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -318,32 +318,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	}*/
 	
 	public void checkForLocationForWarning(Location currentLocation){
-		Log.v("STTest", "Location:"+currentLocation.getProvider());
+		
 		final TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
 		if (temp_topinfoEntry.getLocation_name()!="unknown") {
 			updateInfoBox(temp_topinfoEntry);
 			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true)) {
-				Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
-			}
-			
-			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
-				if (VOICE_MESSAGE_INDICATOR==0||VOICE_MESSAGE_INDICATOR==3||VOICE_MESSAGE_INDICATOR==8) {
-					VOICE_MESSAGE_INDICATOR+=1;
-					textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
-						@Override
-						public void onInit(int status) {
-							// TODO Auto-generated method stub
-							if (status==TextToSpeech.SUCCESS) {
-								textToSpeech.setLanguage(Locale.UK);	
-								speakToText(temp_topinfoEntry.getWarning_message());
-							}
-						}
-					});
+				NOTIFICATION_MESSAGE_INDICATOR+=1;
+				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==7||NOTIFICATION_MESSAGE_INDICATOR==13) {
+					Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 				}
 				
-			}else {
-				VOICE_MESSAGE_INDICATOR=0;
+			}		
+				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
+				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
+					VOICE_MESSAGE_INDICATOR+=1;
+					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==7||VOICE_MESSAGE_INDICATOR==13) {
+						textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
+							@Override
+							public void onInit(int status) {
+								// TODO Auto-generated method stub
+								if (status==TextToSpeech.SUCCESS) {
+									textToSpeech.setLanguage(Locale.UK);	
+									speakToText(temp_topinfoEntry.getWarning_message());
+								}
+							}
+						});
+				}
+				
 			}
+		}else {
+			NOTIFICATION_MESSAGE_INDICATOR=0;
+			VOICE_MESSAGE_INDICATOR=0;
 		}
 		
 		
