@@ -5,12 +5,22 @@ public class TopInfoEntry {
 	public String hotspot_reason;
 	public String warning_message;
 	public int distance;
+	private int reason_id;
 	
 	public TopInfoEntry(){
 		location_name="unknown";
 		hotspot_reason="unknown";
 		warning_message="unknown";
 		distance=0;
+		reason_id=-1;
+	}
+
+	public int getReason_id() {
+		return reason_id;
+	}
+
+	public void setReason_id(int reason_id) {
+		this.reason_id = reason_id;
 	}
 
 	public String getLocation_name() {

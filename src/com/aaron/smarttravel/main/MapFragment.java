@@ -10,6 +10,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -68,13 +69,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private ListView bottom_list;
 	private BottomListAdapter bottomListAdapter;
 	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0;
+	private static final int DEFUALT_VOICE_MESSAGE=15;
+	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
+			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
+			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,DEFUALT_VOICE_MESSAGE,R.raw.red_light_running
+			,R.raw.stop_sign_violation,R.raw.improper_lane_change,R.raw.improper_lane_change,R.raw.ran_off_road,R.raw.attention_high_risk_collision_area
+			,R.raw.attention_high_risk_collision_area,R.raw.school_zone,R.raw.school_zone};
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		
-		
 		View view=inflater.inflate(R.layout.main_map, container, false);
 		mapView=(MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
@@ -133,8 +138,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			/*if (!hotspots_arraylist.isEmpty()) {
 				approaching_hotspot_alert(hotspots_arraylist, my_location);
 			}*/
-			checkForLocationForWarning(my_location);
-			onLocationChanged(my_location);
+			//checkForLocationForWarning(my_location);
+		//	onLocationChanged(my_location);
 		}
 		
 		locationManager.requestLocationUpdates(getBestProvider(), 1000, 0, this);
@@ -333,16 +338,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
 					VOICE_MESSAGE_INDICATOR+=1;
 					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==7||VOICE_MESSAGE_INDICATOR==13) {
-						textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
-							@Override
-							public void onInit(int status) {
-								// TODO Auto-generated method stub
-								if (status==TextToSpeech.SUCCESS) {
-									textToSpeech.setLanguage(Locale.UK);	
-									speakToText(temp_topinfoEntry.getWarning_message());
+						
+						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
+							textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
+								@Override
+								public void onInit(int status) {
+									// TODO Auto-generated method stub
+									if (status==TextToSpeech.SUCCESS) {
+										textToSpeech.setLanguage(Locale.UK);	
+										speakToText(temp_topinfoEntry.getWarning_message());
+									}
 								}
-							}
-						});
+							});
+						}else {
+							MediaPlayer mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+							mediaPlayer.start();
+						}	
 				}
 				
 			}
@@ -371,6 +382,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 					temp_hotspotLocation.setLongitude(temp_collision_location.getLongitude());
 					int distance=(int)currentLocation.distanceTo(temp_hotspotLocation);
 					temp_TopInfoEntry.setDistance(distance);
+					temp_TopInfoEntry.setReason_id(temp_location_condition.getReason_id());
 				}
 			}
 			
