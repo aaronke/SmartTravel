@@ -7,6 +7,7 @@ import com.aaron.smarttravel.utilities.NavDrawerItem;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +64,14 @@ public class LeftDrawerListAdapter extends BaseAdapter{
 			count_rank=9;
 		}
 		count_collision_hotspot.setBackgroundResource(count_bgs[count_rank]);
-		count_collision_hotspot.setText(Integer.toString(collision_count));
+		
 		type_hotspot.setText(navDrawerItems.get(position).getType_hotspot());
+		
+		if ((navDrawerItems.get(position).getType_hotspot()).startsWith("SCHOOL ZONE")) {
+			count_collision_hotspot.setVisibility(View.INVISIBLE);
+		}else {
+			count_collision_hotspot.setText(Integer.toString(collision_count));
+		}
 		name_hotspot.setText(navDrawerItems.get(position).getName_hotspot());
 		
 		

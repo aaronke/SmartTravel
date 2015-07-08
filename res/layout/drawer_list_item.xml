@@ -30,7 +30,7 @@
             android:padding="4dp"/>
         <TextView
             android:id="@+id/hotspot_collision_count"
-            android:layout_width="30dp"
+            android:layout_width="42dp"
             android:layout_height="20dp"
             android:gravity="center"
           	android:textColor="@android:color/white"

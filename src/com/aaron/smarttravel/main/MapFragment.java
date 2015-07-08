@@ -113,7 +113,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		params.setMargins(80, 0, 0, 80);
 		location_buttonView.setLayoutParams(params);*/
 		
-		
 		try {
 			MapsInitializer.initialize(context);
 		} catch (Exception e) {
