@@ -11,6 +11,7 @@ import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
+import android.location.Location;
 
 public class DataHandler {
 	
@@ -31,14 +32,14 @@ public class DataHandler {
 		return tempLocationReasonObject;
 	}
 	
-	public LocationReasonObject getHighestPriorityMatchedReasonObject(ArrayList<LocationReasonObject> arrayList,Context context){
+	public LocationReasonObject getHighestPriorityMatchedReasonObject(ArrayList<LocationReasonObject> arrayList,Location currentLocation,Context context){
 		int temp_index=0,first_priority;
 		LocationReasonObject tempLocationReasonObject=new LocationReasonObject();
 		if (!arrayList.isEmpty()) {
 			first_priority=100;
 			for (int i = 0; i < arrayList.size(); i++) {
 				
-				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context)) {
+				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context) && checkDirectionCondition(arrayList.get(i), currentLocation)) {
 					first_priority=arrayList.get(i).getWarning_priority();
 					temp_index=i;
 				}
@@ -49,6 +50,27 @@ public class DataHandler {
 		}else {
 		}
 		return tempLocationReasonObject;
+	}
+	public Boolean checkDirectionCondition(LocationReasonObject locationReasonObject,Location currentLocation){
+		Boolean directionBoolean=true;
+		Float bearingFloat=currentLocation.getBearing();
+		String current_directionString="NORTH";
+		if (bearingFloat<45||bearingFloat >315) {
+			current_directionString="NORTH";
+		}else if (bearingFloat>45 && bearingFloat<135) {
+			current_directionString="EAST";
+		}else if (bearingFloat >135 && bearingFloat <225) {
+			current_directionString="SOUTH";
+		}else if (bearingFloat>225 && bearingFloat<315) {
+			current_directionString="WEST";
+		}
+		if (locationReasonObject.getTravel_direction()!="ALL" && locationReasonObject.getTravel_direction()!="unknown") {
+			if (locationReasonObject.getTravel_direction()!=current_directionString) {
+				directionBoolean=false;
+			}
+		}
+		
+		return directionBoolean;
 	}
 	public Boolean checkReasonConditionDate(LocationReasonObject locationReasonObject, Context context){
 		

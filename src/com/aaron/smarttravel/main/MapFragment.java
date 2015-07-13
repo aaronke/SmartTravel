@@ -370,7 +370,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			DataHandler dataHandler=new DataHandler();
 			
 			if (temp_collision_location.getLoc_code()!="unknown") {
-			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityMatchedReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()),context);
+			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityMatchedReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()),currentLocation,context);
 			WMReasonConditionObject temp_location_condition=dbHelper.getWMReasonConditionByReasonID(temp_location_reason.getReason_id());
 				if (temp_location_reason.getReason_id()!=-1) {
 					temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
