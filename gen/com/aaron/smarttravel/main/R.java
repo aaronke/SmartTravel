@@ -1714,14 +1714,15 @@ containing a value of this type.
         public static final int gtm_analytics=0x7f040003;
         public static final int improper_lane_change=0x7f040004;
         public static final int increase_the_gap=0x7f040005;
-        public static final int morning_rush_hour=0x7f040006;
-        public static final int motorcyclist=0x7f040007;
-        public static final int pedestrians=0x7f040008;
-        public static final int ran_off_road=0x7f040009;
-        public static final int red_light_running=0x7f04000a;
-        public static final int school_zone=0x7f04000b;
-        public static final int stop_sign_violation=0x7f04000c;
-        public static final int weekend_early_morning=0x7f04000d;
+        public static final int left_turn=0x7f040006;
+        public static final int morning_rush_hour=0x7f040007;
+        public static final int motorcyclist=0x7f040008;
+        public static final int pedestrians=0x7f040009;
+        public static final int ran_off_road=0x7f04000a;
+        public static final int red_light_running=0x7f04000b;
+        public static final int school_zone=0x7f04000c;
+        public static final int stop_sign_violation=0x7f04000d;
+        public static final int weekend_early_morning=0x7f04000e;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

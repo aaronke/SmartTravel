@@ -72,7 +72,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
-			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,DEFUALT_VOICE_MESSAGE,R.raw.red_light_running
+			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,R.raw.left_turn,R.raw.red_light_running
 			,R.raw.stop_sign_violation,R.raw.improper_lane_change,R.raw.improper_lane_change,R.raw.ran_off_road,R.raw.attention_high_risk_collision_area
 			,R.raw.attention_high_risk_collision_area,R.raw.school_zone,R.raw.school_zone};
 	
