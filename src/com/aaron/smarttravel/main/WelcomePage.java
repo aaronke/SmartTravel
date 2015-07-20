@@ -101,13 +101,12 @@ public class WelcomePage extends Activity {
 		ArrayList<LocationReasonObject> locationReasonObjects_temp=test_dataParseFromJson.getLocationReasonObjects(test_dataParseFromJson.loadJsonString("location_reason.json", context));
 		ArrayList<WMReasonConditionObject> locationConditionObjects_temp=test_dataParseFromJson.getReasonConditionObjects(test_dataParseFromJson.loadJsonString("reason_condition.json", context));
 		ArrayList<DayTypeObject> dayTypeObjects_temp=test_dataParseFromJson.getDataTypeObjects(test_dataParseFromJson.loadJsonString("days.json", context));
-		String newVersionObject_temp=test_dataParseFromJson.getNewVersionString(test_dataParseFromJson.loadJsonString("new_version.json", context));
+		
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		dbHelper.insertCollisionLocationTableData(collisionLocationObjects_temp);
 		dbHelper.insertLocationReasonTableData(locationReasonObjects_temp);
 		dbHelper.insertReasonConditionTableData(locationConditionObjects_temp);
 		dbHelper.insertDayTypeTableData(dayTypeObjects_temp);
-		dbHelper.insertNewVersionTableData(newVersionObject_temp);
     }
     
    
