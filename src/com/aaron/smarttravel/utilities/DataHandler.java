@@ -7,11 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.aaron.smarttravel.database.HotspotsDbHelper;
-import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.location.Location;
+
+import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.google.android.gms.maps.model.LatLng;
 
 public class DataHandler {
 	

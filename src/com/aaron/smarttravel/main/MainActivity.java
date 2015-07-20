@@ -8,7 +8,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
 import org.apache.http.client.ClientProtocolException;
+
+import android.R.anim;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
