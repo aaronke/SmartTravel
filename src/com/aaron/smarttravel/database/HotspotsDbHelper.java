@@ -213,7 +213,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
 			CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION +"= ? ORDER BY "+CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME, new String[]{typeString});
 			String temp_loc_code;
-			LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
+		//	LocationReasonObject temp_locationReasonObject=new LocationReasonObject();
 			cursor.moveToFirst();
 			DataHandler dataHandler=new DataHandler();
 			
@@ -223,12 +223,9 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_navDrawerItem.setType_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
 				temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
 				
-				temp_locationReasonObject=dataHandler.getHighestPriorityReasonObject(getLocationReasonByLocCode(temp_loc_code));
-				if (temp_locationReasonObject.getTotal()==-1) {
-				}else {
-					temp_navDrawerItem.setCount_collisions(temp_locationReasonObject.getTotal());
-					navDrawerItems.add(temp_navDrawerItem);
-				}
+				temp_navDrawerItem.setCount_collisions(dataHandler.getTotalCollisionCount(getLocationReasonByLocCode(temp_loc_code)));
+				navDrawerItems.add(temp_navDrawerItem);
+				
 				
 				cursor.moveToNext();
 			}

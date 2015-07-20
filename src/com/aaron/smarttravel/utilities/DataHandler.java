@@ -32,6 +32,16 @@ public class DataHandler {
 		return tempLocationReasonObject;
 	}
 	
+	public int getTotalCollisionCount(ArrayList<LocationReasonObject> arrayList){
+		int total_collision=0;
+		if (!arrayList.isEmpty()) {
+			for (int i = 0; i < arrayList.size(); i++) {
+				total_collision+=arrayList.get(i).getTotal();
+			}
+		}
+		return total_collision;
+	}
+	
 	public LocationReasonObject getHighestPriorityMatchedReasonObject(ArrayList<LocationReasonObject> arrayList,Location currentLocation,Context context){
 		int temp_index=0,first_priority;
 		LocationReasonObject tempLocationReasonObject=new LocationReasonObject();
