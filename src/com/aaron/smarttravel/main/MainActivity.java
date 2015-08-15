@@ -8,8 +8,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
 import org.apache.http.client.ClientProtocolException;
+
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +25,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
@@ -195,6 +199,29 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 					ArrayList<DayTypeObject> dayTypeObjects_temp=test_dataParseFromJson.getDataTypeObjects(result);
 					dbHelper.insertDayTypeTableData(dayTypeObjects_temp);
 					Log.v("STTest", "DayType:"+dayTypeObjects_temp.size());
+					AlertDialog.Builder data_updated=new AlertDialog.Builder(MainActivity.this);
+					data_updated.setTitle(R.string.data_update_dialog)
+					.setPositiveButton(R.string.data_update_positive, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							Intent restart_intent=new Intent(MainActivity.this, WelcomePage.class);
+							startActivity(restart_intent);
+							finish();
+							
+						}
+					}).setNegativeButton(R.string.data_update_nagetive, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+						}
+					});
+					AlertDialog data_updateAlertDialog=data_updated.create();
+					data_updateAlertDialog.show();
+					
 					break;
 				case URL_FLAG_NEW_VERSION:
 					String new_versionString=test_dataParseFromJson.getNewVersionString(result);

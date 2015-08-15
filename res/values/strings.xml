@@ -47,7 +47,9 @@
 	<string name="bottom_info_title_Direction">Direction</string>
 	<string name="bottom_info_title_Reason">Reason</string>
 	<string name="bottom_info_title_Total">Total</string>
-	
+	<string name="data_update_dialog">Data is updated, restart now?</string>
+	<string name="data_update_positive">Yes</string>
+	<string name="data_update_nagetive">No, not now</string>
 	
 	
 	<string name="term_of_use_context">
