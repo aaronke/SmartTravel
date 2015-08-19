@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -58,6 +59,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private TextView name_TextView,reason_TextView,distance_TextView;
 	public SlidingDrawer slidingDrawer,bottom_sldingDrawer;
 	private SharedPreferences sharedPreferences_settings;
+	private SharedPreferences.Editor preferencesEditor;
 	LocationManager locationManager;
 	//private static final String SCHOOL_ZONE="SCHOOL ZONE";
 	private static final String INTERSECTION="INTERSECTION";
@@ -68,7 +70,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private BottomListAdapter bottomListAdapter;
-	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0;
+	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0,LOCATION_COUNT=0;
+	private Location my_location;
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
@@ -129,7 +132,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		//getActivity();
 		locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
-		Location my_location=locationManager.getLastKnownLocation(getBestProvider());
+		my_location=locationManager.getLastKnownLocation(getBestProvider());
 	//	loadHotSpotsData();
 		if (my_location!=null) {	
 			
@@ -409,6 +412,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mapView.onDestroy();
+		preferencesEditor=sharedPreferences_settings.edit();
+		preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), true);
+		preferencesEditor.commit();
 	}
 
 	@Override
@@ -455,6 +461,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		//approaching_hotspot_alert(hotspots_arraylist, location);
 		
 		checkForLocationForWarning(location);
+		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_is_driving), true);
+		if (location.getSpeed()>6 && is_drivingBoolean) {
+			setMode(true);
+			Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
+			startActivity(drivingIntent);
+		}
+
+			double distance=location.distanceTo(my_location);
+			Log.v("STTest", "Location count:"+LOCATION_COUNT);
+			if (distance<100) {
+				
+				LOCATION_COUNT++;
+				if (LOCATION_COUNT>1800) {
+					setMode(false);
+				}
+			}else {
+				my_location=location;
+				LOCATION_COUNT=0;
+			}
+	}
+		
+	private void setMode(Boolean isActive){
+		if (isActive) {
+			locationManager.removeUpdates(this);
+			locationManager.requestLocationUpdates(getBestProvider(), 1000, 0, this);
+			Toast.makeText(context, "Active Mode", Toast.LENGTH_SHORT).show();
+		}else {
+			locationManager.removeUpdates(this);
+			locationManager.requestLocationUpdates(getBestProvider(), 300000, 100, this);
+			Toast.makeText(context, "DeActive", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

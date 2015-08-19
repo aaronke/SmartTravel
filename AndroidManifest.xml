@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aaron.smarttravel.main"
     android:versionCode="1"
-    android:versionName="0.1.3" >
+    android:versionName="0.1.4" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -41,6 +41,10 @@
          <activity 
             android:name="com.aaron.smarttravel.main.TermOfUseActivity">
         </activity>
+        <activity 
+            android:name="com.aaron.smarttravel.main.DrivingModeActivity">
+        </activity>
+         
        <meta-data
 	    android:name="com.google.android.geo.API_KEY"
 	    android:value="AIzaSyCaicQ3o_AjN9c1MzmZpWFaLjMEQFF8uIo"/>

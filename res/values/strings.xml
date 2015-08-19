@@ -36,6 +36,7 @@
 	<string name="preferences_setting_notification">com.aaron.smarttravel.preference_settings.notification</string>
 	<string name="preferences_setting_voice_message">com.aaron.smarttravel.preference_settings.voice_message</string>
 	<string name="preferences_first_time">com.aaron.smarttravel.preference_first_time</string>
+	<string name="preferences_is_driving">com.aaron.smarttravel.preference_is_driving</string>
 	<string name="introduction_description">introduction to the features</string>
 	<string name="introduction_button">Got it</string>
 	<string name="term_of_use_title">Term of Use</string>
@@ -50,6 +51,7 @@
 	<string name="data_update_dialog">Data is updated, restart now?</string>
 	<string name="data_update_positive">Yes</string>
 	<string name="data_update_nagetive">No, not now</string>
+	<string name="not_driving_button">I am not driving now</string>
 	
 	
 	<string name="term_of_use_context">
