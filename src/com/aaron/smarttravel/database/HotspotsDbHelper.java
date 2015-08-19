@@ -1,11 +1,14 @@
 package com.aaron.smarttravel.database;
 import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.util.Log;
+
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
@@ -135,6 +138,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			double distance=currentLocation.distanceTo(tempLocation);
 			double current_speed=currentLocation.getSpeed();
 			int warning_distance=150;
+			Log.v("STTest", "speed:"+current_speed);
 			if (current_speed!=0.0) {
 				warning_distance=(int) (10*current_speed);
 			}

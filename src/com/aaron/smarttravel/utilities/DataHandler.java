@@ -65,25 +65,28 @@ public class DataHandler {
 		Boolean directionBoolean=true;
 		Float bearingFloat=currentLocation.getBearing();
 		String current_directionString="NORTH";
-		if (bearingFloat<45||bearingFloat >315) {
-			current_directionString="NORTH";
-		}else if (bearingFloat>45 && bearingFloat<135) {
-			current_directionString="EAST";
-		}else if (bearingFloat >135 && bearingFloat <225) {
-			current_directionString="SOUTH";
-		}else if (bearingFloat>225 && bearingFloat<315) {
-			current_directionString="WEST";
-		}
-		if (locationReasonObject.getTravel_direction()!="ALL" && locationReasonObject.getTravel_direction()!="unknown") {
-			if (locationReasonObject.getTravel_direction()!=current_directionString) {
-				directionBoolean=false;
+		if (bearingFloat!=0.0) {
+			if (bearingFloat<45||bearingFloat >315) {
+				current_directionString="NORTH";
+			}else if (bearingFloat>45 && bearingFloat<135) {
+				current_directionString="EAST";
+			}else if (bearingFloat >135 && bearingFloat <225) {
+				current_directionString="SOUTH";
+			}else if (bearingFloat>225 && bearingFloat<315) {
+				current_directionString="WEST";
+			}
+			if (locationReasonObject.getTravel_direction()!="ALL" && locationReasonObject.getTravel_direction()!="unknown") {
+				if (locationReasonObject.getTravel_direction()!=current_directionString) {
+					directionBoolean=false;
+				}
 			}
 		}
+		
 		
 		return directionBoolean;
 	}
 	public Boolean checkReasonConditionDate(LocationReasonObject locationReasonObject, Context context){
-		
+		Boolean checkBoolean=false;
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		WMReasonConditionObject reasonConditionObject=dbHelper.getWMReasonConditionByReasonID(locationReasonObject.getReason_id());
 		Calendar calendar=Calendar.getInstance();
@@ -103,17 +106,17 @@ public class DataHandler {
 					Date endDate=time_of_day.parse(end_time);
 					Date currentDate=time_of_day.parse(current_time);
 					if (startDate.before(currentDate) && endDate.after(currentDate)) {
-						return true;
+						checkBoolean= true;
 					}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 				
 			}
 		}
-		
-		return false;
+		return checkBoolean;
 	}
 	public ArrayList<BottomInfoItem> getBottomInfoItemByLocaitonName(Context context,String location_name){
 		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
