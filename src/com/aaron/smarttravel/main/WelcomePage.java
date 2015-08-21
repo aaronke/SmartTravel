@@ -39,13 +39,13 @@ public class WelcomePage extends Activity {
 		
 		Boolean first_timeBoolean=my_sharedPreferences.getBoolean(getString(R.string.preferences_first_time), true);
 		
-		Toast.makeText(getApplicationContext(), "Active Mode", Toast.LENGTH_SHORT).show();
+	//	Toast.makeText(getApplicationContext(), "Active Mode", Toast.LENGTH_SHORT).show();
 		
 		AudioManager audioManager=(AudioManager)getSystemService(AUDIO_SERVICE);
 		int volume_level=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 		if (volume_level<6) {
 			//audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)-2, AudioManager.FLAG_SHOW_UI);
+			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)-6, AudioManager.FLAG_SHOW_UI);
 		}
 		Log.v("STTest", "current music volume"+volume_level);
 		if (first_timeBoolean) {

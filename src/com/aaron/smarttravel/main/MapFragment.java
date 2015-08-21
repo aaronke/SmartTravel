@@ -412,9 +412,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mapView.onDestroy();
-		preferencesEditor=sharedPreferences_settings.edit();
-		preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), true);
-		preferencesEditor.commit();
+		
 	}
 
 	@Override
@@ -445,6 +443,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 	
 		super.onStop();
+		preferencesEditor=sharedPreferences_settings.edit();
+		preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), true);
+		preferencesEditor.commit();
+		locationManager.removeUpdates(this);
 		
 	}
 
@@ -460,12 +462,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
 		
-		checkForLocationForWarning(location);
+		
 		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_is_driving), true);
 		if (location.getSpeed()>6 && is_drivingBoolean) {
 			setMode(true);
 			Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
 			startActivity(drivingIntent);
+		//	getActivity().finish();
 		}
 
 			double distance=location.distanceTo(my_location);
@@ -480,17 +483,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				my_location=location;
 				LOCATION_COUNT=0;
 			}
+			
+			// check locations
+			checkForLocationForWarning(location);
 	}
 		
 	private void setMode(Boolean isActive){
 		if (isActive) {
 			locationManager.removeUpdates(this);
 			locationManager.requestLocationUpdates(getBestProvider(), 1000, 0, this);
-			Toast.makeText(context, "Active Mode", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "Active Mode", Toast.LENGTH_SHORT).show();
 		}else {
 			locationManager.removeUpdates(this);
 			locationManager.requestLocationUpdates(getBestProvider(), 300000, 100, this);
-			Toast.makeText(context, "DeActive", Toast.LENGTH_SHORT).show();
+		//	Toast.makeText(context, "DeActive", Toast.LENGTH_SHORT).show();
 		}
 	}
 
