@@ -18,6 +18,7 @@ public class DrivingModeActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.driving_mode);
+		getActionBar().hide();
 		sharedPreferences=this.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		not_drivingButton=(Button)findViewById(R.id.not_driving_button);
 		

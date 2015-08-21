@@ -464,11 +464,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		
 		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_is_driving), true);
-		if (location.getSpeed()>6 && is_drivingBoolean) {
+		if (location.getSpeed()==0 && is_drivingBoolean) {
 			setMode(true);
 			Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
 			startActivity(drivingIntent);
-		//	getActivity().finish();
+			getActivity().finish();
 		}
 
 			double distance=location.distanceTo(my_location);
