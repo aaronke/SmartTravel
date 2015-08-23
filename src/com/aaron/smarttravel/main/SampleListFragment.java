@@ -8,6 +8,7 @@ import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
+import com.flurry.android.FlurryAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -230,4 +231,19 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 		dbHelper.close();
 	}
 
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		FlurryAgent.onStartSession(getActivity(), getString(R.string.Flurry_API_Key));
+	}
+
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		FlurryAgent.onEndSession(getActivity());
+	}
+
+	
 }

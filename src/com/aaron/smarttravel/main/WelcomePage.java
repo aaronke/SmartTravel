@@ -8,6 +8,7 @@ import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.flurry.android.FlurryAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -34,7 +35,8 @@ public class WelcomePage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_page);
         getActionBar().hide();
-        
+        FlurryAgent.setLogEnabled(false);
+        FlurryAgent.init(this, getString(R.string.Flurry_API_Key));
         my_sharedPreferences=getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		
 		Boolean first_timeBoolean=my_sharedPreferences.getBoolean(getString(R.string.preferences_first_time), true);
@@ -122,6 +124,20 @@ public class WelcomePage extends Activity {
 		dbHelper.insertDayTypeTableData(dayTypeObjects_temp);
 		dbHelper.insertNewVersionTableData(versionString);
     }
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		FlurryAgent.onStartSession(WelcomePage.this, getString(R.string.Flurry_API_Key));
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		FlurryAgent.onEndSession(WelcomePage.this);
+	}
     
    
 }

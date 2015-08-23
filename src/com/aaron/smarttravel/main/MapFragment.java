@@ -34,6 +34,7 @@ import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -428,6 +429,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 		
 		super.onStart();
+		FlurryAgent.onStartSession(getActivity(), getString(R.string.Flurry_API_Key));
 	}
 
 	@Override
@@ -447,6 +449,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), true);
 		preferencesEditor.commit();
 		locationManager.removeUpdates(this);
+		FlurryAgent.onEndSession(getActivity());
 		
 	}
 
@@ -464,7 +467,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		
 		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_is_driving), true);
-		if (location.getSpeed()==0 && is_drivingBoolean) {
+		if (location.getSpeed()>6 && is_drivingBoolean) {
 			setMode(true);
 			Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
 			startActivity(drivingIntent);

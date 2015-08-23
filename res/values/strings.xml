@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
 	<string name="action__right_search">Setting</string>
 	<string name="map_location_button">GPS location button</string>
+	<string name="Flurry_API_Key">NBJD9RQZBWHGGWFNM3DZ</string>
 	
 	<string name="left_drawer_logo">left drawer edmonton logo</string>
 	<string name="unknown">null</string>
