@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 public class DataHandler {
 	
@@ -42,14 +43,14 @@ public class DataHandler {
 		return total_collision;
 	}
 	
-	public LocationReasonObject getHighestPriorityMatchedReasonObject(ArrayList<LocationReasonObject> arrayList,Location currentLocation,Context context){
+	public LocationReasonObject getHighestPriorityMatchedReasonObject(ArrayList<LocationReasonObject> arrayList,Location currentLocation, Location destLocation,Context context){
 		int temp_index=0,first_priority;
 		LocationReasonObject tempLocationReasonObject=new LocationReasonObject();
 		if (!arrayList.isEmpty()) {
 			first_priority=100;
 			for (int i = 0; i < arrayList.size(); i++) {
 				
-				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context) && checkDirectionCondition(arrayList.get(i), currentLocation)) {
+				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context) && checkDirectionCondition(arrayList.get(i), currentLocation,destLocation)) {
 					first_priority=arrayList.get(i).getWarning_priority();
 					temp_index=i;
 				}
@@ -61,10 +62,10 @@ public class DataHandler {
 		}
 		return tempLocationReasonObject;
 	}
-	public Boolean checkDirectionCondition(LocationReasonObject locationReasonObject,Location currentLocation){
+	public Boolean checkDirectionCondition(LocationReasonObject locationReasonObject,Location currentLocation,Location destLocation){
 		Boolean directionBoolean=true;
-		Float bearingFloat=currentLocation.getBearing();
-		String current_directionString="NORTH";
+		Float bearingFloat=currentLocation.bearingTo(destLocation);
+		String current_directionString="unknow";
 		if (bearingFloat!=0.0) {
 			if (bearingFloat<45||bearingFloat >315) {
 				current_directionString="NORTH";
@@ -82,7 +83,7 @@ public class DataHandler {
 			}
 		}
 		
-		
+		Log.v("STTest", "direction:"+current_directionString+bearingFloat);
 		return directionBoolean;
 	}
 	public Boolean checkReasonConditionDate(LocationReasonObject locationReasonObject, Context context){

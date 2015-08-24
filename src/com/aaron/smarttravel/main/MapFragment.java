@@ -332,7 +332,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			updateInfoBox(temp_topinfoEntry);
 			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true)) {
 				NOTIFICATION_MESSAGE_INDICATOR+=1;
-				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==7||NOTIFICATION_MESSAGE_INDICATOR==13) {
+				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==10) {
 					Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 				}
 				
@@ -340,7 +340,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
 				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
 					VOICE_MESSAGE_INDICATOR+=1;
-					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==7||VOICE_MESSAGE_INDICATOR==13) {
+					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==10) {
 						
 						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 							textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
@@ -374,7 +374,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			DataHandler dataHandler=new DataHandler();
 			
 			if (temp_collision_location.getLoc_code()!="unknown") {
-			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityMatchedReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()),currentLocation,context);
+			Location dest_location=new Location(LocationManager.GPS_PROVIDER);
+			dest_location.setLatitude(temp_collision_location.getLatitude());
+			dest_location.setLongitude(temp_collision_location.getLongitude());
+			LocationReasonObject temp_location_reason=dataHandler.getHighestPriorityMatchedReasonObject(dbHelper.getLocationReasonByLocCode(temp_collision_location.getLoc_code()),currentLocation,dest_location,context);
 			WMReasonConditionObject temp_location_condition=dbHelper.getWMReasonConditionByReasonID(temp_location_reason.getReason_id());
 				if (temp_location_reason.getReason_id()!=-1) {
 					temp_TopInfoEntry.setLocation_name(temp_collision_location.getLocation_name());
@@ -534,14 +537,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	public void UpdateBottomInfoUI(ArrayList<BottomInfoItem> arrayList_items){
 		
 		slidingDrawer.close();
-		bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
-		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 14);
-		googleMap.animateCamera(cameraUpdate);
+		if (arrayList_items.size()>0) {
+			bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
+			CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 14);
+			googleMap.animateCamera(cameraUpdate);
+			
+			bottomListAdapter=new BottomListAdapter(context, arrayList_items);
+			bottom_list.setAdapter(bottomListAdapter);
+			bottom_sldingDrawer.open();
+			bottom_sldingDrawer.setVisibility(View.VISIBLE);
+		}else {
+			Toast.makeText(getActivity(), "no reason available for this location", Toast.LENGTH_SHORT).show();
+		}
 		
-		bottomListAdapter=new BottomListAdapter(context, arrayList_items);
-		bottom_list.setAdapter(bottomListAdapter);
-		bottom_sldingDrawer.open();
-		bottom_sldingDrawer.setVisibility(View.VISIBLE);
 		
 	}
 
