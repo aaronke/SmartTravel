@@ -145,7 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		//	onLocationChanged(my_location);
 		}
 		
-		locationManager.requestLocationUpdates(getBestProvider(), 1000, 0, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		
 		mapView.getMapAsync(this);
 		
@@ -459,7 +459,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		// googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12));
+		 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
 		
 		if (!hotspots_arraylist.isEmpty()) {	
 			// do nothing
@@ -476,9 +476,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			startActivity(drivingIntent);
 			getActivity().finish();
 		}
-
-			double distance=location.distanceTo(my_location);
-			Log.v("STTest", "Location count:"+LOCATION_COUNT);
+		double distance=0;
+		if (my_location!=null) {
+				distance=location.distanceTo(my_location);
+			}
+			
+			Log.v("STTest", "Location count:"+LOCATION_COUNT+location.getProvider());
 			if (distance<100) {
 				
 				LOCATION_COUNT++;

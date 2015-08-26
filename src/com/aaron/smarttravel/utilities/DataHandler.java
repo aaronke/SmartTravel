@@ -76,8 +76,8 @@ public class DataHandler {
 			}else if (bearingFloat>225 && bearingFloat<315) {
 				current_directionString="WEST";
 			}
-			if (locationReasonObject.getTravel_direction()!="ALL" && locationReasonObject.getTravel_direction()!="unknown") {
-				if (locationReasonObject.getTravel_direction()!=current_directionString) {
+			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
+				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)) {
 					directionBoolean=false;
 				}
 			}
