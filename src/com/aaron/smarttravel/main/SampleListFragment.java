@@ -12,6 +12,7 @@ import com.flurry.android.FlurryAgent;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -43,11 +44,13 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	private static final String MID_STREET="MID STREET";
 	HotspotsDbHelper dbHelper;
 	View view;
+	private SharedPreferences sharedPreferences;
 	
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
+		sharedPreferences=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		view= inflater.inflate(R.layout.left_drawer, null);
 		
 		intersection_relativeLayout=(RelativeLayout)view.findViewById(R.id.left_drawer_button_intersection);
@@ -134,7 +137,8 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 
 	public ArrayList<NavDrawerItem> getItemsFromDatabase(String typeString){
 		ArrayList<NavDrawerItem> tempArrayList=new ArrayList<NavDrawerItem>();
-		tempArrayList=dbHelper.getAllObjectsByType(typeString);	
+		Boolean is_at_shanghai=sharedPreferences.getBoolean(getString(R.string.preferences_is_at_shanghai), false);
+		tempArrayList=dbHelper.getAllObjectsByType(typeString,is_at_shanghai);	
 		return tempArrayList;
 	}
 	@Override

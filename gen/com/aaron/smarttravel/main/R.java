@@ -1773,9 +1773,9 @@ containing a value of this type.
         public static final int action__right_search=0x7f060035;
         public static final int action_logo_title=0x7f060050;
         public static final int app_name=0x7f060033;
-        public static final int bottom_info_title_Direction=0x7f06005f;
-        public static final int bottom_info_title_Reason=0x7f060060;
-        public static final int bottom_info_title_Total=0x7f060061;
+        public static final int bottom_info_title_Direction=0x7f060060;
+        public static final int bottom_info_title_Reason=0x7f060061;
+        public static final int bottom_info_title_Total=0x7f060062;
         /**   Text for notification shown when the Android Wear apps needs to be updated. Only shown on the wearable. [CHAR LIMIT=NONE] 
          */
         public static final int common_android_wear_notification_needs_update_text=0x7f060009;
@@ -1887,40 +1887,41 @@ containing a value of this type.
         public static final int copyright_txt=0x7f06004b;
         public static final int create_calendar_message=0x7f060005;
         public static final int create_calendar_title=0x7f060004;
-        public static final int data_update_dialog=0x7f060062;
-        public static final int data_update_nagetive=0x7f060064;
-        public static final int data_update_positive=0x7f060063;
+        public static final int data_update_dialog=0x7f060063;
+        public static final int data_update_nagetive=0x7f060065;
+        public static final int data_update_positive=0x7f060064;
         public static final int decline=0x7f060003;
         public static final int drawerlist_item_count_description=0x7f06004c;
-        public static final int geofence_not_available=0x7f060068;
-        public static final int geofence_too_many_geofences=0x7f060069;
-        public static final int geofence_too_many_pending_intents=0x7f06006a;
+        public static final int geofence_not_available=0x7f060069;
+        public static final int geofence_too_many_geofences=0x7f06006a;
+        public static final int geofence_too_many_pending_intents=0x7f06006b;
         /**  Transition type strings 
          */
-        public static final int geofence_transition_entered=0x7f06006d;
-        public static final int geofence_transition_exited=0x7f06006e;
-        public static final int geofence_transition_invalid_type=0x7f06006c;
-        public static final int geofence_transition_notification_text=0x7f060070;
+        public static final int geofence_transition_entered=0x7f06006e;
+        public static final int geofence_transition_exited=0x7f06006f;
+        public static final int geofence_transition_invalid_type=0x7f06006d;
+        public static final int geofence_transition_notification_text=0x7f060071;
         public static final int hello_world=0x7f060034;
         public static final int info_box_distance_title=0x7f06004f;
         public static final int info_box_distance_unit=0x7f06004e;
         public static final int info_box_reason=0x7f06004d;
-        public static final int introduction_button=0x7f060058;
-        public static final int introduction_description=0x7f060057;
+        public static final int introduction_button=0x7f060059;
+        public static final int introduction_description=0x7f060058;
         public static final int left_drawer_Mid_Avenue_title=0x7f06003b;
         public static final int left_drawer_Mid_Street_title=0x7f06003c;
         public static final int left_drawer_School_Zone_title=0x7f06003d;
         public static final int left_drawer_intersection_title=0x7f06003a;
         public static final int left_drawer_logo=0x7f060038;
-        public static final int location_setting_alert_title=0x7f06005c;
-        public static final int location_setting_nagetive=0x7f06005e;
-        public static final int location_setting_positive=0x7f06005d;
+        public static final int location_setting_alert_title=0x7f06005d;
+        public static final int location_setting_nagetive=0x7f06005f;
+        public static final int location_setting_positive=0x7f06005e;
         public static final int map_location_button=0x7f060036;
         /**  Error strings 
          */
-        public static final int not_connected=0x7f060067;
-        public static final int not_driving_button=0x7f060065;
+        public static final int not_connected=0x7f060068;
+        public static final int not_driving_button=0x7f060066;
         public static final int preferences_first_time=0x7f060055;
+        public static final int preferences_is_at_shanghai=0x7f060057;
         public static final int preferences_is_driving=0x7f060056;
         public static final int preferences_setting_check_update=0x7f060052;
         public static final int preferences_setting_notification=0x7f060053;
@@ -1938,13 +1939,13 @@ containing a value of this type.
         public static final int setting_voice_message_title=0x7f060042;
         public static final int store_picture_message=0x7f060001;
         public static final int store_picture_title=0x7f060000;
-        public static final int term_of_use_agree=0x7f06005b;
-        public static final int term_of_use_context=0x7f060066;
-        public static final int term_of_use_disagree=0x7f06005a;
-        public static final int term_of_use_title=0x7f060059;
+        public static final int term_of_use_agree=0x7f06005c;
+        public static final int term_of_use_context=0x7f060067;
+        public static final int term_of_use_disagree=0x7f06005b;
+        public static final int term_of_use_title=0x7f06005a;
         public static final int unknown=0x7f060039;
-        public static final int unknown_geofence_error=0x7f06006b;
-        public static final int unknown_geofence_transition=0x7f06006f;
+        public static final int unknown_geofence_error=0x7f06006c;
+        public static final int unknown_geofence_transition=0x7f060070;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

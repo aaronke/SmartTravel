@@ -38,6 +38,7 @@
 	<string name="preferences_setting_voice_message">com.aaron.smarttravel.preference_settings.voice_message</string>
 	<string name="preferences_first_time">com.aaron.smarttravel.preference_first_time</string>
 	<string name="preferences_is_driving">com.aaron.smarttravel.preference_is_driving</string>
+	<string name="preferences_is_at_shanghai">com.aaon.smarttravel.preference_is_at_shanghai</string>
 	<string name="introduction_description">introduction to the features</string>
 	<string name="introduction_button">Got it</string>
 	<string name="term_of_use_title">Term of Use</string>

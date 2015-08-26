@@ -216,7 +216,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		return temp_dayTypeObject;
 	}
 	
-	public ArrayList<NavDrawerItem> getAllObjectsByType(String typeString){
+	public ArrayList<NavDrawerItem> getAllObjectsByType(String typeString,Boolean is_at_shanghai){
 			ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
 			SQLiteDatabase db=this.getReadableDatabase();
 			Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
@@ -227,15 +227,18 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			DataHandler dataHandler=new DataHandler();
 			
 			while (!cursor.isAfterLast()) {
-				NavDrawerItem temp_navDrawerItem=new NavDrawerItem();
-				temp_navDrawerItem.setName_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
-				temp_navDrawerItem.setType_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
-				temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
-				
-				temp_navDrawerItem.setCount_collisions(dataHandler.getTotalCollisionCount(getLocationReasonByLocCode(temp_loc_code)));
-				navDrawerItems.add(temp_navDrawerItem);
-				
-				
+				if (is_at_shanghai==false && Double.parseDouble(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)))>0) {
+					// do nothing, the test location in Shanghai, no need to show in Edmonton.
+				}else {
+					NavDrawerItem temp_navDrawerItem=new NavDrawerItem();
+					temp_navDrawerItem.setName_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
+					temp_navDrawerItem.setType_hotspot(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
+					temp_loc_code=cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE));
+					
+					temp_navDrawerItem.setCount_collisions(dataHandler.getTotalCollisionCount(getLocationReasonByLocCode(temp_loc_code)));
+					navDrawerItems.add(temp_navDrawerItem);
+				}
+
 				cursor.moveToNext();
 			}
 			cursor.close();

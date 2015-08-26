@@ -9,12 +9,16 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.flurry.android.FlurryAgent;
+import com.flurry.sdk.is;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +32,8 @@ public class WelcomePage extends Activity {
     private static int SPLASH_TIME_OUT = 2000;
 	private SharedPreferences my_sharedPreferences;
 	private Intent new_intent;
-	
+	private LocationManager locationManager;
+	private SharedPreferences.Editor shareEditor;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +42,25 @@ public class WelcomePage extends Activity {
         getActionBar().hide();
         FlurryAgent.setLogEnabled(false);
         FlurryAgent.init(this, getString(R.string.Flurry_API_Key));
+        
+        
+        
+        
         my_sharedPreferences=getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		
 		Boolean first_timeBoolean=my_sharedPreferences.getBoolean(getString(R.string.preferences_first_time), true);
+		
+		
+		// get current location to check test city;
+		locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		Location currentLocation=locationManager.getLastKnownLocation(getBestProvider());
+		shareEditor=my_sharedPreferences.edit();
+		Boolean is_at_shanghai=false;
+		if (currentLocation.getLongitude()>0) {
+			is_at_shanghai=true;
+		}
+		shareEditor.putBoolean(getString(R.string.preferences_is_at_shanghai), is_at_shanghai);
+		shareEditor.commit();
 		
 	//	Toast.makeText(getApplicationContext(), "Active Mode", Toast.LENGTH_SHORT).show();
 		
@@ -108,6 +129,15 @@ public class WelcomePage extends Activity {
         
     }
     
+    public String getBestProvider(){
+		Criteria criteria=new Criteria();
+		String best_provider=locationManager.getBestProvider(criteria, true);
+		
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			best_provider=LocationManager.NETWORK_PROVIDER;
+		}
+		return best_provider;
+	}
     private void loadData(){
     	Context context=getApplicationContext();
     	DataParseFromJson test_dataParseFromJson=new DataParseFromJson();
