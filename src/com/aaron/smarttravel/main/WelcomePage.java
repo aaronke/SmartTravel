@@ -56,9 +56,12 @@ public class WelcomePage extends Activity {
 		Location currentLocation=locationManager.getLastKnownLocation(getBestProvider());
 		shareEditor=my_sharedPreferences.edit();
 		Boolean is_at_shanghai=false;
-		if (currentLocation.getLongitude()>0) {
-			is_at_shanghai=true;
+		if (currentLocation!=null) {
+			if (currentLocation.getLongitude()>0) {
+				is_at_shanghai=true;
+			}
 		}
+		
 		shareEditor.putBoolean(getString(R.string.preferences_is_at_shanghai), is_at_shanghai);
 		shareEditor.commit();
 		
