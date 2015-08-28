@@ -8,7 +8,24 @@
          android:layout_width="match_parent" 
          android:layout_height="match_parent" 
          class="com.google.android.gms.maps.SupportMapFragment" /> 
-     
+    <RelativeLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/welcome_page_logo2"
+	    android:id="@+id/driving_mode_layout"
+	    android:paddingBottom="10dp"
+	    android:visibility="invisible"
+	    android:orientation="vertical">
+	  	<Button 
+	  	    android:id="@+id/not_driving_button"
+	  	    android:layout_width="wrap_content"
+	  	    android:layout_height="wrap_content"
+	  	    android:layout_alignParentBottom="true"
+	  	    android:layout_centerHorizontal="true"
+	  	    android:layout_marginBottom="100dp"
+	  	    android:text="@string/not_driving_button"
+	  	    />
+	</RelativeLayout>
   	 <SlidingDrawer 
 	    android:layout_width="fill_parent" 
 	    android:id="@+id/SlidingDrawer" 
@@ -211,5 +228,6 @@
 			</LinearLayout>
 	 	
 	</SlidingDrawer>
+	
      
  </FrameLayout> 

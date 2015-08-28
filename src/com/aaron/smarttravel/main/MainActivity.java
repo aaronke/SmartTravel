@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
@@ -49,6 +50,8 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 	private static final String URL_FLAG_WMREASON_CONDITION="wmReasonCondition";
 	private static final String URL_FLAG_WMDAY_TYPE="wmDayType";
 	private static final String URL_FLAG_NEW_VERSION="newVersion";
+	SharedPreferences sharedPreferences_settings;
+	private SharedPreferences.Editor sharEditor;
 	
 	public MainActivity() {
 		super(R.string.app_name);
@@ -68,7 +71,8 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 			mContent = new MapFragment();	
 			map_fragment=(MapFragment)mContent;
 		}
-		SharedPreferences sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		sharEditor=sharedPreferences_settings.edit();
 		Boolean check_updateBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_check_update), true);
 		if (check_updateBoolean) {
 			ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -274,5 +278,34 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLi
 			}
 		}
 		return jsonString;
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		
+	}
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		sharEditor.putBoolean(getString(R.string.preferences_is_driving), true);
+		sharEditor.commit();
+	}
+	
+	/*@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode==KeyEvent.KEYCODE_HOME) {
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
+	}*/
+	@Override
+	protected void onUserLeaveHint() {
+		// TODO Auto-generated method stub
+		super.onUserLeaveHint();
+		finish();
 	}
 }

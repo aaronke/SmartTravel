@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,12 +14,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -70,8 +73,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private TextView bottom_location_name_textview;
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
+	private RelativeLayout driving_modeLayout;
+	private Button driving_mode_button;
 	private BottomListAdapter bottomListAdapter;
 	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0,LOCATION_COUNT=0;
+	private Boolean messageBoolean=true;
+	private Boolean driving_modeBoolean=false;
 	private Location my_location;
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
@@ -98,10 +105,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		slidinghanderLayout=(LinearLayout)view.findViewById(R.id.slideHandle);
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
+		driving_modeLayout=(RelativeLayout)view.findViewById(R.id.driving_mode_layout);
+		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
+		driving_mode_button.setOnClickListener(this);
 		
 		slidinghanderLayout.setOnClickListener(this);
 		bottom_slidinghanderLayout.setOnClickListener(this);
 		
+		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		preferencesEditor=sharedPreferences_settings.edit();
 		//mapView.onResume();
 		
 		dbHelper=new HotspotsDbHelper(context);
@@ -132,7 +144,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		//getActivity();
 		locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		sharedPreferences_settings=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
+		
 		my_location=locationManager.getLastKnownLocation(getBestProvider());
 	//	loadHotSpotsData();
 		if (my_location!=null) {	
@@ -163,9 +175,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	}
 	
 	private void updateInfoBox(TopInfoEntry topInfoEntry){
+		if (slidingDrawer.getVisibility()==View.INVISIBLE) {
+			slidingDrawer.setVisibility(View.VISIBLE);
+		}
+		
+		
 		if (!slidingDrawer.isOpened()) {
 			slidingDrawer.open();
-			slidingDrawer.setVisibility(View.VISIBLE);
+			
 			
 		}
 		bottom_sldingDrawer.close();
@@ -180,7 +197,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onAttach(Activity activity){
 		super.onAttach(activity);
-		context=activity;
+		context=(SherlockFragmentActivity)activity;
 	}
 	public void setHotSpots(GoogleMap mymap,ArrayList<CollisionLocationObject> hotspots_ArrayList,int Type_Flag){
 		
@@ -329,18 +346,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		
 		final TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
 		if (temp_topinfoEntry.getLocation_name()!="unknown") {
-			updateInfoBox(temp_topinfoEntry);
-			if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true)) {
-				NOTIFICATION_MESSAGE_INDICATOR+=1;
-				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==10) {
+			if (!driving_modeBoolean) {
+				updateInfoBox(temp_topinfoEntry);
+			}
+			
+			if (sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_setting_notification), true)) {
+				//NOTIFICATION_MESSAGE_INDICATOR+=1;
+				if (messageBoolean && !driving_modeBoolean) {
 					Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 				}
 				
 			}		
 				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
 				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
-					VOICE_MESSAGE_INDICATOR+=1;
-					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==10) {
+					//VOICE_MESSAGE_INDICATOR+=1;
+					if (messageBoolean) {
 						
 						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 							textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
@@ -357,12 +377,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 							MediaPlayer mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
 							mediaPlayer.start();
 						}	
+						messageBoolean=false;
+						VOICE_MESSAGE_INDICATOR=0;
 				}
 				
 			}
 		}else {
-			NOTIFICATION_MESSAGE_INDICATOR=0;
-			VOICE_MESSAGE_INDICATOR=0;
+			/*NOTIFICATION_MESSAGE_INDICATOR=0;
+			VOICE_MESSAGE_INDICATOR=0;*/
+			if (VOICE_MESSAGE_INDICATOR>=5) {
+				messageBoolean=true;
+			}
+			
+			VOICE_MESSAGE_INDICATOR+=1;
+			
+			
+			if (slidingDrawer.isOpened()) {
+				slidingDrawer.close();
+				slidingDrawer.setVisibility(View.INVISIBLE);
+			}
 		}
 		
 		
@@ -448,10 +481,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		// TODO Auto-generated method stub
 	
 		super.onStop();
-		preferencesEditor=sharedPreferences_settings.edit();
-		preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), true);
-		preferencesEditor.commit();
-		locationManager.removeUpdates(this);
+		
+		
+	//	locationManager.removeUpdates(this);
 		FlurryAgent.onEndSession(getActivity());
 		
 	}
@@ -462,6 +494,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
 		
 		if (!hotspots_arraylist.isEmpty()) {	
+			
 			// do nothing
 		}else {
 		//	loadHotSpotsData();
@@ -469,12 +502,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		//approaching_hotspot_alert(hotspots_arraylist, location);
 		
 		
-		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_is_driving), true);
+		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_is_driving), true);
 		if (location.getSpeed()>6 && is_drivingBoolean) {
-			setMode(true);
-			Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
+			//setMode(true);
+			/*Intent drivingIntent=new Intent(context, DrivingModeActivity.class);
 			startActivity(drivingIntent);
-			getActivity().finish();
+			getActivity().finish();*/
+			driving_modeLayout.setVisibility(
+					View.VISIBLE);
+			((SherlockFragmentActivity) context).getSupportActionBar().hide();
+			driving_modeBoolean=true;
+			
 		}
 		double distance=0;
 		if (my_location!=null) {
@@ -575,7 +613,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				bottom_sldingDrawer.open();
 			}
 			break;
-
+		case R.id.not_driving_button:
+			preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), false);
+			preferencesEditor.commit();
+			driving_modeLayout.setVisibility(View.INVISIBLE);
+			((SherlockFragmentActivity) context).getSupportActionBar().show();
+			driving_modeBoolean=false;
+			break;
 		default:
 			break;
 		}

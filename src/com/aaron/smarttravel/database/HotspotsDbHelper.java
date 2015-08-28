@@ -139,7 +139,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			double current_speed=currentLocation.getSpeed();
 			int warning_distance=150;
 			//Log.v("STTest", "speed:"+current_speed);
-			if (current_speed!=0.0) {
+			if (current_speed>=12) {
 				warning_distance=(int) (10*current_speed);
 			}
 			if (distance<warning_distance) {
