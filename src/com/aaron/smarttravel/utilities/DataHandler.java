@@ -5,9 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.aaron.smarttravel.main.R.string;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
@@ -79,6 +83,13 @@ public class DataHandler {
 			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
 				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)) {
 					directionBoolean=false;
+					Map<String, String> direction_params=new HashMap<String,String>();
+					direction_params.put("location_name", locationReasonObject.getLoc_code());
+					direction_params.put("reason_id", ""+locationReasonObject.getReason_id());
+					direction_params.put("location", ""+currentLocation.getLongitude()+"-"+currentLocation.getLatitude());
+					direction_params.put("direction", locationReasonObject.getTravel_direction());
+					direction_params.put("current_direction", current_directionString);
+					FlurryAgent.logEvent("direction_filter", direction_params);
 				}
 			}
 		}
@@ -97,7 +108,7 @@ public class DataHandler {
 		
 		if (temp_DayTypeObject.getWeekday()==reasonConditionObject.getWeekday() || temp_DayTypeObject.getWeekend()==reasonConditionObject.getWeekend()) {
 			
-			if (temp_DayTypeObject.getSchool_day()==reasonConditionObject.getScholl_day()) {
+			if (reasonConditionObject.getScholl_day()==false || temp_DayTypeObject.getSchool_day()==reasonConditionObject.getScholl_day()) {
 				String start_time=reasonConditionObject.getStart_time();
 				String end_time=reasonConditionObject.getEnd_time();
 				SimpleDateFormat time_of_day=new SimpleDateFormat("HH:mm", Locale.CANADA);
@@ -108,6 +119,14 @@ public class DataHandler {
 					Date currentDate=time_of_day.parse(current_time);
 					if (startDate.before(currentDate) && endDate.after(currentDate)) {
 						checkBoolean= true;
+					}else {
+						Map<String, String> date_time_params=new HashMap<String,String>();
+						date_time_params.put("location_name", locationReasonObject.getLoc_code());
+						date_time_params.put("reason_id", ""+locationReasonObject.getReason_id());
+						date_time_params.put("start_time", reasonConditionObject.getStart_time());
+						date_time_params.put("end_time", reasonConditionObject.getEnd_time());
+						date_time_params.put("current_time",current_time);
+						FlurryAgent.logEvent("date_time_filter", date_time_params);
 					}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
