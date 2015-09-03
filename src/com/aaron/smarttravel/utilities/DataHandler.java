@@ -136,6 +136,7 @@ public class DataHandler {
 				
 			}
 		}
+		
 		return checkBoolean;
 	}
 	public ArrayList<BottomInfoItem> getBottomInfoItemByLocaitonName(Context context,String location_name){

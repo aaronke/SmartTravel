@@ -350,16 +350,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			}
 			
 			if (sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_setting_notification), true)) {
-				//NOTIFICATION_MESSAGE_INDICATOR+=1;
-				if (messageBoolean && !driving_modeBoolean) {
+				NOTIFICATION_MESSAGE_INDICATOR+=1;
+				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==5||NOTIFICATION_MESSAGE_INDICATOR==10 && !driving_modeBoolean) {
 					Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 				}
 				
 			}		
 				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
 				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
-					//VOICE_MESSAGE_INDICATOR+=1;
-					if (messageBoolean) {
+					VOICE_MESSAGE_INDICATOR+=1;
+					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==5||VOICE_MESSAGE_INDICATOR==10) {
 						
 						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 							textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
@@ -382,13 +382,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				
 			}
 		}else {
-			/*NOTIFICATION_MESSAGE_INDICATOR=0;
-			VOICE_MESSAGE_INDICATOR=0;*/
-			if (VOICE_MESSAGE_INDICATOR>=5) {
+			NOTIFICATION_MESSAGE_INDICATOR=0;
+			VOICE_MESSAGE_INDICATOR=0;
+			//if (VOICE_MESSAGE_INDICATOR>=5) {
 				messageBoolean=true;
-			}
+			//}
 			
-			VOICE_MESSAGE_INDICATOR+=1;
+			//VOICE_MESSAGE_INDICATOR+=1;
 			
 			
 			if (slidingDrawer.isOpened()) {
