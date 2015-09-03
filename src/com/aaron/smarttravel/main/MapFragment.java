@@ -75,10 +75,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private RelativeLayout driving_modeLayout;
 	private Button driving_mode_button;
 	private BottomListAdapter bottomListAdapter;
+	private CollisionLocationObject temp_collision_location;
 	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0,LOCATION_COUNT=0;
 	private Boolean messageBoolean=true;
 	private Boolean driving_modeBoolean=false;
 	private Location my_location;
+	MediaPlayer mediaPlayer = null;
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
@@ -351,16 +353,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			
 			if (sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_setting_notification), true)) {
 				NOTIFICATION_MESSAGE_INDICATOR+=1;
-				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==5||NOTIFICATION_MESSAGE_INDICATOR==10 && !driving_modeBoolean) {
+				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==6||NOTIFICATION_MESSAGE_INDICATOR==12 && !driving_modeBoolean) {
 					Toast.makeText(context, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 				}
 				
 			}		
 				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
-				if (sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true)) {
+				if (sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_setting_voice_message), true)) {
 					VOICE_MESSAGE_INDICATOR+=1;
-					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==5||VOICE_MESSAGE_INDICATOR==10) {
-						
+					
+					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6||VOICE_MESSAGE_INDICATOR==12) {
+						messageBoolean=false;
 						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 							textToSpeech=new TextToSpeech(context, new TextToSpeech.OnInitListener() {			
 								@Override
@@ -373,12 +376,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 								}
 							});
 						}else {
-							MediaPlayer mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
-							mediaPlayer.start();
+							 mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+							 mediaPlayer.start();
 						}	
-						messageBoolean=false;
-						VOICE_MESSAGE_INDICATOR=0;
+						//messageBoolean=false;
+						//VOICE_MESSAGE_INDICATOR=0;
 				}
+
 				
 			}
 		}else {
@@ -401,7 +405,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	}
 	private TopInfoEntry getWarningMessage(Location currentLocation){
 			HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
-			CollisionLocationObject temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
+			if (messageBoolean) {
+				temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
+			}
 			TopInfoEntry temp_TopInfoEntry=new TopInfoEntry();
 			DataHandler dataHandler=new DataHandler();
 			
@@ -490,7 +496,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+		// googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
 		
 		if (!hotspots_arraylist.isEmpty()) {	
 			

@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
-import android.util.Log;
-
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
