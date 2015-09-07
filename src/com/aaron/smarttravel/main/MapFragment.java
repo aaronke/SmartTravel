@@ -381,6 +381,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 						}	
 						//messageBoolean=false;
 						//VOICE_MESSAGE_INDICATOR=0;
+						messageBoolean=true;
 				}
 
 				
@@ -506,7 +507,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		}
 		//approaching_hotspot_alert(hotspots_arraylist, location);
 		
-		
 		Boolean is_drivingBoolean=sharedPreferences_settings.getBoolean(context.getString(R.string.preferences_is_driving), true);
 		if (location.getSpeed()>6 && is_drivingBoolean) {
 			//setMode(true);
@@ -537,6 +537,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			}
 			
 			// check locations
+			
+			/*Location location_test=new Location(LocationManager.GPS_PROVIDER);
+			location_test.setLatitude(53.467798);
+			location_test.setLongitude(-113.492080);*/
 			checkForLocationForWarning(location);
 	}
 		
