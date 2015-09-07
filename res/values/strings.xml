@@ -17,8 +17,8 @@
 	<string name="setting_gps_description">using GPS to improve the accuracy of location </string>
 	<string name="setting_notification_title">Push Notification</string>
 	<string name="setting_notification_description">allow notification about high collision rate area</string>
-	<string name="setting_voice_message_title">Voice Message</string>
-	<string name="setting_voice_message_description">allow to receive voice message when approaching high collision rate area</string>
+	<string name="setting_voice_message_title">Audio Alert</string>
+	<string name="setting_voice_message_description">Allow to receive audio alert when approaching high collision risk locations, school zones, etc</string>
 	<string name="setting_check_update_title">Check Update</string>
 	<string name="setting_check_update_description">allow to check update automatically</string>
 	<string name="setting_update_date">date update: 2015/08/05</string>

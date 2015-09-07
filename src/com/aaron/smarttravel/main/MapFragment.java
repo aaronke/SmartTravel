@@ -515,7 +515,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			getActivity().finish();*/
 			driving_modeLayout.setVisibility(
 					View.VISIBLE);
-			((SherlockFragmentActivity) context).getSupportActionBar().hide();
+			((SherlockFragmentActivity) context)
+			.getSupportActionBar().hide();
+			if (slidingDrawer!=null && slidingDrawer.isOpened()) {
+				slidingDrawer.close();
+				slidingDrawer.setVisibility(View.INVISIBLE);
+			}
+			if (bottom_sldingDrawer!=null &&bottom_sldingDrawer.isOpened()) {
+				bottom_sldingDrawer.close();
+				bottom_sldingDrawer.setVisibility(View.INVISIBLE);
+			}
+			
 			driving_modeBoolean=true;
 			
 		}

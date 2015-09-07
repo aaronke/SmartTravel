@@ -18,7 +18,7 @@
 	    android:layout_height="5dp"
 	    android:background="@color/vertical_divider_bg"/>
 
-    <RelativeLayout 
+    <!-- <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -42,15 +42,15 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/setting_notification_description"
-        android:textColor="@color/drawlist_type_text_color"/>
-    <View
+        android:textColor="@color/drawlist_type_text_color"/> -->
+    <!-- <View
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"
 	    android:background="@color/vertical_divider_bg"
 	    android:layout_marginStart="16dp"
 	    android:layout_marginLeft="16dp"
 	    android:layout_marginRight="16dp"
-	    android:layout_marginEnd="16dp"/>
+	    android:layout_marginEnd="16dp"/> -->
     <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -30,7 +30,7 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 		View view=inflater.inflate(R.layout.right_drawer, null);
 		
 		
-		notification_switch=(Switch)view.findViewById(R.id.setting_notification_switch);
+		//notification_switch=(Switch)view.findViewById(R.id.setting_notification_switch);
 		voice_message_switch=(Switch)view.findViewById(R.id.setting_voice_switch);
 		check_update_switch=(Switch)view.findViewById(R.id.setting_update_switch);
 		
@@ -48,11 +48,11 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 		}
 		
 		version_TextView.setText("version:"+versionnameString);
-		notification_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true));
+		//notification_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_notification), true));
 		voice_message_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_voice_message), true));
 		check_update_switch.setChecked(sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_check_update), true));
 		
-		notification_switch.setOnCheckedChangeListener(this);
+		//notification_switch.setOnCheckedChangeListener(this);
 		voice_message_switch.setOnCheckedChangeListener(this);
 		check_update_switch.setOnCheckedChangeListener(this);
 		
@@ -90,7 +90,7 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 	
 	public void updateSetting(){
 		setting_Editor=sharedPreferences_settings.edit();
-		setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_switch.isChecked());
+		//setting_Editor.putBoolean(getString(R.string.preferences_setting_notification), notification_switch.isChecked());
 		setting_Editor.putBoolean(getString(R.string.preferences_setting_voice_message), voice_message_switch.isChecked());
 		setting_Editor.putBoolean(getString(R.string.preferences_setting_check_update), check_update_switch.isChecked());
 		setting_Editor.commit();
