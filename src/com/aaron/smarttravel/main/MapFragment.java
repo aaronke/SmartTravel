@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressWarnings("deprecation")
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,View.OnClickListener{
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,View.OnClickListener,OnCompletionListener{
 
 	MapView mapView;
 	private GoogleMap googleMap;
@@ -377,6 +378,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 							});
 						}else {
 							 mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+							 mediaPlayer.setOnCompletionListener(this);
 							 mediaPlayer.start();
 						}	
 						//messageBoolean=false;
@@ -643,6 +645,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			break;
 		}
 		
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		// TODO Auto-generated method stub
+		mp.release();
 	}
 
 }
