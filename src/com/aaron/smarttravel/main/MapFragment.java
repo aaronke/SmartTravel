@@ -81,7 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private Boolean messageBoolean=true;
 	private Boolean driving_modeBoolean=false;
 	private Location my_location;
-	MediaPlayer mediaPlayer = null;
+	MediaPlayer mediaPlayer = new MediaPlayer();
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
@@ -378,8 +378,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 							});
 						}else {
 							 mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
-							 mediaPlayer.setOnCompletionListener(this);
-							 mediaPlayer.start();
+
+							if (mediaPlayer!=null) {
+								 mediaPlayer.setOnCompletionListener(this);
+								 mediaPlayer.start();
+							}else {
+								Log.v("STTest", "mediaplayer create fails");
+							}
+							
 						}	
 						//messageBoolean=false;
 						//VOICE_MESSAGE_INDICATOR=0;
@@ -650,6 +656,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		// TODO Auto-generated method stub
+		mp.stop();
 		mp.release();
 	}
 
