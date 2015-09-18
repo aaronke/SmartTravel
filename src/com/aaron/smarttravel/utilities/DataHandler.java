@@ -8,12 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import com.aaron.smarttravel.database.HotspotsDbHelper;
-import com.aaron.smarttravel.main.R.string;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;

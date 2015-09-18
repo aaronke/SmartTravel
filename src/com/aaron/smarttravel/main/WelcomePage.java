@@ -9,8 +9,6 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.flurry.android.FlurryAgent;
-import com.flurry.sdk.is;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;

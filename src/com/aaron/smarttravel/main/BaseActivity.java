@@ -14,7 +14,7 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 public class BaseActivity extends SlidingFragmentActivity {
 
 	private int mTitleRes;
-	protected SampleListFragment mFrag;
+	protected SampleListFragmentLeft mFrag;
 	public BaseActivity(int titleRes) {
 		mTitleRes = titleRes;
 	}
@@ -30,11 +30,11 @@ public class BaseActivity extends SlidingFragmentActivity {
 		if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager()
 					.beginTransaction();
-			mFrag = new SampleListFragment();
+			mFrag = new SampleListFragmentLeft();
 			t.replace(R.id.menu_frame, mFrag);
 			t.commit();
 		} else {
-			mFrag = (SampleListFragment) this.getSupportFragmentManager()
+			mFrag = (SampleListFragmentLeft) this.getSupportFragmentManager()
 					.findFragmentById(R.id.menu_frame);
 		}
 

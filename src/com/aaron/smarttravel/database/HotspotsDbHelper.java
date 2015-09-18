@@ -214,6 +214,54 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		return temp_dayTypeObject;
 	}
 	
+	public ArrayList<String> getReasonList(){
+		ArrayList<String> lisHeaderArrayList=new ArrayList<String>();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ReasonConditionEntry.TABLE_NAME, null);
+		cursor.moveToFirst();
+		
+		while (!cursor.isAfterLast()) {
+			String reason_temp=cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_REASON));
+			if (reason_temp!=null) {
+				lisHeaderArrayList.add(reason_temp);
+			}else {
+				lisHeaderArrayList.add("unKnown");
+			}	
+			cursor.moveToNext();
+		}
+			cursor.close();
+		return lisHeaderArrayList;
+		
+	}
+	
+	public ArrayList<NavDrawerItem> getAllObjectByReasonId(int reason_id,Boolean is_at_shanghai){
+		ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
+		SQLiteDatabase db=this.getReadableDatabase();
+		String temp_loc_code;
+		Cursor cursor=db.rawQuery("select * from "+ LocationReasonEntry.TABLE_NAME +" where "+LocationReasonEntry.COLUMN_REASON_ID +
+				"="+reason_id, null);
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+				NavDrawerItem temp_navDrawerItem=new NavDrawerItem();
+				CollisionLocationObject collisionLocationObject=new CollisionLocationObject();
+				temp_navDrawerItem.setCount_collisions(cursor.getShort(cursor.getColumnIndex(LocationReasonEntry.COLUMN_TOTAL)));
+				temp_loc_code=cursor.getString(cursor.getColumnIndex(LocationReasonEntry.COLUMN_LOC_CODE));
+				
+				collisionLocationObject=getcolllicionObjectByLocCode(temp_loc_code);
+				temp_navDrawerItem.setName_hotspot(collisionLocationObject.getLocation_name());
+				temp_navDrawerItem.setType_hotspot(collisionLocationObject.getRoadway_portion());
+				if (is_at_shanghai==false && collisionLocationObject.getLongitude()>0) {
+					// do nothing, filter the test locations in shanghai 
+				}else {
+					navDrawerItems.add(temp_navDrawerItem);
+				}
+				
+			cursor.moveToNext();
+		}
+			cursor.close();
+		return navDrawerItems;
+		
+	}
 	public ArrayList<NavDrawerItem> getAllObjectsByType(String typeString,Boolean is_at_shanghai){
 			ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
 			SQLiteDatabase db=this.getReadableDatabase();
@@ -278,6 +326,23 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_object.setLoc_code(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOC_CODE)));
 			temp_object.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
 		}
+		cursor.close();
+		return temp_object;
+	}
+	public CollisionLocationObject getcolllicionObjectByLocCode(String loc_code){
+		CollisionLocationObject temp_object=new CollisionLocationObject();
+		SQLiteDatabase db=this.getReadableDatabase();
+		Cursor cursor=db.rawQuery("select * from "+ CollisionLocationEntry.TABLE_NAME+" where " +
+				CollisionLocationEntry.COLUMN_NAME_LOC_CODE +"= ?", new String[]{loc_code});
+		
+		if (cursor.moveToFirst()) {
+			temp_object.setLocation_name(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LOCATION_NAME)));
+			temp_object.setLatitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LATITUDE)));
+			temp_object.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
+			temp_object.setLoc_code(loc_code);
+			temp_object.setRoadway_portion(cursor.getString(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_ROADWAY_PORTION)));
+		}
+		cursor.close();
 		return temp_object;
 	}
 	public String getVersionString(){

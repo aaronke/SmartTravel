@@ -35,7 +35,7 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 	ArrayList<NavDrawerItem> navDrawerItems_intersection=new ArrayList<NavDrawerItem>();
 	ArrayList<NavDrawerItem> navDrawerItems_mid_avnue=new ArrayList<NavDrawerItem>();
 	ArrayList<NavDrawerItem> navDrawerItems_mid_street=new ArrayList<NavDrawerItem>();
-	public ListView listView;
+	//public ListView listView;
 	ArrayList<HotSpotEntry> intersection_arraylist,midblock_arraylist,VRU_arraylist;
 	LeftDrawerListAdapter leftDrawerListAdapte;
 	private static final String SCHOOL_ZONE="SCHOOL ZONE";
@@ -166,25 +166,6 @@ public class SampleListFragment extends ListFragment implements View.OnClickList
 		DataHandler dHandler=new DataHandler();
 		mcallback.onitemselected( dHandler.getBottomInfoItemByLocaitonName(context, location_name));
 		
-	//	Fragment newContent = null;
-		
-		/*switch (position) {
-		case 0:
-			newContent = new Fragment1();
-			break;
-		case 1:
-			newContent = new Fragment2();
-			break;
-		case 2:
-			newContent = new Fragment3();
-			break;
-		case 3:
-			newContent = new Fragment4();
-			break;
-
-		}*/
-	/*	if (newContent != null)
-			switchFragment(newContent);*/
 	}
 
 	/*private void switchFragment(Fragment fragment) {

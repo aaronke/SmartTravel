@@ -24,11 +24,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
-import com.aaron.smarttravel.main.SampleListFragment.OnSampleListFragmentListener;
+import com.aaron.smarttravel.main.SampleListFragmentLeft.OnSampleListFragmentLeftListener;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
@@ -36,7 +35,7 @@ import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class MainActivity extends BaseActivity implements OnSampleListFragmentListener {
+public class MainActivity extends BaseActivity implements OnSampleListFragmentLeftListener {
 
 	private Fragment mContent;
 	private MapFragment map_fragment;
