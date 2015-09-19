@@ -2,11 +2,14 @@ package com.aaron.smarttravel.drawer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import com.aaron.smarttravel.main.R;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +70,11 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 			count_collision_hotspot.setVisibility(View.INVISIBLE);
 		}else {
 			count_collision_hotspot.setText(Integer.toString(collision_count));
+			count_collision_hotspot.setVisibility(View.VISIBLE);
 		}
+		Log.v("STTest", childDrawerItem.getType_hotspot()+count_collision_hotspot.getVisibility());
+
 		name_hotspot.setText(childDrawerItem.getName_hotspot());
-		
-		
-		
 		
 		return convertView;
 		
