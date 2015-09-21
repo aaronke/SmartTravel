@@ -164,6 +164,14 @@
 			    android:layout_marginStart="6dp"
 			    android:textColor="@color/horizontal_divider_bg"
 			    />
+			<TextView 
+			    android:id="@+id/school_zone_text"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_horizontal"
+			    android:paddingTop="10dp"
+			    android:textSize="16sp"
+			    android:visibility="invisible"/>
 			<LinearLayout 
 			    android:id="@+id/bottom_info_item_title_bar"
 			    android:layout_width="fill_parent"

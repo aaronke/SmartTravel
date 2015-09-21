@@ -49,8 +49,10 @@ public class DataHandler {
 		LocationReasonObject tempLocationReasonObject=new LocationReasonObject();
 		if (!arrayList.isEmpty()) {
 			first_priority=100;
+			
 			for (int i = 0; i < arrayList.size(); i++) {
-				
+			//	Log.v("STTest", "check date:"+checkReasonConditionDate(arrayList.get(i),context));
+				Log.v("STTest", "direction:"+checkDirectionCondition(arrayList.get(i), currentLocation,destLocation));
 				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context) && checkDirectionCondition(arrayList.get(i), currentLocation,destLocation)) {
 					first_priority=arrayList.get(i).getWarning_priority();
 					temp_index=i;
@@ -66,6 +68,29 @@ public class DataHandler {
 	public Boolean checkDirectionCondition(LocationReasonObject locationReasonObject,Location currentLocation,Location destLocation){
 		Boolean directionBoolean=true;
 		Float bearingFloat=currentLocation.bearingTo(destLocation);
+		String current_directionString=returnDirection(bearingFloat);
+		String running_bearingString=returnDirection(currentLocation.getBearing());
+		
+		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString);
+			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
+				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)||!locationReasonObject.getTravel_direction().startsWith(running_bearingString)) {
+					directionBoolean=false;
+					// add logs to Flurry
+					Map<String, String> direction_params=new HashMap<String,String>();
+					direction_params.put("location_name", locationReasonObject.getLoc_code());
+					direction_params.put("reason_id", ""+locationReasonObject.getReason_id());
+					direction_params.put("location", ""+currentLocation.getLongitude()+"-"+currentLocation.getLatitude());
+					direction_params.put("direction", locationReasonObject.getTravel_direction());
+					direction_params.put("current_direction", current_directionString);
+					FlurryAgent.logEvent("direction_filter", direction_params);
+				}
+			}
+		
+		
+		return directionBoolean;
+	}
+	
+	private String returnDirection(float bearingFloat){
 		String current_directionString="unknow";
 		if (bearingFloat!=0.0) {
 			if (bearingFloat<45||bearingFloat >315) {
@@ -77,29 +102,15 @@ public class DataHandler {
 			}else if (bearingFloat>225 && bearingFloat<315) {
 				current_directionString="WEST";
 			}
-			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
-				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)) {
-					directionBoolean=false;
-					Map<String, String> direction_params=new HashMap<String,String>();
-					direction_params.put("location_name", locationReasonObject.getLoc_code());
-					direction_params.put("reason_id", ""+locationReasonObject.getReason_id());
-					direction_params.put("location", ""+currentLocation.getLongitude()+"-"+currentLocation.getLatitude());
-					direction_params.put("direction", locationReasonObject.getTravel_direction());
-					direction_params.put("current_direction", current_directionString);
-					FlurryAgent.logEvent("direction_filter", direction_params);
-				}
-			}
 		}
-		
-		Log.v("STTest", "direction:"+current_directionString+bearingFloat);
-		return directionBoolean;
+		return current_directionString;
 	}
 	public Boolean checkReasonConditionDate(LocationReasonObject locationReasonObject, Context context){
 		Boolean checkBoolean=false;
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		WMReasonConditionObject reasonConditionObject=dbHelper.getWMReasonConditionByReasonID(locationReasonObject.getReason_id());
 		Calendar calendar=Calendar.getInstance();
-		SimpleDateFormat format_day_of_year=new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
+		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
 		String day_of_year=format_day_of_year.format(calendar.getTime());
 		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
 		
@@ -142,12 +153,18 @@ public class DataHandler {
 		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
 		ArrayList<LocationReasonObject> temp_location_list=dbHelper.getLocationReasonByLocCode(
 				temp_collisionLocationObject.getLoc_code());
+		Calendar calendar=Calendar.getInstance();
+		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
+		String day_of_year=format_day_of_year.format(calendar.getTime());
+		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
 		LatLng temp_latLng=new LatLng(temp_collisionLocationObject.getLatitude(), temp_collisionLocationObject.getLongitude());
 		for (int i = 0; i < temp_location_list.size(); i++) {
 			LocationReasonObject tempReasonObject= temp_location_list.get(i);
 			WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
 			BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
 			tempBottomInfoItem.setLocation_name(location_name);
+			tempBottomInfoItem.setType(temp_collisionLocationObject.getRoadway_portion());
+			tempBottomInfoItem.setSchoolDay(temp_DayTypeObject.getSchool_day());
 			tempBottomInfoItem.setReason(tempConditionObject.getReason());
 			tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
 			tempBottomInfoItem.setTotal(tempReasonObject.getTotal());

@@ -9,11 +9,29 @@ public class BottomInfoItem {
 	private String direction;
 	private int Total;
 	private LatLng locationLatLng;
+	private Boolean SchoolDay;
+	private String type;
 	
 	public BottomInfoItem(){}
 
 	public int getTotal() {
 		return Total;
+	}
+
+	public Boolean getSchoolDay() {
+		return SchoolDay;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setSchoolDay(Boolean schoolDay) {
+		SchoolDay = schoolDay;
 	}
 
 	public LatLng getLocationLatLng() {

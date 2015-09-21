@@ -83,6 +83,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private Location my_location;
 	MediaPlayer mediaPlayer = new MediaPlayer();
 	private static final int DEFUALT_VOICE_MESSAGE=15;
+	private LinearLayout bottom_linearLayout;
+	private TextView school_zone_text;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
 			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,R.raw.left_turn,R.raw.red_light_running
@@ -109,6 +111,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
 		driving_modeLayout=(RelativeLayout)view.findViewById(R.id.driving_mode_layout);
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
+		
+		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
+		school_zone_text=(TextView)view.findViewById(R.id.school_zone_text);
 		driving_mode_button.setOnClickListener(this);
 		
 		slidinghanderLayout.setOnClickListener(this);
@@ -389,29 +394,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 						}	
 						//messageBoolean=false;
 						//VOICE_MESSAGE_INDICATOR=0;
-						messageBoolean=true;
+						messageBoolean=true;	
 				}
-
-				
+					if (VOICE_MESSAGE_INDICATOR>12) {
+						if (slidingDrawer.isOpened()) {
+							slidingDrawer.close();
+							slidingDrawer.setVisibility(View.INVISIBLE);
+						}
+					}			
+					
 			}
 		}else {
-			NOTIFICATION_MESSAGE_INDICATOR=0;
-			VOICE_MESSAGE_INDICATOR=0;
-			//if (VOICE_MESSAGE_INDICATOR>=5) {
-				messageBoolean=true;
-			//}
-			
-			//VOICE_MESSAGE_INDICATOR+=1;
-			
-			
-			if (slidingDrawer.isOpened()) {
-				slidingDrawer.close();
-				slidingDrawer.setVisibility(View.INVISIBLE);
-			}
+			initialUIafterWarning();
 		}
 		
 		
 	}
+	
+	private void initialUIafterWarning(){
+		NOTIFICATION_MESSAGE_INDICATOR=0;
+		VOICE_MESSAGE_INDICATOR=0;
+		messageBoolean=true;						
+		if (slidingDrawer.isOpened()) {
+			slidingDrawer.close();
+			slidingDrawer.setVisibility(View.INVISIBLE);
+		}
+	}
+	
 	private TopInfoEntry getWarningMessage(Location currentLocation){
 			HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 			if (messageBoolean) {
@@ -609,16 +618,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
 			CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 14);
 			googleMap.animateCamera(cameraUpdate);
+			if (arrayList_items.get(0).getType().contains("SCHOOL ZONE")) {
+				bottom_list.setVisibility(View.INVISIBLE);
+				school_zone_text.setVisibility(View.VISIBLE);
+				bottom_linearLayout.setVisibility(View.INVISIBLE);
+				if (arrayList_items.get(0).getSchoolDay()) {
+					school_zone_text.setText("School Day (08:00-16:30) 30 km/h Speed Limited");
+				}else {
+					school_zone_text.setText("No School Day");
+				}
+			}else {
+				bottom_linearLayout.setVisibility(View.VISIBLE);
+				school_zone_text.setVisibility(View.GONE);
+				bottom_list.setVisibility(View.VISIBLE);
+				bottomListAdapter=new BottomListAdapter(context, arrayList_items);
+				bottom_list.setAdapter(bottomListAdapter);
+			}
 			
-			bottomListAdapter=new BottomListAdapter(context, arrayList_items);
-			bottom_list.setAdapter(bottomListAdapter);
 			bottom_sldingDrawer.open();
 			bottom_sldingDrawer.setVisibility(View.VISIBLE);
 		}else {
 			Toast.makeText(getActivity(), "no reason available for this location", Toast.LENGTH_SHORT).show();
 		}
-		
-		
+
 	}
 
 	@Override
