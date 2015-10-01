@@ -20,6 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -41,17 +44,20 @@ import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 @SuppressWarnings("deprecation")
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,View.OnClickListener,OnCompletionListener{
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,
+View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChangeListener{
 
 	MapView mapView;
 	private GoogleMap googleMap;
@@ -71,6 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 	private static final String MID_STREET="MID STREET";
 	HotspotsDbHelper dbHelper;
 	private TextView bottom_location_name_textview;
+	private CheckBox schoolzoneCheckBox;
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private RelativeLayout driving_modeLayout;
@@ -111,6 +118,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
 		driving_modeLayout=(RelativeLayout)view.findViewById(R.id.driving_mode_layout);
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
+		schoolzoneCheckBox=(CheckBox)view.findViewById(R.id.school_zone_checkbox);
+		
+		schoolzoneCheckBox.setOnCheckedChangeListener(this);
 		
 		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
 		school_zone_text=(TextView)view.findViewById(R.id.school_zone_text);
@@ -142,12 +152,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 			// TODO: handle exception
 		}
 		googleMap=mapView.getMap();
+		
 		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 12);
 		googleMap.animateCamera(cameraUpdate);
 		googleMap.setMyLocationEnabled(true);
 	//	googleMap.setTrafficEnabled(true);
 		googleMap.getUiSettings().setZoomControlsEnabled(true);
 		googleMap.setOnMarkerClickListener(this);
+		googleMap.setOnCameraChangeListener(this);
 		
 		//getActivity();
 		locationManager=(LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -623,7 +635,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 				school_zone_text.setVisibility(View.VISIBLE);
 				bottom_linearLayout.setVisibility(View.INVISIBLE);
 				if (arrayList_items.get(0).getSchoolDay()) {
-					school_zone_text.setText("School Day (08:00-16:30) 30 km/h Speed Limited");
+					school_zone_text.setText("School Day (08:00-16:30) \n 30 km/h Speed Limit");
 				}else {
 					school_zone_text.setText("No School Day");
 				}
@@ -681,5 +693,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 		mp.stop();
 		mp.release();
 	}
+
+	@Override
+	public void onCameraChange(CameraPosition position) {
+		// TODO Auto-generated method stub
+		if (position.zoom >14) {
+		//	Log.v("STTest", "zoom is larger than 14");
+		}
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		// TODO Auto-generated method stub
+		if (isChecked) {
+			
+		}else {
+			
+		}
+		//Log.v("STTest", "checkbox is checked"+isChecked);
+	}
+	
+	
 
 }

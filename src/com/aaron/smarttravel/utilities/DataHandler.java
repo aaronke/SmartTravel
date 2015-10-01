@@ -52,7 +52,7 @@ public class DataHandler {
 			
 			for (int i = 0; i < arrayList.size(); i++) {
 			//	Log.v("STTest", "check date:"+checkReasonConditionDate(arrayList.get(i),context));
-				Log.v("STTest", "direction:"+checkDirectionCondition(arrayList.get(i), currentLocation,destLocation));
+			//	Log.v("STTest", "direction:"+checkDirectionCondition(arrayList.get(i), currentLocation,destLocation));
 				if (first_priority >= arrayList.get(i).getWarning_priority() && checkReasonConditionDate(arrayList.get(i), context) && checkDirectionCondition(arrayList.get(i), currentLocation,destLocation)) {
 					first_priority=arrayList.get(i).getWarning_priority();
 					temp_index=i;
@@ -73,7 +73,7 @@ public class DataHandler {
 		
 		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString);
 			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
-				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)||!locationReasonObject.getTravel_direction().startsWith(running_bearingString)) {
+				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)||!locationReasonObject.getTravel_direction().startsWith(running_bearingString) && running_bearingString!="unknow") {
 					directionBoolean=false;
 					// add logs to Flurry
 					Map<String, String> direction_params=new HashMap<String,String>();
@@ -110,7 +110,7 @@ public class DataHandler {
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		WMReasonConditionObject reasonConditionObject=dbHelper.getWMReasonConditionByReasonID(locationReasonObject.getReason_id());
 		Calendar calendar=Calendar.getInstance();
-		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
+		SimpleDateFormat format_day_of_year=new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
 		String day_of_year=format_day_of_year.format(calendar.getTime());
 		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
 		

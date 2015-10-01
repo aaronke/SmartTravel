@@ -26,6 +26,13 @@
 	  	    android:text="@string/not_driving_button"
 	  	    />
 	</RelativeLayout>
+	<CheckBox 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="School Zone"
+	    android:visibility="invisible"
+	    android:id="@+id/school_zone_checkbox"
+	    />
   	 <SlidingDrawer 
 	    android:layout_width="fill_parent" 
 	    android:id="@+id/SlidingDrawer" 
@@ -170,6 +177,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_gravity="center_horizontal"
 			    android:paddingTop="10dp"
+			    android:layout_marginLeft="5dp"
 			    android:textSize="16sp"
 			    android:visibility="invisible"/>
 			<LinearLayout 

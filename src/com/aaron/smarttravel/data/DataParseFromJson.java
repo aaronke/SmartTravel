@@ -12,6 +12,7 @@ import android.util.Log;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 
 
@@ -141,6 +142,31 @@ public class DataParseFromJson {
 			// TODO: handle exception
 		}
 			
+		return object_ArrayList;
+	}
+	
+	public ArrayList<SchoolZoneObject> getSchoolZoneObjects(String jsonString){
+		ArrayList<SchoolZoneObject> object_ArrayList=new ArrayList<SchoolZoneObject>();
+		
+		try {
+			JSONArray jsonArray=new JSONArray(jsonString);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				SchoolZoneObject schoolZoneObject=new SchoolZoneObject();
+				JSONObject temp_jsonObject=jsonArray.getJSONObject(i);
+				schoolZoneObject.setId(temp_jsonObject.getInt("id"));
+				schoolZoneObject.setSchool_name(temp_jsonObject.getString("school_name"));
+				schoolZoneObject.setAddress(temp_jsonObject.getString("address"));
+				schoolZoneObject.setLongitude(temp_jsonObject.getDouble("longitude"));
+				schoolZoneObject.setLatitude(temp_jsonObject.getDouble("latitude"));
+				schoolZoneObject.setGrade_level(temp_jsonObject.getString("grade_level"));
+				
+				object_ArrayList.add(schoolZoneObject);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 		return object_ArrayList;
 	}
 	

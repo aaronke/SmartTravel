@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
@@ -18,6 +19,7 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
 import com.aaron.smarttravel.utilities.NewVersionObject;
+import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 
 public class HotspotsDbHelper extends SQLiteOpenHelper{
@@ -201,7 +203,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 	public DayTypeObject getDayTypeObjectByDay(String day_of_year){
 		DayTypeObject temp_dayTypeObject=new DayTypeObject();
 		SQLiteDatabase db=this.getReadableDatabase();
-		Cursor cursor=db.rawQuery("select * from "+ DayTypeEntry.TABLE_NAME +" where "+ DayTypeEntry.COLUMN_DATE+"=?"
+		Cursor cursor=db.rawQuery("select * from "+ DayTypeEntry.TABLE_NAME +" where "+ DayTypeEntry.COLUMN_DATE+"=? COLLATE NOCASE"
 		, new String[]{day_of_year});
 		if (cursor.moveToFirst()) {
 			temp_dayTypeObject.setDate(cursor.getString(cursor.getColumnIndex(DayTypeEntry.COLUMN_DATE)));
@@ -374,7 +376,11 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		}
 	}
 	
-	
+	public void insertSchoolZones(ArrayList<SchoolZoneObject> arrayList){
+		
+		SQLiteDatabase db=this.getWritableDatabase();
+		
+	}
 	public void insertReasonConditionTableData(ArrayList<WMReasonConditionObject> arrayList){
 		SQLiteDatabase db=this.getWritableDatabase();
 		
