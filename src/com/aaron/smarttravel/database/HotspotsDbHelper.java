@@ -13,6 +13,7 @@ import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
 import com.aaron.smarttravel.database.LocationReasonTable.LocationReasonEntry;
 import com.aaron.smarttravel.database.NewVersionTable.NewVersionEntry;
 import com.aaron.smarttravel.database.ReasonConditionTable.ReasonConditionEntry;
+import com.aaron.smarttravel.database.SchoolZoneTable.SchoolZoneEntry;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.DayTypeObject;
@@ -75,6 +76,19 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 	private static final String SQL_DELETE_REASON_CONDITION_TABLE="DROP IF EXISTS "+ ReasonConditionEntry.TABLE_NAME;
 	
 	
+	private static final String SQL_CREATE_REASON_SCHOOL_TABLE=
+			"CREATE TABLE "+ SchoolZoneEntry.TABLE_NAME+" ("+SchoolZoneEntry._ID +" INTEGER PRIMARY KEY, "+ 
+					SchoolZoneEntry.COLUMN_ID +INTEGER_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_SCHOOL_TYPE +TEXT_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_SCHOOL_NAME +TEXT_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_ADDRESS +TEXT_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_LONGITUDE +REAL_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_LATITUDE +REAL_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_SZ_SEFMENTS+ TEXT_TYPE+COMMA_SEP+
+					SchoolZoneEntry.COLUMN_GRADE_LEVEL+ TEXT_TYPE
+					+" )";
+	private static final String SQL_DELETE_SCHOOL_ZONES_TABLE="DROP IF EXISTS "+ SchoolZoneEntry.TABLE_NAME;
+	
 	private static final String SQL_CREATE_NEW_VERSION_TABLE=
 			"CREATE TABLE "+ NewVersionEntry.TABLE_NAME+" ("+ NewVersionEntry._ID+" INTEGER PRIMARY KEY, "+
 					NewVersionEntry.COLUMN_VERSION+TEXT_TYPE
@@ -93,6 +107,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		db.execSQL(SQL_CREATE_LOCATION_REASON_TABLE);
 		db.execSQL(SQL_CREATE_NEW_VERSION_TABLE);
 		db.execSQL(SQL_CREATE_REASON_CONDITION_TABLE);
+		db.execSQL(SQL_CREATE_REASON_SCHOOL_TABLE);
 		
 	}
 
@@ -104,6 +119,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		db.execSQL(SQL_DELETE_LOCATION_REASON_TABLE);
 		db.execSQL(SQL_DELETE_NEW_VERSION_TABLE);
 		db.execSQL(SQL_DELETE_REASON_CONDITION_TABLE);
+		db.execSQL(SQL_DELETE_SCHOOL_ZONES_TABLE);
 		onCreate(db);
 	}
 
@@ -113,6 +129,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		
 		if (!arrayList.isEmpty()) {
 			db.delete(CollisionLocationEntry.TABLE_NAME, null, null);
+			db.beginTransaction();
 			for (int i = 0; i < arrayList.size(); i++) {
 				ContentValues temp_contentValues=new ContentValues();
 				CollisionLocationObject temp_Object=arrayList.get(i);
@@ -123,6 +140,9 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_contentValues.put(CollisionLocationEntry.COLUMN_NAME_LONGITUDE, temp_Object.getLongitude());
 				db.insert(CollisionLocationEntry.TABLE_NAME, null, temp_contentValues);				
 			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			db.close();
 		}
 	}
 	
@@ -362,6 +382,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		SQLiteDatabase db=this.getWritableDatabase();
 		if (!arrayList.isEmpty()) {
 			db.delete(LocationReasonEntry.TABLE_NAME, null, null);
+			db.beginTransaction();
 			for (int i = 0; i < arrayList.size(); i++) {
 				ContentValues temp_contentValues=new ContentValues();
 				LocationReasonObject temp_object=arrayList.get(i);
@@ -373,12 +394,37 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				
 				db.insert(LocationReasonEntry.TABLE_NAME, null, temp_contentValues);
 			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			db.close();
 		}
 	}
 	
 	public void insertSchoolZones(ArrayList<SchoolZoneObject> arrayList){
 		
 		SQLiteDatabase db=this.getWritableDatabase();
+		if (!arrayList.isEmpty()) {
+			db.delete(SchoolZoneEntry.TABLE_NAME, null, null);
+			db.beginTransaction();
+			for (int i = 0; i < arrayList.size(); i++) {
+				ContentValues temp_contentValues=new ContentValues();
+				SchoolZoneObject temp_schoolZoneObject=arrayList.get(i);
+				
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_ID, temp_schoolZoneObject.getId());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_SCHOOL_TYPE, temp_schoolZoneObject.getSchool_type());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_SCHOOL_NAME, temp_schoolZoneObject.getSchool_name());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_ADDRESS, temp_schoolZoneObject.getAddress());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_LONGITUDE, temp_schoolZoneObject.getLongitude());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_LATITUDE, temp_schoolZoneObject.getLatitude());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_SZ_SEFMENTS, temp_schoolZoneObject.getSz_segments());
+				temp_contentValues.put(SchoolZoneEntry.COLUMN_GRADE_LEVEL, temp_schoolZoneObject.getGrade_level());
+				
+				db.insert(SchoolZoneEntry.TABLE_NAME, null, temp_contentValues);
+			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			db.close();
+		}
 		
 	}
 	public void insertReasonConditionTableData(ArrayList<WMReasonConditionObject> arrayList){
@@ -386,6 +432,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		
 		if (!arrayList.isEmpty()) {
 			db.delete(ReasonConditionEntry.TABLE_NAME, null, null);
+			db.beginTransaction();
 			for (int i = 0; i < arrayList.size(); i++) {
 				ContentValues temp_contentValues=new ContentValues();
 				WMReasonConditionObject temp_object=arrayList.get(i);
@@ -401,6 +448,9 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_contentValues.put(ReasonConditionEntry.COLUMN_SCHOLL_DAY, temp_object.getScholl_day()?1:0);
 				db.insert(ReasonConditionEntry.TABLE_NAME, null, temp_contentValues);	
 			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			db.close();
 		}
 		
 	}
@@ -410,6 +460,7 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		
 		if (!arrayList.isEmpty()) {
 			db.delete(DayTypeEntry.TABLE_NAME, null, null);
+			db.beginTransaction();
 			for (int i = 0; i < arrayList.size(); i++) {
 				ContentValues temp_conValues=new ContentValues();
 				DayTypeObject temp_object=arrayList.get(i);
@@ -421,6 +472,9 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				
 				db.insert(DayTypeEntry.TABLE_NAME, null, temp_conValues);
 			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
+			db.close();
 			
 		}
 	}

@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 	private static final String URL_FLAG_LOCATION_REASON="locationReason";
 	private static final String URL_FLAG_WMREASON_CONDITION="wmReasonCondition";
 	private static final String URL_FLAG_WMDAY_TYPE="wmDayType";
-	private static final String URL_FLAG_SCHOOL_ZONE="schoolZone";
+	private static final String URL_FLAG_SCHOOL_ZONE="school";
 	private static final String URL_FLAG_NEW_VERSION="newVersion";
 	SharedPreferences sharedPreferences_settings;
 	private SharedPreferences.Editor sharEditor;
@@ -202,10 +202,11 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 					dbHelper.insertReasonConditionTableData(ReasonConditionObjects_temp);
 					Log.v("STTest", "LocationCondition:"+ReasonConditionObjects_temp.size());
 					break;
-				/*case URL_FLAG_SCHOOL_ZONE:
+				case URL_FLAG_SCHOOL_ZONE:
 					ArrayList<SchoolZoneObject> schoolZoneObjects=test_dataParseFromJson.getSchoolZoneObjects(result);
-					
-					break;*/
+					dbHelper.insertSchoolZones(schoolZoneObjects);
+					Log.v("STTest", "schoolZoneObjects:"+schoolZoneObjects.size());
+					break;
 				case URL_FLAG_WMDAY_TYPE:
 					ArrayList<DayTypeObject> dayTypeObjects_temp=test_dataParseFromJson.getDataTypeObjects(result);
 					dbHelper.insertDayTypeTableData(dayTypeObjects_temp);
@@ -239,12 +240,12 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 					String old_versionString=dbHelper.getVersionString();
 					Log.v("STTest", "oldversion:"+old_versionString+"newversion:"+new_versionString);
 					if (old_versionString!=null) {
-						if (!new_versionString.contentEquals(old_versionString)) {
+						if (new_versionString!=null && !new_versionString.contentEquals(old_versionString)) {
 							new DownloadWebpageTask().execute(REASON_CONDITION_URL);
 							new DownloadWebpageTask().execute(LOCATION_URL);
 							new DownloadWebpageTask().execute(LOCATION_REASON_URL);
 							new DownloadWebpageTask().execute(DAYTYPE_URL);
-							//new DownloadWebpageTask().execute(SCHOOL_ZONE_URL);
+							new DownloadWebpageTask().execute(SCHOOL_ZONE_URL);
 							dbHelper.insertNewVersionTableData(new_versionString);
 						}	
 					}

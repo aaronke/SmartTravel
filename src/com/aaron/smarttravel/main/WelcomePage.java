@@ -7,8 +7,10 @@ import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.flurry.android.FlurryAgent;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -146,6 +148,7 @@ public class WelcomePage extends Activity {
 		ArrayList<LocationReasonObject> locationReasonObjects_temp=test_dataParseFromJson.getLocationReasonObjects(test_dataParseFromJson.loadJsonString("location_reason.json", context));
 		ArrayList<WMReasonConditionObject> locationConditionObjects_temp=test_dataParseFromJson.getReasonConditionObjects(test_dataParseFromJson.loadJsonString("reason_condition.json", context));
 		ArrayList<DayTypeObject> dayTypeObjects_temp=test_dataParseFromJson.getDataTypeObjects(test_dataParseFromJson.loadJsonString("days.json", context));
+		ArrayList<SchoolZoneObject> schoolZoneObjects_temp=test_dataParseFromJson.getSchoolZoneObjects(test_dataParseFromJson.loadJsonString("school_zones.json", context));
 		String versionString=test_dataParseFromJson.getNewVersionString(test_dataParseFromJson.loadJsonString("new_version.json", context));
 		
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
@@ -154,6 +157,7 @@ public class WelcomePage extends Activity {
 		dbHelper.insertReasonConditionTableData(locationConditionObjects_temp);
 		dbHelper.insertDayTypeTableData(dayTypeObjects_temp);
 		dbHelper.insertNewVersionTableData(versionString);
+		dbHelper.insertSchoolZones(schoolZoneObjects_temp);
     }
 
 	@Override
