@@ -30,7 +30,6 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="School Zone"
-	    android:visibility="invisible"
 	    android:id="@+id/school_zone_checkbox"
 	    />
   	 <SlidingDrawer 

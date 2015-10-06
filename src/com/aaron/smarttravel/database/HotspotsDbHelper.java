@@ -256,6 +256,28 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	public ArrayList<SchoolZoneObject> getSchoolZoneObjects(){
+		ArrayList<SchoolZoneObject> arrayList=new ArrayList<SchoolZoneObject>();
+			SQLiteDatabase db=this.getReadableDatabase();
+			Cursor cursor=db.rawQuery("select  * from "+ SchoolZoneEntry.TABLE_NAME, null);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				SchoolZoneObject temp_school_zoneObject=new SchoolZoneObject();
+				temp_school_zoneObject.setId(cursor.getInt(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_ID)));
+				temp_school_zoneObject.setSchool_type(cursor.getString(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_SCHOOL_TYPE)));
+				temp_school_zoneObject.setSchool_name(cursor.getString(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_SCHOOL_NAME)));
+				temp_school_zoneObject.setLongitude(cursor.getDouble(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_LONGITUDE)));
+				temp_school_zoneObject.setLatitude(cursor.getDouble(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_LATITUDE)));
+				temp_school_zoneObject.setSz_segments(cursor.getString(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_SZ_SEFMENTS)));
+				temp_school_zoneObject.setAddress(cursor.getString(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_ADDRESS)));
+				temp_school_zoneObject.setGrade_level(cursor.getString(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_GRADE_LEVEL)));
+				
+				arrayList.add(temp_school_zoneObject);	
+				cursor.moveToNext();
+			}
+			cursor.close();
+		return arrayList;
+	}
 	public ArrayList<NavDrawerItem> getAllObjectByReasonId(int reason_id,Boolean is_at_shanghai){
 		ArrayList<NavDrawerItem> navDrawerItems=new ArrayList<NavDrawerItem>();
 		SQLiteDatabase db=this.getReadableDatabase();

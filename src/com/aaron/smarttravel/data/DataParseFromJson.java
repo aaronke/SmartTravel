@@ -2,10 +2,12 @@ package com.aaron.smarttravel.data;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.R.string;
 import android.content.Context;
 import android.util.Log;
 
@@ -14,6 +16,7 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class DataParseFromJson {
@@ -170,6 +173,23 @@ public class DataParseFromJson {
 		return object_ArrayList;
 	}
 	
+	public HashMap<Integer, ArrayList<LatLng>>getSchoolZoneSegmentsLatLngs(String jsonString){
+		
+		HashMap<Integer, ArrayList<LatLng>> hashMap=new HashMap<Integer,ArrayList<LatLng>>();
+		try {
+			JSONArray segmentsJsonArray=new JSONArray(jsonString);
+			for (int i = 0; i < segmentsJsonArray.length(); i++) {
+				JSONArray temp_jsonaJsonArray=new JSONArray(segmentsJsonArray.get(i));
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		 return null;
+		
+	}
 	public String getNewVersionString(String jsonString){
 		String versionString=null;
 			try {

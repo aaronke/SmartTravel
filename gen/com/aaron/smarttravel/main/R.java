@@ -1509,14 +1509,15 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f0200a6;
         public static final int relativelayout_normal=0x7f0200a7;
         public static final int relativelayout_pressed=0x7f0200a8;
-        public static final int setting=0x7f0200a9;
-        public static final int shadow=0x7f0200aa;
-        public static final int shadowright=0x7f0200ab;
-        public static final int title_smarttravel=0x7f0200ac;
-        public static final int top_bg=0x7f0200ad;
-        public static final int welcome_city=0x7f0200ae;
-        public static final int welcome_logo=0x7f0200af;
-        public static final int welcome_page_logo2=0x7f0200b0;
+        public static final int school=0x7f0200a9;
+        public static final int setting=0x7f0200aa;
+        public static final int shadow=0x7f0200ab;
+        public static final int shadowright=0x7f0200ac;
+        public static final int title_smarttravel=0x7f0200ad;
+        public static final int top_bg=0x7f0200ae;
+        public static final int welcome_city=0x7f0200af;
+        public static final int welcome_logo=0x7f0200b0;
+        public static final int welcome_page_logo2=0x7f0200b1;
     }
     public static final class id {
         public static final int SlidingDrawer=0x7f090070;

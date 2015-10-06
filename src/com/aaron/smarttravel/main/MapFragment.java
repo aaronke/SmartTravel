@@ -37,6 +37,8 @@ import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
+import com.aaron.smarttravel.utilities.SchoolZoneHandler;
+import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -54,6 +56,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 @SuppressWarnings("deprecation")
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,
@@ -89,6 +93,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	private Boolean driving_modeBoolean=false;
 	private Location my_location;
 	MediaPlayer mediaPlayer = new MediaPlayer();
+	private SchoolZoneHandler schoolZoneHandler;
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private LinearLayout bottom_linearLayout;
 	private TextView school_zone_text;
@@ -135,6 +140,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		
 		dbHelper=new HotspotsDbHelper(context);
 		
+		
 		/*
 		View location_buttonView=((View)mapView.findViewById(1).getParent()).findViewById(2);
 		
@@ -179,6 +185,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 		
 		mapView.getMapAsync(this);
+		schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
 		
 		return view;
 	}
@@ -233,6 +240,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			MarkerOptions markerOptions=new MarkerOptions().position(tempLatLng).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);
 			markerOptions.title(temp_object.getLocation_name());
 			mymap.addMarker(markerOptions);		
+			
 		}
 	}
 	
@@ -610,7 +618,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -702,17 +710,17 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		}
 	}
 
+	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if (isChecked) {
-			
+			schoolZoneHandler.addSchoolZoneMarkers();
 		}else {
-			
+			schoolZoneHandler.removeSchoolZoneMarkers();
 		}
 		//Log.v("STTest", "checkbox is checked"+isChecked);
 	}
-	
 	
 
 }
