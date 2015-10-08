@@ -97,6 +97,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	private LinearLayout bottom_linearLayout;
 	private TextView school_zone_text;
+	private Boolean school_Segments_IndicatorBoolean=false;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
 			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,R.raw.left_turn,R.raw.red_light_running
@@ -552,6 +553,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			getActivity().finish();*/
 			driving_modeLayout.setVisibility(
 					View.VISIBLE);
+			schoolzoneCheckBox.setVisibility(View.INVISIBLE);
 			((SherlockFragmentActivity) context)
 			.getSupportActionBar().hide();
 			if (slidingDrawer!=null && slidingDrawer.isOpened()) {
@@ -636,7 +638,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		slidingDrawer.close();
 		if (arrayList_items.size()>0) {
 			bottom_location_name_textview.setText(arrayList_items.get(0).getLocation_name());
-			CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 14);
+			CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(arrayList_items.get(0).getLocationLatLng(), 15);
 			googleMap.animateCamera(cameraUpdate);
 			if (arrayList_items.get(0).getType().contains("SCHOOL ZONE")) {
 				bottom_list.setVisibility(View.INVISIBLE);
@@ -686,6 +688,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), false);
 			preferencesEditor.commit();
 			driving_modeLayout.setVisibility(View.INVISIBLE);
+			schoolzoneCheckBox.setVisibility(View.VISIBLE);
 			((SherlockFragmentActivity) context).getSupportActionBar().show();
 			driving_modeBoolean=false;
 			break;
@@ -705,8 +708,15 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	@Override
 	public void onCameraChange(CameraPosition position) {
 		// TODO Auto-generated method stub
-		if (position.zoom >14) {
+		if (position.zoom >14 && schoolzoneCheckBox.isChecked()) {
 		//	Log.v("STTest", "zoom is larger than 14");
+			if (school_Segments_IndicatorBoolean) {
+				schoolZoneHandler.addSchoolZoneSegments();
+				school_Segments_IndicatorBoolean=false;
+			}
+		}else {
+			schoolZoneHandler.removeSchoolZoneSegments();
+			school_Segments_IndicatorBoolean=true;
 		}
 	}
 
@@ -718,6 +728,8 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			schoolZoneHandler.addSchoolZoneMarkers();
 		}else {
 			schoolZoneHandler.removeSchoolZoneMarkers();
+			schoolZoneHandler.removeSchoolZoneSegments();
+			school_Segments_IndicatorBoolean=true;
 		}
 		//Log.v("STTest", "checkbox is checked"+isChecked);
 	}

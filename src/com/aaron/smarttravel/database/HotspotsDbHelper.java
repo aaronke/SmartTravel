@@ -373,6 +373,20 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		cursor.close();
 		return temp_object;
 	}
+	
+	public SchoolZoneObject getSchoolZoneObjectByName(String school_name){
+			SchoolZoneObject temp_schoolZoneObject=new SchoolZoneObject();
+			SQLiteDatabase db=this.getReadableDatabase();
+			Cursor cursor=db.rawQuery("select * from "+SchoolZoneEntry.TABLE_NAME+" where "+ 
+			SchoolZoneEntry.COLUMN_SCHOOL_NAME +"= ?", new String[]{school_name});
+			if (cursor.moveToFirst()) {
+				temp_schoolZoneObject.setSchool_name(school_name);
+				temp_schoolZoneObject.setLatitude(cursor.getDouble(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_LATITUDE)));
+				temp_schoolZoneObject.setLongitude(cursor.getDouble(cursor.getColumnIndex(SchoolZoneEntry.COLUMN_LONGITUDE)));
+			}
+		return temp_schoolZoneObject;
+	}
+
 	public CollisionLocationObject getcolllicionObjectByLocCode(String loc_code){
 		CollisionLocationObject temp_object=new CollisionLocationObject();
 		SQLiteDatabase db=this.getReadableDatabase();

@@ -150,27 +150,43 @@ public class DataHandler {
 	public ArrayList<BottomInfoItem> getBottomInfoItemByLocaitonName(Context context,String location_name){
 		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
-		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
-		ArrayList<LocationReasonObject> temp_location_list=dbHelper.getLocationReasonByLocCode(
-				temp_collisionLocationObject.getLoc_code());
 		Calendar calendar=Calendar.getInstance();
 		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
 		String day_of_year=format_day_of_year.format(calendar.getTime());
 		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
-		LatLng temp_latLng=new LatLng(temp_collisionLocationObject.getLatitude(), temp_collisionLocationObject.getLongitude());
-		for (int i = 0; i < temp_location_list.size(); i++) {
-			LocationReasonObject tempReasonObject= temp_location_list.get(i);
-			WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
-			BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
-			tempBottomInfoItem.setLocation_name(location_name);
-			tempBottomInfoItem.setType(temp_collisionLocationObject.getRoadway_portion());
-			tempBottomInfoItem.setSchoolDay(temp_DayTypeObject.getSchool_day());
-			tempBottomInfoItem.setReason(tempConditionObject.getReason());
-			tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
-			tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
-			tempBottomInfoItem.setLocationLatLng(temp_latLng);
-			arrayList_items.add(tempBottomInfoItem);
+		
+		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
+		
+		if (temp_collisionLocationObject.getLocation_name()!="unknown") {
+			ArrayList<LocationReasonObject> temp_location_list=dbHelper.getLocationReasonByLocCode(
+					temp_collisionLocationObject.getLoc_code());
+			LatLng temp_latLng=new LatLng(temp_collisionLocationObject.getLatitude(), temp_collisionLocationObject.getLongitude());
+			for (int i = 0; i < temp_location_list.size(); i++) {
+				LocationReasonObject tempReasonObject= temp_location_list.get(i);
+				WMReasonConditionObject tempConditionObject=dbHelper.getWMReasonConditionByReasonID(tempReasonObject.getReason_id());
+				BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
+				tempBottomInfoItem.setLocation_name(location_name);
+				tempBottomInfoItem.setType(temp_collisionLocationObject.getRoadway_portion());
+				tempBottomInfoItem.setSchoolDay(temp_DayTypeObject.getSchool_day());
+				tempBottomInfoItem.setReason(tempConditionObject.getReason());
+				tempBottomInfoItem.setDirection(tempReasonObject.getTravel_direction());
+				tempBottomInfoItem.setTotal(tempReasonObject.getTotal());
+				tempBottomInfoItem.setLocationLatLng(temp_latLng);
+				arrayList_items.add(tempBottomInfoItem);
+			}
+		}else {
+			SchoolZoneObject schoolZoneObject=dbHelper.getSchoolZoneObjectByName(location_name);
+			if (schoolZoneObject.getSchool_name()!="unknown") {
+				BottomInfoItem tempBottomInfoItem=new BottomInfoItem();
+				LatLng latLng=new LatLng(schoolZoneObject.getLatitude(), schoolZoneObject.getLongitude());
+				tempBottomInfoItem.setLocation_name(location_name);
+				tempBottomInfoItem.setType("SCHOOL ZONE");
+				tempBottomInfoItem.setSchoolDay(temp_DayTypeObject.getSchool_day());
+				tempBottomInfoItem.setLocationLatLng(latLng);
+				arrayList_items.add(tempBottomInfoItem);
+			}
 		}
+		
 		
 						
 		

@@ -158,9 +158,11 @@ public class DataParseFromJson {
 				JSONObject temp_jsonObject=jsonArray.getJSONObject(i);
 				schoolZoneObject.setId(temp_jsonObject.getInt("id"));
 				schoolZoneObject.setSchool_name(temp_jsonObject.getString("school_name"));
+				schoolZoneObject.setSchool_type(temp_jsonObject.getString("school_type"));
 				schoolZoneObject.setAddress(temp_jsonObject.getString("address"));
 				schoolZoneObject.setLongitude(temp_jsonObject.getDouble("longitude"));
 				schoolZoneObject.setLatitude(temp_jsonObject.getDouble("latitude"));
+				schoolZoneObject.setSz_segments(temp_jsonObject.getString("sz_segments"));
 				schoolZoneObject.setGrade_level(temp_jsonObject.getString("grade_level"));
 				
 				object_ArrayList.add(schoolZoneObject);
@@ -179,15 +181,22 @@ public class DataParseFromJson {
 		try {
 			JSONArray segmentsJsonArray=new JSONArray(jsonString);
 			for (int i = 0; i < segmentsJsonArray.length(); i++) {
-				JSONArray temp_jsonaJsonArray=new JSONArray(segmentsJsonArray.get(i));
-				
+				JSONArray temp_jsonaJsonArray=new JSONArray(segmentsJsonArray.get(i).toString());
+				ArrayList<LatLng> temp_latlngArrayList=new ArrayList<LatLng>();
+				for (int j = 0; j < temp_jsonaJsonArray.length(); j+=2) {
+					LatLng temp_LatLng=new LatLng(temp_jsonaJsonArray.getDouble(j+1), temp_jsonaJsonArray.getDouble(j));
+					
+					temp_latlngArrayList.add(temp_LatLng);
+					
+				}
+				hashMap.put(i, temp_latlngArrayList);
 			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		
-		 return null;
+		 return hashMap;
 		
 	}
 	public String getNewVersionString(String jsonString){

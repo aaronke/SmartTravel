@@ -38,7 +38,7 @@ public class SampleListFragmentRight extends Fragment implements OnCheckedChange
 		version_TextView=(TextView)view.findViewById(R.id.setting_update_version_textview);
 		
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
-		update_date_TextView.setText("date update:"+dbHelper.getVersionString());
+		update_date_TextView.setText("update date:"+dbHelper.getVersionString());
 		String versionnameString = null;
 		try {
 			versionnameString = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
