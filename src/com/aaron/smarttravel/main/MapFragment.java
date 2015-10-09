@@ -20,25 +20,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.BottomListAdapter;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
+import com.aaron.smarttravel.utilities.CollisionHandler;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.HotSpotEntry;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.SchoolZoneHandler;
-import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -51,17 +48,14 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
+
 
 @SuppressWarnings("deprecation")
 public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener,OnMarkerClickListener,
-View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChangeListener{
+View.OnClickListener,OnCompletionListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedChangeListener{
 
 	MapView mapView;
 	private GoogleMap googleMap;
@@ -76,12 +70,10 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	private SharedPreferences.Editor preferencesEditor;
 	LocationManager locationManager;
 	//private static final String SCHOOL_ZONE="SCHOOL ZONE";
-	private static final String INTERSECTION="INTERSECTION";
-	private static final String MID_AVENUE="MID AVENUE";
-	private static final String MID_STREET="MID STREET";
+	
 	HotspotsDbHelper dbHelper;
 	private TextView bottom_location_name_textview;
-	private CheckBox schoolzoneCheckBox;
+	private RadioGroup radioGroup_map_layer;
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private RelativeLayout driving_modeLayout;
@@ -98,6 +90,8 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	private LinearLayout bottom_linearLayout;
 	private TextView school_zone_text;
 	private Boolean school_Segments_IndicatorBoolean=false;
+	private Boolean school_zone_radiobutton_checked=false;
+	private CollisionHandler collisionHandler;
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
 			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,R.raw.left_turn,R.raw.red_light_running
@@ -124,9 +118,10 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
 		driving_modeLayout=(RelativeLayout)view.findViewById(R.id.driving_mode_layout);
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
-		schoolzoneCheckBox=(CheckBox)view.findViewById(R.id.school_zone_checkbox);
+		radioGroup_map_layer=(RadioGroup)view.findViewById(R.id.radioGroup_map_layer);
 		
-		schoolzoneCheckBox.setOnCheckedChangeListener(this);
+		radioGroup_map_layer.setOnCheckedChangeListener(this);
+		
 		
 		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
 		school_zone_text=(TextView)view.findViewById(R.id.school_zone_text);
@@ -187,7 +182,8 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		
 		mapView.getMapAsync(this);
 		schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
-		
+		collisionHandler=new CollisionHandler(googleMap, context);
+		collisionHandler.addCollisionLayer();
 		return view;
 	}
 	
@@ -226,7 +222,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		super.onAttach(activity);
 		context=(SherlockFragmentActivity)activity;
 	}
-	public void setHotSpots(GoogleMap mymap,ArrayList<CollisionLocationObject> hotspots_ArrayList,int Type_Flag){
+	/*public void setHotSpots(GoogleMap mymap,ArrayList<CollisionLocationObject> hotspots_ArrayList,int Type_Flag){
 		
 		for (int i = 0; i < hotspots_ArrayList.size(); i++) {
 			
@@ -240,10 +236,12 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			LatLng tempLatLng=new LatLng(temp_object.getLatitude(), temp_object.getLongitude());
 			MarkerOptions markerOptions=new MarkerOptions().position(tempLatLng).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);
 			markerOptions.title(temp_object.getLocation_name());
-			mymap.addMarker(markerOptions);		
+			collision_markerOptions.add(markerOptions);
+			Marker temp_Marker=mymap.addMarker(markerOptions);		
+			collision_markers.add(temp_Marker);
 			
 		}
-	}
+	}*/
 	
 	// add Geofences to geofencelist
 	/*public void addGeofences(ArrayList<HotSpotEntry> hotspots_arraylist){
@@ -291,10 +289,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 		// TODO Auto-generated method stub
 		
 		// set markers;		
-
-		setHotSpots(map, dbHelper.getCollisionObjectsByType(INTERSECTION),1);
-		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_AVENUE), 1);
-		setHotSpots(map, dbHelper.getCollisionObjectsByType(MID_STREET), 1);
+		
 		// set geofences;
 		// addGeofences(hotspots_arraylist);
 		
@@ -403,7 +398,11 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 								}
 							});
 						}else {
-							 mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+							try {
+								 mediaPlayer=MediaPlayer.create(getActivity(), voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
 
 							if (mediaPlayer!=null) {
 								 mediaPlayer.setOnCompletionListener(this);
@@ -553,7 +552,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			getActivity().finish();*/
 			driving_modeLayout.setVisibility(
 					View.VISIBLE);
-			schoolzoneCheckBox.setVisibility(View.INVISIBLE);
+			radioGroup_map_layer.setVisibility(View.INVISIBLE);
 			((SherlockFragmentActivity) context)
 			.getSupportActionBar().hide();
 			if (slidingDrawer!=null && slidingDrawer.isOpened()) {
@@ -688,7 +687,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), false);
 			preferencesEditor.commit();
 			driving_modeLayout.setVisibility(View.INVISIBLE);
-			schoolzoneCheckBox.setVisibility(View.VISIBLE);
+			radioGroup_map_layer.setVisibility(View.VISIBLE);
 			((SherlockFragmentActivity) context).getSupportActionBar().show();
 			driving_modeBoolean=false;
 			break;
@@ -708,7 +707,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	@Override
 	public void onCameraChange(CameraPosition position) {
 		// TODO Auto-generated method stub
-		if (position.zoom >14 && schoolzoneCheckBox.isChecked()) {
+		if (position.zoom >14 && school_zone_radiobutton_checked) {
 		//	Log.v("STTest", "zoom is larger than 14");
 			if (school_Segments_IndicatorBoolean) {
 				schoolZoneHandler.addSchoolZoneSegments();
@@ -721,7 +720,7 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 	}
 
 	
-	@Override
+	/*@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if (isChecked) {
@@ -732,6 +731,27 @@ View.OnClickListener,OnCompletionListener,OnCameraChangeListener,OnCheckedChange
 			school_Segments_IndicatorBoolean=true;
 		}
 		//Log.v("STTest", "checkbox is checked"+isChecked);
+	}*/
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		// TODO Auto-generated method stub
+		switch (checkedId) {
+		case R.id.radiobutton_schoolzone:
+			school_zone_radiobutton_checked=true;
+			schoolZoneHandler.addSchoolZoneMarkers();
+			collisionHandler.removeCollisionLayer();
+			break;
+		case R.id.radiobutton_collision:
+			collisionHandler.removeCollisionLayer();
+			collisionHandler.addCollisionLayer();
+			school_zone_radiobutton_checked=false;
+			schoolZoneHandler.removeSchoolZoneMarkers();
+			schoolZoneHandler.removeSchoolZoneSegments();
+			school_Segments_IndicatorBoolean=true;
+		default:
+			break;
+		}
 	}
 	
 

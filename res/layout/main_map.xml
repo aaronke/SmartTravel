@@ -26,12 +26,32 @@
 	  	    android:text="@string/not_driving_button"
 	  	    />
 	</RelativeLayout>
-	<CheckBox 
+	<!-- <CheckBox 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="School Zone"
 	    android:id="@+id/school_zone_checkbox"
-	    />
+	    /> -->
+	<RadioGroup 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:id="@+id/radioGroup_map_layer"
+	    >
+	    <RadioButton 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/radiobutton_collision"
+	        android:id="@+id/radiobutton_collision"
+	        android:checked="true"
+	        />
+	    <RadioButton 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/radiobutton_school"
+	        android:id="@+id/radiobutton_schoolzone"
+	        />
+	</RadioGroup>
   	 <SlidingDrawer 
 	    android:layout_width="fill_parent" 
 	    android:id="@+id/SlidingDrawer" 

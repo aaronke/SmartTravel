@@ -3,14 +3,10 @@ package com.aaron.smarttravel.data;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import android.R.string;
 import android.content.Context;
 import android.util.Log;
-
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;

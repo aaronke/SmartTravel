@@ -55,6 +55,9 @@
 	<string name="data_update_nagetive">No, not now</string>
 	<string name="not_driving_button">I am not driving now</string>
 	
+	<string name="radiobutton_collision">Collision</string>
+	<string name="radiobutton_school">School</string>
+	
 	
 	<string name="term_of_use_context">
 1.	Acceptance of Terms
