@@ -53,6 +53,7 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		listDataChild=new HashMap<String,ArrayList<NavDrawerItem>>();
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(getString(R.string.preferences_is_at_shanghai), false);	
 		for (int i = 0; i < listDataHeader.size(); i++) {
+			
 			listDataChild.put(listDataHeader.get(i), dbHelper.getAllObjectByReasonId(i+1, is_at_shanghai));
 		}
 	}

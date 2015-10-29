@@ -1,5 +1,7 @@
 package com.aaron.smarttravel.database;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -303,6 +305,17 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			cursor.moveToNext();
 		}
 			cursor.close();
+			// sort the school zone by school name
+		if (reason_id==23) {
+			Collections.sort(navDrawerItems, new Comparator<NavDrawerItem>() {
+
+				@Override
+				public int compare(NavDrawerItem lhs,NavDrawerItem  rhs) {
+					// TODO Auto-generated method stub
+					return lhs.getName_hotspot().compareToIgnoreCase(rhs.getName_hotspot());
+				}
+			});
+		}
 		return navDrawerItems;
 		
 	}
