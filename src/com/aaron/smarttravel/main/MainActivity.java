@@ -40,12 +40,12 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 
 	private Fragment mContent;
 	private MapFragment map_fragment;
-	private static final String LOCATION_URL="http://129.128.250.97:8080/STRESTWeb/collisionLocation/jsonOfList";
-	private static final String LOCATION_REASON_URL="http://129.128.250.97:8080/STRESTWeb/locationReason/jsonOfList";
-	private static final String DAYTYPE_URL="http://129.128.250.97:8080/STRESTWeb/wmDayType/jsonOfList";
-	private static final String REASON_CONDITION_URL="http://129.128.250.97:8080/STRESTWeb/wmReasonCondition/jsonOfList";
-	private static final String NEW_VERSION_URL="http://129.128.250.97:8080/STRESTWeb/newVersion/json";
-	private static final String SCHOOL_ZONE_URL="http://129.128.250.97:8080/STRESTWeb/school/jsonOfList";
+	private static final String LOCATION_URL="http://101.231.116.154:8080/STRESTWeb/collisionLocation/jsonOfList";
+	private static final String LOCATION_REASON_URL="http://101.231.116.154/:8080/STRESTWeb/locationReason/jsonOfList";
+	private static final String DAYTYPE_URL="http://101.231.116.154:8080/STRESTWeb/wmDayType/jsonOfList";
+	private static final String REASON_CONDITION_URL="http://101.231.116.154:8080/STRESTWeb/wmReasonCondition/jsonOfList";
+	private static final String NEW_VERSION_URL="http://101.231.116.154/:8080/STRESTWeb/newVersion/json";
+	private static final String SCHOOL_ZONE_URL="http://101.231.116.154:8080/STRESTWeb/school/jsonOfList";
 	private static final String URL_FLAG_COLLISION_LOCATION="collisionLocation";
 	private static final String URL_FLAG_LOCATION_REASON="locationReason";
 	private static final String URL_FLAG_WMREASON_CONDITION="wmReasonCondition";
