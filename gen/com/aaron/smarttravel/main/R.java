@@ -1624,6 +1624,7 @@ containing a value of this type.
         public static final int left_drawer_logo=0x7f09005b;
         public static final int listMode=0x7f090008;
         public static final int llMain=0x7f09004e;
+        public static final int main_exit=0x7f090093;
         public static final int map=0x7f09006d;
         public static final int margin=0x7f090014;
         public static final int match_parent=0x7f090022;
@@ -1719,6 +1720,7 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int actionbar_actions=0x7f0d0000;
+        public static final int main_menu=0x7f0d0001;
     }
     public static final class raw {
         public static final int afternoon_rush_hour=0x7f040000;
@@ -1924,6 +1926,7 @@ containing a value of this type.
         public static final int location_setting_alert_title=0x7f0a005d;
         public static final int location_setting_nagetive=0x7f0a005f;
         public static final int location_setting_positive=0x7f0a005e;
+        public static final int main_exit=0x7f0a0074;
         public static final int map_location_button=0x7f0a0036;
         /**  Error strings 
          */

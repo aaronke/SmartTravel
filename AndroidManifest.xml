@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aaron.smarttravel.main"
     android:versionCode="1"
-    android:versionName="0.3.8_test" >
+    android:versionName="0.3.9_test" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -17,6 +17,7 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	<uses-permission android:name="android.permission.WRITE_SETTINGS"/> 
     <application
+        android:name="com.aaron.smarttravel.injection.SmartTravelApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:allowBackup="true">
@@ -50,6 +51,10 @@
 	    android:value="AIzaSyCaicQ3o_AjN9c1MzmZpWFaLjMEQFF8uIo"/>
        
        <service android:name=".GeofenceTransitionsIntentService"/>
-    </application>
+       
+       <service 
+           android:name="com.aaron.smarttravelbackground.WarningService" >
+       </service>
+      </application>
 
 </manifest>

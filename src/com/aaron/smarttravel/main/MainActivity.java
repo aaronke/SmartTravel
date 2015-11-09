@@ -9,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import org.apache.http.client.ClientProtocolException;
 
 import android.app.AlertDialog;
@@ -24,9 +26,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
+import com.aaron.smarttravel.injection.SmartTravelApplication;
 import com.aaron.smarttravel.main.SampleListFragmentLeft.OnSampleListFragmentLeftListener;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
@@ -34,17 +39,21 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.aaron.smarttravelbackground.TestEvent;
+import com.aaron.smarttravelbackground.WarningService;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class MainActivity extends BaseActivity implements OnSampleListFragmentLeftListener {
 
 	private Fragment mContent;
 	private MapFragment map_fragment;
 	private static final String LOCATION_URL="http://101.231.116.154:8080/STRESTWeb/collisionLocation/jsonOfList";
-	private static final String LOCATION_REASON_URL="http://101.231.116.154/:8080/STRESTWeb/locationReason/jsonOfList";
+	private static final String LOCATION_REASON_URL="http://101.231.116.154:8080/STRESTWeb/locationReason/jsonOfList";
 	private static final String DAYTYPE_URL="http://101.231.116.154:8080/STRESTWeb/wmDayType/jsonOfList";
 	private static final String REASON_CONDITION_URL="http://101.231.116.154:8080/STRESTWeb/wmReasonCondition/jsonOfList";
-	private static final String NEW_VERSION_URL="http://101.231.116.154/:8080/STRESTWeb/newVersion/json";
+	private static final String NEW_VERSION_URL="http://101.231.116.154:8080/STRESTWeb/newVersion/json";
 	private static final String SCHOOL_ZONE_URL="http://101.231.116.154:8080/STRESTWeb/school/jsonOfList";
 	private static final String URL_FLAG_COLLISION_LOCATION="collisionLocation";
 	private static final String URL_FLAG_LOCATION_REASON="locationReason";
@@ -54,14 +63,25 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 	private static final String URL_FLAG_NEW_VERSION="newVersion";
 	SharedPreferences sharedPreferences_settings;
 	private SharedPreferences.Editor sharEditor;
+	@Inject
+	Bus bus;
 	
 	public MainActivity() {
 		super(R.string.app_name);
 	}
 
+	@Subscribe
+	public void getTestMessage(TestEvent event){
+		Log.v("bus", event.getTestString());
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		((SmartTravelApplication) getApplication()).inject(this);
+		bus.register(this);
+		Intent intent=new Intent(this, WarningService.class);
+		startService(intent);
 		
 		
 		// setSlidingActionBarEnabled(true);
@@ -303,6 +323,8 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 		super.onDestroy();
 		sharEditor.putBoolean(getString(R.string.preferences_is_driving), true);
 		sharEditor.commit();
+		bus.unregister(this);
+		
 	}
 	
 	/*@Override
@@ -317,7 +339,15 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 	protected void onUserLeaveHint() {
 		// TODO Auto-generated method stub
 		super.onUserLeaveHint();
-		finish();
+		//finish();
 	}
+	
+	
+	/*@Override 
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu, menu);
+	    return true; 
+	} */
 	
 }

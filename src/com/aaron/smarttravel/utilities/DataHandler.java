@@ -8,9 +8,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.flurry.android.FlurryAgent;
+import com.flurry.sdk.iv.c;
 import com.google.android.gms.maps.model.LatLng;
+
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
@@ -85,7 +88,6 @@ public class DataHandler {
 					FlurryAgent.logEvent("direction_filter", direction_params);
 				}
 			}
-		
 		
 		return directionBoolean;
 	}
