@@ -8,12 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.flurry.android.FlurryAgent;
-import com.flurry.sdk.iv.c;
 import com.google.android.gms.maps.model.LatLng;
-
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
@@ -74,9 +71,10 @@ public class DataHandler {
 		String current_directionString=returnDirection(bearingFloat);
 		String running_bearingString=returnDirection(currentLocation.getBearing());
 		
-		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString);
+		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString+"Travel Direction:"+locationReasonObject.getTravel_direction());
 			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
-				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)||!locationReasonObject.getTravel_direction().startsWith(running_bearingString) && running_bearingString!="unknow") {
+				if (!locationReasonObject.getTravel_direction().startsWith(running_bearingString) || running_bearingString=="unknow") {
+
 					directionBoolean=false;
 					// add logs to Flurry
 					Map<String, String> direction_params=new HashMap<String,String>();

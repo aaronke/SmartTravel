@@ -159,7 +159,6 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 				distance=location.distanceTo(my_location);
 			}
 			
-			Log.v("STTest", "Location count:"+LOCATION_COUNT+location.getProvider());
 			if (distance<100) {
 				
 				LOCATION_COUNT++;
@@ -192,7 +191,6 @@ public void checkForLocationForWarning(Location currentLocation){
 				}
 				
 			}		
-				Log.v("STTest", "message:"+currentLocation.getProvider()+VOICE_MESSAGE_INDICATOR);
 				if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_voice_message), true)) {
 					VOICE_MESSAGE_INDICATOR+=1;
 					
