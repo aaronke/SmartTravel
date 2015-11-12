@@ -47,6 +47,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 	public static TextToSpeech textToSpeech;
 	MediaPlayer mediaPlayer = new MediaPlayer();
 	private SharedPreferences sharedPreferences_settings;
+	private TopInfoEntry currentTopInfoEntry=new TopInfoEntry();
 	//private ArrayList<HotSpotEntry> hotspots_arraylist= new ArrayList<HotSpotEntry>();
 	private int[] voice_matched_reason_ID={R.raw.morning_rush_hour,R.raw.morning_rush_hour,R.raw.afternoon_rush_hour,R.raw.afternoon_rush_hour
 			,R.raw.weekend_early_morning,R.raw.weekend_early_morning,R.raw.pedestrians,R.raw.pedestrians,R.raw.cyclist,R.raw.cyclist
@@ -173,76 +174,79 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 			checkForLocationForWarning(location);
 		
 	}
-public void checkForLocationForWarning(Location currentLocation){
-		
-		final TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
-		
-		if (temp_topinfoEntry.getLocation_name()!="unknown") {
-			if (!driving_modeBoolean) {
-				
-				bus.post(new UpdateInfoBoxEvent(temp_topinfoEntry));
-				
-			}
-			
-			if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_notification), true)) {
-				NOTIFICATION_MESSAGE_INDICATOR+=1;
-				if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==6||NOTIFICATION_MESSAGE_INDICATOR==12 && !driving_modeBoolean) {
-					Toast.makeText(this, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
-				}
-				
-			}		
-				if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_voice_message), true)) {
-					VOICE_MESSAGE_INDICATOR+=1;
-					
-					if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6||VOICE_MESSAGE_INDICATOR==12) {
-						messageBoolean=false;
-						if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
-							textToSpeech=new TextToSpeech(this, new TextToSpeech.OnInitListener() {			
-								@Override
-								public void onInit(int status) {
-									// TODO Auto-generated method stub
-									if (status==TextToSpeech.SUCCESS) {
-										textToSpeech.setLanguage(Locale.UK);	
-										speakToText(temp_topinfoEntry.getWarning_message());
-									}
-								}
-							});
-						}else {
-							try {
-								 mediaPlayer=MediaPlayer.create(this, voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
-							} catch (Exception e) {
-								// TODO: handle exception
-							}
-
-							if (mediaPlayer!=null) {
-								 mediaPlayer.setOnCompletionListener(this);
-								 mediaPlayer.start();
-							}else {
-								Log.v("STTest", "mediaplayer create fails");
-							}
-							
-						}	
-						//messageBoolean=false;
-						//VOICE_MESSAGE_INDICATOR=0;
-						messageBoolean=true;	
-				}
-					if (VOICE_MESSAGE_INDICATOR>12) {
-						bus.post(new SlidingDrawerUpdateEvent());
-					}			
-					
-			}
-		}else {
-			initialUIafterWarning();
+	
+	private void voiceMessage( final TopInfoEntry temp_topinfoEntry){
+		if (!driving_modeBoolean) {
+			bus.post(new UpdateInfoBoxEvent(temp_topinfoEntry));
 		}
 		
+		if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_notification), true)) {
+			NOTIFICATION_MESSAGE_INDICATOR+=1;
+			if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==6||NOTIFICATION_MESSAGE_INDICATOR==12 && !driving_modeBoolean) {
+				Toast.makeText(this, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
+			}
+			
+		}		
+			if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_voice_message), true)) {
+				VOICE_MESSAGE_INDICATOR+=1;
+				
+				if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6||VOICE_MESSAGE_INDICATOR==12) {
+					messageBoolean=false;
+					if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
+						textToSpeech=new TextToSpeech(this, new TextToSpeech.OnInitListener() {			
+							@Override
+							public void onInit(int status) {
+								// TODO Auto-generated method stub
+								if (status==TextToSpeech.SUCCESS) {
+									textToSpeech.setLanguage(Locale.UK);	
+									speakToText(temp_topinfoEntry.getWarning_message());
+								}
+							}
+						});
+					}else {
+						try {
+							 mediaPlayer=MediaPlayer.create(this, voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+
+						if (mediaPlayer!=null) {
+							 mediaPlayer.setOnCompletionListener(this);
+							 mediaPlayer.start();
+						}else {
+							Log.v("STTest", "mediaplayer create fails");
+						}
+						
+					}	
+					//messageBoolean=false;
+					//VOICE_MESSAGE_INDICATOR=0;
+					messageBoolean=true;	
+			}
+				if (VOICE_MESSAGE_INDICATOR>12) {
+					
+					bus.post(new SlidingDrawerUpdateEvent());
+				}				
+		}
+	}
+public void checkForLocationForWarning(Location currentLocation){
 		
+		TopInfoEntry temp_topinfoEntry=getWarningMessage(currentLocation);
+		if (temp_topinfoEntry.getLocation_name()!="unknown") {
+			if (!currentTopInfoEntry.getLocation_name().equals(temp_topinfoEntry.getLocation_name())) {
+				initialUIafterWarning();
+			}
+			currentTopInfoEntry=temp_topinfoEntry;
+		}
+		if (currentTopInfoEntry.getLocation_name()!="unknown") {
+			voiceMessage(currentTopInfoEntry);
+		}
+			
 	}
 
 	private void initialUIafterWarning(){
 		NOTIFICATION_MESSAGE_INDICATOR=0;
 		VOICE_MESSAGE_INDICATOR=0;
 		messageBoolean=true;	
-		
 		bus.post(new SlidingDrawerUpdateEvent());
 }
 
