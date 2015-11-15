@@ -182,7 +182,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 		
 		if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_notification), true)) {
 			NOTIFICATION_MESSAGE_INDICATOR+=1;
-			if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==6||NOTIFICATION_MESSAGE_INDICATOR==12 && !driving_modeBoolean) {
+			if (NOTIFICATION_MESSAGE_INDICATOR==1||NOTIFICATION_MESSAGE_INDICATOR==6 && !driving_modeBoolean) {
 				Toast.makeText(this, temp_topinfoEntry.getWarning_message(), Toast.LENGTH_SHORT ).show();
 			}
 			
@@ -190,7 +190,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 			if (sharedPreferences_settings.getBoolean(this.getString(R.string.preferences_setting_voice_message), true)) {
 				VOICE_MESSAGE_INDICATOR+=1;
 				
-				if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6||VOICE_MESSAGE_INDICATOR==12) {
+				if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6) {
 					messageBoolean=false;
 					if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 						textToSpeech=new TextToSpeech(this, new TextToSpeech.OnInitListener() {			
@@ -222,7 +222,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 					//VOICE_MESSAGE_INDICATOR=0;
 					messageBoolean=true;	
 			}
-				if (VOICE_MESSAGE_INDICATOR>12) {
+				if (VOICE_MESSAGE_INDICATOR>6) {
 					
 					bus.post(new SlidingDrawerUpdateEvent());
 				}				
@@ -236,6 +236,8 @@ public void checkForLocationForWarning(Location currentLocation){
 				initialUIafterWarning();
 			}
 			currentTopInfoEntry=temp_topinfoEntry;
+		}else {
+			currentTopInfoEntry=new TopInfoEntry();
 		}
 		if (currentTopInfoEntry.getLocation_name()!="unknown") {
 			voiceMessage(currentTopInfoEntry);

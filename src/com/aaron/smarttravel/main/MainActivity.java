@@ -26,9 +26,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.injection.SmartTravelApplication;
@@ -117,8 +114,6 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, new SampleListFragmentRight()).commit();
-		
-		
 		getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings),
 				Context.MODE_PRIVATE);
 		
