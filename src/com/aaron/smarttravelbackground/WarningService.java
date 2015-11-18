@@ -1,11 +1,17 @@
 package com.aaron.smarttravelbackground;
 
 import java.util.Locale;
+
 import javax.inject.Inject;
+
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,20 +21,25 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.injection.SmartTravelApplication;
 import com.aaron.smarttravel.injection.event.DrivingModeDismissEvent;
 import com.aaron.smarttravel.injection.event.DrivingModeEvent;
 import com.aaron.smarttravel.injection.event.SlidingDrawerUpdateEvent;
 import com.aaron.smarttravel.injection.event.UpdateInfoBoxEvent;
+import com.aaron.smarttravel.main.MainActivity;
 import com.aaron.smarttravel.main.R;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
+import com.aaron.smarttravel.utilities.Constants;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
+import com.flurry.sdk.in;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -41,7 +52,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 	private static int VOICE_MESSAGE_INDICATOR=0,NOTIFICATION_MESSAGE_INDICATOR=0,LOCATION_COUNT=0;
 	private Location my_location;
 	private CollisionLocationObject temp_collision_location;
-	private Boolean messageBoolean=true;
+	private Boolean messageBoolean=false;
 	private Boolean driving_modeBoolean=false;
 	private static final int DEFUALT_VOICE_MESSAGE=15;
 	public static TextToSpeech textToSpeech;
@@ -54,6 +65,8 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 			,R.raw.motorcyclist,R.raw.motorcyclist,R.raw.increase_the_gap,R.raw.increase_the_gap,R.raw.left_turn,R.raw.red_light_running
 			,R.raw.stop_sign_violation,R.raw.improper_lane_change,R.raw.improper_lane_change,R.raw.ran_off_road,R.raw.attention_high_risk_collision_area
 			,R.raw.attention_high_risk_collision_area,R.raw.school_zone,R.raw.school_zone};
+	
+
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -81,7 +94,48 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 		Log.v("life", "service onstart");
 		bus.post(new TestEvent("Hello EventBus"));
 		requestLocation();
-		return super.onStartCommand(intent, flags, startId);
+		
+		if (intent.getAction().equals(Constants.NOTIFCATION_ACTION_MAIN)) {
+			ShowNotification();
+		}else if(intent.getAction().equals(Constants.NOTIFICATION_ACTION_STOP)) {
+			stopForeground(true);
+			stopSelf();
+		}else if(intent.getAction().equals(Constants.NOTIFICATION_PAUSE)){
+			// do something here
+		}
+		
+		return START_STICKY;
+	}
+	
+	private void ShowNotification(){
+		Intent notificationIntent=new Intent(this, MainActivity.class);
+		notificationIntent.setAction(Constants.NOTIFCATION_ACTION_MAIN);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		PendingIntent pendingIntent=PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		
+		Intent stopIntent=new Intent(this,WarningService.class);
+		stopIntent.setAction(Constants.NOTIFICATION_ACTION_STOP);
+		PendingIntent stop_pending_intent=PendingIntent.getService(this, 0, stopIntent, 0);
+		
+		Intent pause_intent= new Intent(this, WarningService.class);
+		pause_intent.setAction(Constants.NOTIFICATION_PAUSE);
+		PendingIntent pause_pending_intent=PendingIntent.getService(this, 0, pause_intent, 0);
+		
+		
+		Bitmap notification_icon=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		
+		Notification notification=new NotificationCompat.Builder(this)
+		.setContentText(getText(R.string.notification_title))
+		.setSmallIcon(R.drawable.ic_launcher)
+		.setLargeIcon(Bitmap.createScaledBitmap(notification_icon, 128, 128, false))
+		.setContentIntent(pendingIntent)
+		.setOngoing(true)
+		.setPriority(Notification.PRIORITY_MAX)
+		.addAction(R.drawable.stop_64,getText(R.string.notification_stop),stop_pending_intent)
+		.build();
+		
+		startForeground(Constants.NOTIFICATION_ID, notification);
+		
 	}
 	
 	
@@ -191,7 +245,6 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 				VOICE_MESSAGE_INDICATOR+=1;
 				
 				if (VOICE_MESSAGE_INDICATOR==1||VOICE_MESSAGE_INDICATOR==6) {
-					messageBoolean=false;
 					if (voice_matched_reason_ID[temp_topinfoEntry.getReason_id()-1]==DEFUALT_VOICE_MESSAGE) {
 						textToSpeech=new TextToSpeech(this, new TextToSpeech.OnInitListener() {			
 							@Override
@@ -220,10 +273,9 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 					}	
 					//messageBoolean=false;
 					//VOICE_MESSAGE_INDICATOR=0;
-					messageBoolean=true;	
 			}
 				if (VOICE_MESSAGE_INDICATOR>6) {
-					
+					messageBoolean=false;
 					bus.post(new SlidingDrawerUpdateEvent());
 				}				
 		}
@@ -237,10 +289,11 @@ public void checkForLocationForWarning(Location currentLocation){
 			}
 			currentTopInfoEntry=temp_topinfoEntry;
 		}else {
-			currentTopInfoEntry=new TopInfoEntry();
+			if(!messageBoolean) currentTopInfoEntry=new TopInfoEntry();
 		}
 		if (currentTopInfoEntry.getLocation_name()!="unknown") {
 			voiceMessage(currentTopInfoEntry);
+			messageBoolean=true;
 		}
 			
 	}
@@ -248,7 +301,6 @@ public void checkForLocationForWarning(Location currentLocation){
 	private void initialUIafterWarning(){
 		NOTIFICATION_MESSAGE_INDICATOR=0;
 		VOICE_MESSAGE_INDICATOR=0;
-		messageBoolean=true;	
 		bus.post(new SlidingDrawerUpdateEvent());
 }
 
@@ -267,9 +319,7 @@ public void checkForLocationForWarning(Location currentLocation){
 
 private TopInfoEntry getWarningMessage(Location currentLocation){
 	HotspotsDbHelper dbHelper=new HotspotsDbHelper(this);
-	if (messageBoolean) {
-		temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
-	}
+	temp_collision_location=dbHelper.getNearbyLocation(currentLocation);
 	TopInfoEntry temp_TopInfoEntry=new TopInfoEntry();
 	DataHandler dataHandler=new DataHandler();
 	

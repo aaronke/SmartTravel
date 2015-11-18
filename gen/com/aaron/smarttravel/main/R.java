@@ -1501,10 +1501,10 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f02009e;
         public static final int indicator=0x7f02009f;
         public static final int info_indicator=0x7f0200a0;
-        public static final int introduction=0x7f0200a1;
-        public static final int left_drawer_relativelayout_bg=0x7f0200a2;
-        public static final int location_icon=0x7f0200a3;
-        public static final int new_indicator=0x7f0200a4;
+        public static final int left_drawer_relativelayout_bg=0x7f0200a1;
+        public static final int location_icon=0x7f0200a2;
+        public static final int new_indicator=0x7f0200a3;
+        public static final int play_64=0x7f0200a4;
         public static final int powered_by_google_dark=0x7f0200a5;
         public static final int powered_by_google_light=0x7f0200a6;
         public static final int relativelayout_normal=0x7f0200a7;
@@ -1513,9 +1513,9 @@ containing a value of this type.
         public static final int setting=0x7f0200aa;
         public static final int shadow=0x7f0200ab;
         public static final int shadowright=0x7f0200ac;
-        public static final int title_smarttravel=0x7f0200ad;
-        public static final int top_bg=0x7f0200ae;
-        public static final int welcome_city=0x7f0200af;
+        public static final int stop_64=0x7f0200ad;
+        public static final int title_smarttravel=0x7f0200ae;
+        public static final int top_bg=0x7f0200af;
         public static final int welcome_logo=0x7f0200b0;
         public static final int welcome_page_logo2=0x7f0200b1;
     }
@@ -1736,8 +1736,9 @@ containing a value of this type.
         public static final int ran_off_road=0x7f04000a;
         public static final int red_light_running=0x7f04000b;
         public static final int school_zone=0x7f04000c;
-        public static final int stop_sign_violation=0x7f04000d;
-        public static final int weekend_early_morning=0x7f04000e;
+        public static final int speed_limit=0x7f04000d;
+        public static final int stop_sign_violation=0x7f04000e;
+        public static final int weekend_early_morning=0x7f04000f;
     }
     public static final class string {
         public static final int Flurry_API_Key=0x7f0a0037;
@@ -1903,15 +1904,15 @@ containing a value of this type.
         public static final int data_update_positive=0x7f0a0064;
         public static final int decline=0x7f0a0010;
         public static final int drawerlist_item_count_description=0x7f0a004c;
-        public static final int geofence_not_available=0x7f0a006b;
-        public static final int geofence_too_many_geofences=0x7f0a006c;
-        public static final int geofence_too_many_pending_intents=0x7f0a006d;
+        public static final int geofence_not_available=0x7f0a006e;
+        public static final int geofence_too_many_geofences=0x7f0a006f;
+        public static final int geofence_too_many_pending_intents=0x7f0a0070;
         /**  Transition type strings 
          */
-        public static final int geofence_transition_entered=0x7f0a0070;
-        public static final int geofence_transition_exited=0x7f0a0071;
-        public static final int geofence_transition_invalid_type=0x7f0a006f;
-        public static final int geofence_transition_notification_text=0x7f0a0073;
+        public static final int geofence_transition_entered=0x7f0a0073;
+        public static final int geofence_transition_exited=0x7f0a0074;
+        public static final int geofence_transition_invalid_type=0x7f0a0072;
+        public static final int geofence_transition_notification_text=0x7f0a0076;
         public static final int hello_world=0x7f0a0034;
         public static final int info_box_distance_title=0x7f0a004f;
         public static final int info_box_distance_unit=0x7f0a004e;
@@ -1926,12 +1927,15 @@ containing a value of this type.
         public static final int location_setting_alert_title=0x7f0a005d;
         public static final int location_setting_nagetive=0x7f0a005f;
         public static final int location_setting_positive=0x7f0a005e;
-        public static final int main_exit=0x7f0a0074;
+        public static final int main_exit=0x7f0a0077;
         public static final int map_location_button=0x7f0a0036;
         /**  Error strings 
          */
-        public static final int not_connected=0x7f0a006a;
+        public static final int not_connected=0x7f0a006d;
         public static final int not_driving_button=0x7f0a0066;
+        public static final int notification_pause=0x7f0a006a;
+        public static final int notification_stop=0x7f0a006b;
+        public static final int notification_title=0x7f0a0069;
         public static final int preferences_first_time=0x7f0a0055;
         public static final int preferences_is_at_shanghai=0x7f0a0057;
         public static final int preferences_is_driving=0x7f0a0056;
@@ -1954,12 +1958,12 @@ containing a value of this type.
         public static final int store_picture_message=0x7f0a000e;
         public static final int store_picture_title=0x7f0a000d;
         public static final int term_of_use_agree=0x7f0a005c;
-        public static final int term_of_use_context=0x7f0a0069;
+        public static final int term_of_use_context=0x7f0a006c;
         public static final int term_of_use_disagree=0x7f0a005b;
         public static final int term_of_use_title=0x7f0a005a;
         public static final int unknown=0x7f0a0039;
-        public static final int unknown_geofence_error=0x7f0a006e;
-        public static final int unknown_geofence_transition=0x7f0a0072;
+        public static final int unknown_geofence_error=0x7f0a0071;
+        public static final int unknown_geofence_transition=0x7f0a0075;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

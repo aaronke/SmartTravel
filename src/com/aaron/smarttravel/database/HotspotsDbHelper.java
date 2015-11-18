@@ -159,10 +159,10 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			tempLocation.setLongitude(cursor.getDouble(cursor.getColumnIndex(CollisionLocationEntry.COLUMN_NAME_LONGITUDE)));
 			double distance=currentLocation.distanceTo(tempLocation);
 			double current_speed=currentLocation.getSpeed();
-			int warning_distance=150;
+			int warning_distance=120;
 			//Log.v("STTest", "speed:"+current_speed);
 			if (current_speed>=12) {
-				warning_distance=(int) (10*current_speed);
+				warning_distance=(int) (9*current_speed);
 			}
 			if (distance<warning_distance) {
 				temp_CollisionLocationObject.setLatitude(tempLocation.getLatitude());

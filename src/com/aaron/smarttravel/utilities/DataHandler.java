@@ -126,8 +126,8 @@ public class DataHandler {
 				String current_time=time_of_day.format(calendar.getTime());
 				SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM",Locale.CANADA);
 				int month=Integer.parseInt(simpleDateFormat.format(calendar.getTime()));
-				boolean month_match=reasonConditionObject.getMonth().charAt(month-1)==1?true:false;
-				//Log.v("life", "month"+month+"match"+reasonConditionObject.getMonth().charAt(month-1)+"end time"+end_time);
+				boolean month_match=reasonConditionObject.getMonth().charAt(month-1)=='1'?true:false;
+				Log.v("life", "month"+month+"match"+month_match+"end time"+end_time);
 				try {
 					Date startDate=time_of_day.parse(start_time);
 					Date endDate=time_of_day.parse(end_time);
@@ -149,7 +149,6 @@ public class DataHandler {
 					e.printStackTrace();
 					
 				}
-				
 			}
 		}
 		
@@ -159,10 +158,9 @@ public class DataHandler {
 		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		Calendar calendar=Calendar.getInstance();
-		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
+		SimpleDateFormat format_day_of_year=new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
 		String day_of_year=format_day_of_year.format(calendar.getTime());
 		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
-		
 		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
 		
 		if (temp_collisionLocationObject.getLocation_name()!="unknown") {
@@ -194,10 +192,6 @@ public class DataHandler {
 				arrayList_items.add(tempBottomInfoItem);
 			}
 		}
-		
-		
-						
-		
 		
 		return arrayList_items;
 	}

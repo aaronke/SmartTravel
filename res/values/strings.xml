@@ -57,7 +57,9 @@
 	
 	<string name="radiobutton_collision">Collision</string>
 	<string name="radiobutton_school">School</string>
-	
+	<string name="notification_title">Smart Travel is Running</string>
+	<string name="notification_pause">pause</string>
+	<string name="notification_stop">stop</string>
 	
 	<string name="term_of_use_context">
 1.	Acceptance of Terms

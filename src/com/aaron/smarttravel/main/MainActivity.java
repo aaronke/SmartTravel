@@ -26,12 +26,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import com.aaron.smarttravel.data.DataParseFromJson;
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.injection.SmartTravelApplication;
 import com.aaron.smarttravel.main.SampleListFragmentLeft.OnSampleListFragmentLeftListener;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
+import com.aaron.smarttravel.utilities.Constants;
 import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.SchoolZoneObject;
@@ -78,6 +80,7 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 		((SmartTravelApplication) getApplication()).inject(this);
 		bus.register(this);
 		Intent intent=new Intent(this, WarningService.class);
+		intent.setAction(Constants.NOTIFCATION_ACTION_MAIN);
 		startService(intent);
 		
 		
