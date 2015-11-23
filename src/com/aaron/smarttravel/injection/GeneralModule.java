@@ -2,8 +2,10 @@ package com.aaron.smarttravel.injection;
 
 import javax.inject.Singleton;
 
+import com.aaron.smarttravel.main.HomeActivity;
 import com.aaron.smarttravel.main.MainActivity;
 import com.aaron.smarttravel.main.MapFragment;
+import com.aaron.smarttravel.main.SampleListFragmentLeft;
 import com.aaron.smarttravelbackground.WarningService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -18,7 +20,9 @@ import dagger.Provides;
 			SmartTravelApplication.class,
 			MainActivity.class,
 			WarningService.class,
-			MapFragment.class
+			MapFragment.class,
+			HomeActivity.class,
+			SampleListFragmentLeft.class
 		},
 		complete=false,
 		library=true

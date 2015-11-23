@@ -39,7 +39,6 @@ import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.TopInfoEntry;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
-import com.flurry.sdk.in;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -92,7 +91,6 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
 		Log.v("life", "service onstart");
-		bus.post(new TestEvent("Hello EventBus"));
 		requestLocation();
 		
 		if (intent.getAction().equals(Constants.NOTIFCATION_ACTION_MAIN)) {
@@ -119,7 +117,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 		
 		Intent pause_intent= new Intent(this, WarningService.class);
 		pause_intent.setAction(Constants.NOTIFICATION_PAUSE);
-		PendingIntent pause_pending_intent=PendingIntent.getService(this, 0, pause_intent, 0);
+	//	PendingIntent pause_pending_intent=PendingIntent.getService(this, 0, pause_intent, 0);
 		
 		
 		Bitmap notification_icon=BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);

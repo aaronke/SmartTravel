@@ -3,18 +3,25 @@ package com.aaron.smarttravel.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.inject.Inject;
+
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.ExpandableListViewAdapter;
+import com.aaron.smarttravel.injection.SmartTravelApplication;
+import com.aaron.smarttravel.injection.event.MapReadyEvent;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.DataHandler;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
 import com.flurry.android.FlurryAgent;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +31,9 @@ import android.widget.ExpandableListView.OnChildClickListener;
 
 public class SampleListFragmentLeft extends Fragment implements OnChildClickListener{
 	
+	
+	@Inject
+	Bus bus;
 	OnSampleListFragmentLeftListener mcallback;
 	public Context context;
 	private View view;
@@ -51,7 +61,7 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		
 		listDataHeader=dbHelper.getReasonList();
 		listDataChild=new HashMap<String,ArrayList<NavDrawerItem>>();
-		Boolean is_at_shanghai=sharedPreferences.getBoolean(getString(R.string.preferences_is_at_shanghai), false);	
+		Boolean is_at_shanghai=sharedPreferences.getBoolean(context.getString(R.string.preferences_is_at_shanghai), false);	
 		for (int i = 0; i < listDataHeader.size(); i++) {
 			
 			listDataChild.put(listDataHeader.get(i), dbHelper.getAllObjectByReasonId(i+1, is_at_shanghai));
@@ -61,14 +71,35 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+	}
+
+   
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+		
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		((SmartTravelApplication)getActivity().getApplication()).inject(this);
+		bus.register(this);
+	}
+
+
+	@Subscribe
+	public void onMapReadyEvent(MapReadyEvent event){
+		Log.v("life", "receive map");
 		dbHelper=new HotspotsDbHelper(context);
 		loadData();
 		listViewAdapter=new ExpandableListViewAdapter(context, listDataHeader, listDataChild);
 		listView.setAdapter(listViewAdapter);
 		listView.setOnChildClickListener(this);
 	}
-
-   
 	public ArrayList<NavDrawerItem> getItemsFromDatabase(String typeString){
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(getString(R.string.preferences_is_at_shanghai), false);	
 		return dbHelper.getAllObjectsByType(typeString,is_at_shanghai);

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:alpha="0.8" >
+<LinearLayout 
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="30dp"
+    android:id="@+id/school_zone"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton 
+    android:background="@drawable/school"
+    android:id="@+id/button_school"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+</LinearLayout>
+<LinearLayout 
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="30dp"
+    android:layout_toRightOf="@id/school_zone"
+    android:id="@+id/collision_zone"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton 
+    android:background="@drawable/collision"
+    android:id="@+id/button_collision"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+</LinearLayout>
+
+<LinearLayout 
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="30dp"
+    android:layout_below="@id/school_zone"
+    android:id="@+id/about_zone"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton 
+    android:background="@drawable/about"
+    android:id="@+id/button_about"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+</LinearLayout>
+<LinearLayout 
+    android:layout_marginTop="70dp"
+    android:layout_marginLeft="30dp"
+    android:layout_below="@id/collision_zone"
+    android:layout_toRightOf="@id/about_zone"
+    android:id="@+id/info_zone"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageButton 
+    android:background="@drawable/info"
+    android:id="@+id/button_info"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+</LinearLayout>
+</RelativeLayout>

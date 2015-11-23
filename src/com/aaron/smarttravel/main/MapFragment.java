@@ -1,7 +1,9 @@
 package com.aaron.smarttravel.main;
 
 import java.util.ArrayList;
+
 import javax.inject.Inject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
@@ -25,6 +28,7 @@ import com.aaron.smarttravel.drawer.BottomListAdapter;
 import com.aaron.smarttravel.injection.SmartTravelApplication;
 import com.aaron.smarttravel.injection.event.DrivingModeDismissEvent;
 import com.aaron.smarttravel.injection.event.DrivingModeEvent;
+import com.aaron.smarttravel.injection.event.MapReadyEvent;
 import com.aaron.smarttravel.injection.event.SlidingDrawerUpdateEvent;
 import com.aaron.smarttravel.injection.event.UpdateInfoBoxEvent;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
@@ -39,6 +43,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -51,7 +56,7 @@ import com.squareup.otto.Subscribe;
 
 
 @SuppressWarnings("deprecation")
-public class MapFragment extends Fragment implements OnMapReadyCallback,OnMarkerClickListener,
+public class MapFragment extends Fragment implements OnMapReadyCallback,OnMarkerClickListener,OnMapLoadedCallback,
 View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedChangeListener{
 
 	@Inject
@@ -87,15 +92,16 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	private Boolean school_zone_radiobutton_checked=false;
 	private CollisionHandler collisionHandler;
 	
-	
+	private int id=0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		Log.v("life", "1++");
 		View view=inflater.inflate(R.layout.main_map, container, false);
-		mapView=(MapView) view.findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
 		
+		/*Bundle bundle=this.getArguments();
+		id=bundle.getInt("ID");*/
 		name_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_name);
 		reason_TextView=(TextView)view.findViewById(R.id.info_box_reason);
 		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
@@ -110,7 +116,11 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
 		radioGroup_map_layer=(RadioGroup)view.findViewById(R.id.radioGroup_map_layer);
 		
-		radioGroup_map_layer.setOnCheckedChangeListener(this);
+		if (id==1) {
+			RadioButton radioButton=(RadioButton)view.findViewById(R.id.radiobutton_schoolzone);
+			radioButton.setChecked(true);
+			
+		}
 		
 		
 		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
@@ -124,16 +134,28 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		preferencesEditor=sharedPreferences_settings.edit();
 		//mapView.onResume();
 		
-		dbHelper=new HotspotsDbHelper(context);
 		
+		
+		return view;
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+		
+		Log.v("life", "3++");
+		dbHelper=new HotspotsDbHelper(context);
 		
 		try {
 			MapsInitializer.initialize(context);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		mapView=(MapView) view.findViewById(R.id.map);
+		mapView.onCreate(savedInstanceState);
 		googleMap=mapView.getMap();
-		
+		googleMap.setOnMapLoadedCallback(this);
 		CameraUpdate cameraUpdate=CameraUpdateFactory.newLatLngZoom(new LatLng(53.539150,  -113.496867), 12);
 		googleMap.animateCamera(cameraUpdate);
 		googleMap.setMyLocationEnabled(true);
@@ -145,13 +167,12 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		//getActivity();
 		
 		mapView.getMapAsync(this);
-		schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
-		collisionHandler=new CollisionHandler(googleMap, context);
-		collisionHandler.addCollisionLayer();
-
-		return view;
+		Log.v("life", "4++");
 	}
-	
+
+
+
+
 	@Subscribe
 	public void OnupdateInfoBoxEvent(UpdateInfoBoxEvent event){
 		updateInfoBox(event.getInfoEntry());
@@ -200,6 +221,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
 		((SmartTravelApplication)getActivity().getApplication()).inject(this);
 		bus.register(this);
 	}
@@ -357,7 +379,9 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 				school_Segments_IndicatorBoolean=false;
 			}
 		}else {
+			if (schoolZoneHandler!=null)
 			schoolZoneHandler.removeSchoolZoneSegments();
+			
 			school_Segments_IndicatorBoolean=true;
 		}
 	}
@@ -403,6 +427,17 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			slidingDrawer.close();
 			slidingDrawer.setVisibility(View.INVISIBLE);
 		}
+	}
+
+	@Override
+	public void onMapLoaded() {
+		// TODO Auto-generated method stub
+		bus.post(new MapReadyEvent());
+		schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
+		collisionHandler=new CollisionHandler(googleMap, context);
+		collisionHandler.addCollisionLayer();
+		radioGroup_map_layer.setOnCheckedChangeListener(this);
+		
 	}
 	
 	

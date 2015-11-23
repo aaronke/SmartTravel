@@ -2,7 +2,7 @@
     <!-- Search, should appear as action button -->
 
     <item android:id="@+id/action_settings"
-          android:icon="@drawable/action_right_setting"
+          android:icon="@drawable/action_left_list"
           android:title="@string/action__right_search"
           android:showAsAction="ifRoom" />
     

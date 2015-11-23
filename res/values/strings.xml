@@ -161,5 +161,5 @@ The use of the 311 App is governed by the laws of the Province of Alberta. You a
 	
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
     
-    <string name="main_exit"></string>
+    <string name="main_exit">Home</string>
 </resources>

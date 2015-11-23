@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aaron.smarttravel.main"
     android:versionCode="1"
-    android:versionName="0.4.3_test" >
+    android:versionName="0.4.4_test" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -20,6 +20,7 @@
         android:name="com.aaron.smarttravel.injection.SmartTravelApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:theme="@style/ExampleTheme"
         android:allowBackup="true">
         <meta-data
 	    android:name="com.google.android.gms.version"
@@ -27,7 +28,7 @@
         <activity
             android:name="com.aaron.smarttravel.main.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout"
-            android:theme="@style/ExampleTheme">
+            >
         </activity>
         <activity 
             android:name="com.aaron.smarttravel.main.WelcomePage">
@@ -45,7 +46,9 @@
         <activity 
             android:name="com.aaron.smarttravel.main.DrivingModeActivity">
         </activity>
-         
+         <activity 
+             android:name="com.aaron.smarttravel.main.HomeActivity">
+         </activity>
        <meta-data
 	    android:name="com.google.android.geo.API_KEY"
 	    android:value="AIzaSyCaicQ3o_AjN9c1MzmZpWFaLjMEQFF8uIo"/>
