@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,7 +59,7 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 
 	private void loadData() {
 		// TODO Auto-generated method stub
-		
+		dbHelper=new HotspotsDbHelper(context);
 		listDataHeader=dbHelper.getReasonList();
 		listDataChild=new HashMap<String,ArrayList<NavDrawerItem>>();
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(context.getString(R.string.preferences_is_at_shanghai), false);	
@@ -89,16 +90,31 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		((SmartTravelApplication)getActivity().getApplication()).inject(this);
 		bus.register(this);
 	}
+	Handler uiHandler=new Handler(){
+		@Override
+		public void handleMessage(android.os.Message msg) {
 
+			listViewAdapter=new ExpandableListViewAdapter(context, listDataHeader, listDataChild);
+			listView.setAdapter(listViewAdapter);
+			listView.setOnChildClickListener(SampleListFragmentLeft.this);
+		}
+	};
 
 	@Subscribe
 	public void onMapReadyEvent(MapReadyEvent event){
-		Log.v("life", "receive map");
-		dbHelper=new HotspotsDbHelper(context);
-		loadData();
-		listViewAdapter=new ExpandableListViewAdapter(context, listDataHeader, listDataChild);
-		listView.setAdapter(listViewAdapter);
-		listView.setOnChildClickListener(this);
+		Thread threadLoadData=new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				loadData();
+				uiHandler.sendEmptyMessage(1);
+			}
+		});
+		
+		threadLoadData.start();
+		
+		
 	}
 	public ArrayList<NavDrawerItem> getItemsFromDatabase(String typeString){
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(getString(R.string.preferences_is_at_shanghai), false);	
@@ -126,7 +142,7 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		dbHelper.close();
+		if (dbHelper!=null) dbHelper.close();
 	}
 
 	@Override

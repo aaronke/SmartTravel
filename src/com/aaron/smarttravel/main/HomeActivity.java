@@ -21,7 +21,6 @@ import com.aaron.smarttravel.utilities.DayTypeObject;
 import com.aaron.smarttravel.utilities.LocationReasonObject;
 import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.aaron.smarttravel.utilities.WMReasonConditionObject;
-import com.flurry.sdk.in;
 import com.squareup.otto.Bus;
 
 import butterknife.ButterKnife;
@@ -64,6 +63,7 @@ public class HomeActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+		getActionBar().hide();
 		((SmartTravelApplication) getApplication()).inject(this);
 		bus.register(this);
 		ButterKnife.bind(this);

@@ -25,35 +25,8 @@ public final class GeneralModule$$ModuleAdapter extends ModuleAdapter<GeneralMod
    */
   @Override
   public void getBindings(BindingsGroup bindings, GeneralModule module) {
-    bindings.contributeProvidesBinding("com.squareup.otto.Bus", new ProvideBusProvidesAdapter(module));
     bindings.contributeProvidesBinding("android.content.Context", new ProvideApplicationContextProvidesAdapter(module));
-  }
-
-  /**
-   * A {@code Binding<com.squareup.otto.Bus>} implementation which satisfies
-   * Dagger's infrastructure requirements including:
-   *
-   * Being a {@code Provider<com.squareup.otto.Bus>} and handling creation and
-   * preparation of object instances.
-   */
-  public static final class ProvideBusProvidesAdapter extends ProvidesBinding<com.squareup.otto.Bus>
-      implements Provider<com.squareup.otto.Bus> {
-    private final GeneralModule module;
-
-    public ProvideBusProvidesAdapter(GeneralModule module) {
-      super("com.squareup.otto.Bus", IS_SINGLETON, "com.aaron.smarttravel.injection.GeneralModule", "provideBus");
-      this.module = module;
-      setLibrary(true);
-    }
-
-    /**
-     * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<com.squareup.otto.Bus>}.
-     */
-    @Override
-    public com.squareup.otto.Bus get() {
-      return module.provideBus();
-    }
+    bindings.contributeProvidesBinding("com.squareup.otto.Bus", new ProvideBusProvidesAdapter(module));
   }
 
   /**
@@ -80,6 +53,33 @@ public final class GeneralModule$$ModuleAdapter extends ModuleAdapter<GeneralMod
     @Override
     public android.content.Context get() {
       return module.provideApplicationContext();
+    }
+  }
+
+  /**
+   * A {@code Binding<com.squareup.otto.Bus>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<com.squareup.otto.Bus>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideBusProvidesAdapter extends ProvidesBinding<com.squareup.otto.Bus>
+      implements Provider<com.squareup.otto.Bus> {
+    private final GeneralModule module;
+
+    public ProvideBusProvidesAdapter(GeneralModule module) {
+      super("com.squareup.otto.Bus", IS_SINGLETON, "com.aaron.smarttravel.injection.GeneralModule", "provideBus");
+      this.module = module;
+      setLibrary(true);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<com.squareup.otto.Bus>}.
+     */
+    @Override
+    public com.squareup.otto.Bus get() {
+      return module.provideBus();
     }
   }
 }

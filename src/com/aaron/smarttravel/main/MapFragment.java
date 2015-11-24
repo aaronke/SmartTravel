@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -91,17 +94,16 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	private Boolean school_Segments_IndicatorBoolean=false;
 	private Boolean school_zone_radiobutton_checked=false;
 	private CollisionHandler collisionHandler;
-	
+	private TextView actionbar_titleTextView;
 	private int id=0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		Log.v("life", "1++");
 		View view=inflater.inflate(R.layout.main_map, container, false);
 		
-		/*Bundle bundle=this.getArguments();
-		id=bundle.getInt("ID");*/
+		Bundle bundle=this.getArguments();
+		id=bundle.getInt("ID");
 		name_TextView=(TextView)view.findViewById(R.id.info_box_hotspot_name);
 		reason_TextView=(TextView)view.findViewById(R.id.info_box_reason);
 		distance_TextView=(TextView)view.findViewById(R.id.info_box_distance);
@@ -116,11 +118,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
 		radioGroup_map_layer=(RadioGroup)view.findViewById(R.id.radioGroup_map_layer);
 		
-		if (id==1) {
-			RadioButton radioButton=(RadioButton)view.findViewById(R.id.radiobutton_schoolzone);
-			radioButton.setChecked(true);
-			
-		}
+		radioGroup_map_layer.setVisibility(View.INVISIBLE);
 		
 		
 		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
@@ -143,8 +141,18 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		
-		Log.v("life", "3++");
+		View actionbarView=((BaseActivity)getActivity()).getSupportActionBar().getCustomView();
+		actionbar_titleTextView=(TextView)actionbarView.findViewById(R.id.actionbar_title);
+		if (id==1) {
+			RadioButton radioButton=(RadioButton)view.findViewById(R.id.radiobutton_schoolzone);
+			radioButton.setChecked(true);
+			actionbar_titleTextView.setText("School Zones");
+			LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+			params.setMargins(50, 18, 0, 5);
+			actionbar_titleTextView.setLayoutParams(params);
+		}else {
+			actionbar_titleTextView.setText("High Collision Locations");
+		}
 		dbHelper=new HotspotsDbHelper(context);
 		
 		try {
@@ -165,9 +173,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		googleMap.setOnCameraChangeListener(this);
 		
 		//getActivity();
-		
 		mapView.getMapAsync(this);
-		Log.v("life", "4++");
 	}
 
 
@@ -408,6 +414,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			school_zone_radiobutton_checked=true;
 			schoolZoneHandler.addSchoolZoneMarkers();
 			collisionHandler.removeCollisionLayer();
+			((BaseActivity)getActivity()).getSupportActionBar().setTitle("School Zones");
 			break;
 		case R.id.radiobutton_collision:
 			collisionHandler.removeCollisionLayer();
@@ -416,6 +423,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			schoolZoneHandler.removeSchoolZoneMarkers();
 			schoolZoneHandler.removeSchoolZoneSegments();
 			school_Segments_IndicatorBoolean=true;
+			((BaseActivity)getActivity()).getSupportActionBar().setTitle("High Collision Locations");
 		default:
 			break;
 		}
@@ -433,13 +441,33 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	public void onMapLoaded() {
 		// TODO Auto-generated method stub
 		bus.post(new MapReadyEvent());
-		schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
-		collisionHandler=new CollisionHandler(googleMap, context);
-		collisionHandler.addCollisionLayer();
+		Thread thread=new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				schoolZoneHandler=new SchoolZoneHandler(googleMap, context);
+				collisionHandler=new CollisionHandler(googleMap, context);
+				handler.sendEmptyMessage(0);
+			}
+		});
+		thread.start();
+		
 		radioGroup_map_layer.setOnCheckedChangeListener(this);
 		
 	}
 	
-	
+	Handler handler=new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			radioGroup_map_layer.setVisibility(View.VISIBLE);
+			if (id==1) schoolZoneHandler.addSchoolZoneMarkers();
+			else collisionHandler.addCollisionLayer();
+		}
+		
+	};
 	
 }

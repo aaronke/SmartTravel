@@ -31,6 +31,7 @@ import com.aaron.smarttravel.injection.event.DrivingModeDismissEvent;
 import com.aaron.smarttravel.injection.event.DrivingModeEvent;
 import com.aaron.smarttravel.injection.event.SlidingDrawerUpdateEvent;
 import com.aaron.smarttravel.injection.event.UpdateInfoBoxEvent;
+import com.aaron.smarttravel.main.HomeActivity;
 import com.aaron.smarttravel.main.MainActivity;
 import com.aaron.smarttravel.main.R;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
@@ -106,7 +107,7 @@ public class WarningService extends Service implements  LocationListener ,OnComp
 	}
 	
 	private void ShowNotification(){
-		Intent notificationIntent=new Intent(this, MainActivity.class);
+		Intent notificationIntent=new Intent(this, HomeActivity.class);
 		notificationIntent.setAction(Constants.NOTIFCATION_ACTION_MAIN);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		PendingIntent pendingIntent=PendingIntent.getActivity(this, 0, notificationIntent, 0);

@@ -59,8 +59,11 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 					savedInstanceState, "mContent");
 
 		if (mContent == null){
-			mContent = new MapFragment();	
+			mContent = new MapFragment();
+			Bundle bundle=new Bundle();
+			bundle.putInt("ID", id);
 			map_fragment=(MapFragment)mContent;
+			map_fragment.setArguments(bundle);
 		}
 		
 		sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
@@ -77,10 +80,8 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 		getSlidingMenu().setSecondaryMenu(R.layout.menu_frame_two);
 		getSlidingMenu().setSecondaryShadowDrawable(R.drawable.shadowright);
 		
-		Bundle bundle=new Bundle();
-		bundle.putInt("ID", id);
+		
 		SampleListFragmentLeft sampleListFragmentLeft=new SampleListFragmentLeft();
-		sampleListFragmentLeft.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, sampleListFragmentLeft).commit();
 		getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings),
 				Context.MODE_PRIVATE);

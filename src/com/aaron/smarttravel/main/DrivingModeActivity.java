@@ -30,7 +30,7 @@ public class DrivingModeActivity extends Activity {
 				shareEditor=sharedPreferences.edit();
 				shareEditor.putBoolean(getString(R.string.preferences_is_driving), false);
 				shareEditor.commit();
-				Intent map_intent=new Intent(DrivingModeActivity.this, MainActivity.class);
+				Intent map_intent=new Intent(DrivingModeActivity.this, HomeActivity.class);
 				startActivity(map_intent);
 				finish();
 			}
