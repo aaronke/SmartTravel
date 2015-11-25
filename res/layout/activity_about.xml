@@ -27,6 +27,29 @@
         android:id="@+id/about_term"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/info_safety"/>
+        android:background="@drawable/about_term"/>
+    
+    <RelativeLayout 
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="20dp">
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/setting_update_date_textview"
+	        android:padding="10dp"
+	        android:text="@string/setting_update_date"
+	        android:textColor="@color/drawlist_type_text_color"/>
+	   <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/setting_update_version_textview"
+	        android:layout_below="@id/setting_update_date_textview"
+	        android:padding="10dp"
+	        android:text="@string/setting_update_version"
+	        android:textColor="@color/drawlist_type_text_color"/>
+    </RelativeLayout>
 
 </RelativeLayout>

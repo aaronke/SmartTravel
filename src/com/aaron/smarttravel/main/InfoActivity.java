@@ -1,18 +1,33 @@
 package com.aaron.smarttravel.main;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class InfoActivity extends Activity{
 
+	private ImageButton imageButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info_activity);
+		
+		imageButton=(ImageButton)findViewById(R.id.info_button);
+		imageButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i=new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.edmonton.ca/transportation/traffic-safety.aspx"));
+				startActivity(i);
+			}
+		});
 		LayoutInflater actionbar_vInflater=(LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		
 		 View actionbar_view=actionbar_vInflater.inflate(R.layout.actionbar_custom, null);
