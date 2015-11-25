@@ -463,7 +463,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			radioGroup_map_layer.setVisibility(View.VISIBLE);
+			//radioGroup_map_layer.setVisibility(View.VISIBLE);
 			if (id==1) schoolZoneHandler.addSchoolZoneMarkers();
 			else collisionHandler.addCollisionLayer();
 		}

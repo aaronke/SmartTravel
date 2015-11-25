@@ -56,7 +56,7 @@ public class HomeActivity extends Activity implements OnClickListener{
 	private SharedPreferences.Editor sharEditor;
 	@Inject 
 	Bus bus;
-	ImageButton imageButton_school,imageButton_collision;
+	ImageButton imageButton_school,imageButton_collision,imageButton_info,imageButton_about;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,10 @@ public class HomeActivity extends Activity implements OnClickListener{
 		imageButton_school.setOnClickListener(this);
 		imageButton_collision=(ImageButton)findViewById(R.id.button_collision);
 		imageButton_collision.setOnClickListener(this);
-		
+		imageButton_info=(ImageButton)findViewById(R.id.button_info);
+		imageButton_info.setOnClickListener(this);
+		imageButton_about=(ImageButton)findViewById(R.id.button_about);
+		imageButton_about.setOnClickListener(this);
 		sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		sharEditor=sharedPreferences_settings.edit();
 		Boolean check_updateBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_check_update), true);
@@ -227,21 +230,31 @@ public class HomeActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		Bundle bundle=new Bundle();
+		Intent intent = null;
 		int id=0;
 		switch (v.getId()) {
 		case R.id.button_school:
 			id=1;
+			intent=new Intent(this,MainActivity.class);
+			bundle.putInt("ID", id);
+			intent.putExtras(bundle);
 			break;
 		case R.id.button_collision:
 			id=2;
+			intent=new Intent(this,MainActivity.class);
+			bundle.putInt("ID", id);
+			intent.putExtras(bundle);
+			break;
+		case R.id.button_info:
+			intent=new Intent(this, InfoActivity.class);
+			break;
+		case R.id.button_about:
+			intent=new Intent(this,AboutActivity.class);
 			break;
 		default:
 			break;
 		}
-		bundle.putInt("ID", id);
 		
-		Intent intent=new Intent(this,MainActivity.class);
-		intent.putExtras(bundle);
 		startActivity(intent);
 	}
 
