@@ -53,7 +53,6 @@ public class HomeActivity extends Activity implements OnClickListener{
 	private static final String URL_FLAG_SCHOOL_ZONE="school";
 	private static final String URL_FLAG_NEW_VERSION="newVersion";
 	SharedPreferences sharedPreferences_settings;
-	private SharedPreferences.Editor sharEditor;
 	@Inject 
 	Bus bus;
 	ImageButton imageButton_school,imageButton_collision,imageButton_info,imageButton_about;
@@ -76,7 +75,7 @@ public class HomeActivity extends Activity implements OnClickListener{
 		imageButton_about=(ImageButton)findViewById(R.id.button_about);
 		imageButton_about.setOnClickListener(this);
 		sharedPreferences_settings=getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
-		sharEditor=sharedPreferences_settings.edit();
+		
 		Boolean check_updateBoolean=sharedPreferences_settings.getBoolean(getString(R.string.preferences_setting_check_update), true);
 		if (check_updateBoolean) {
 			ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);

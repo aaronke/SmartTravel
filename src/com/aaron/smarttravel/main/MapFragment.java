@@ -81,7 +81,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	
 	HotspotsDbHelper dbHelper;
 	private TextView bottom_location_name_textview;
-	private RadioGroup radioGroup_map_layer;
 	private LinearLayout slidinghanderLayout,bottom_slidinghanderLayout;
 	private ListView bottom_list;
 	private RelativeLayout driving_modeLayout;
@@ -116,9 +115,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		bottom_slidinghanderLayout=(LinearLayout)view.findViewById(R.id.bottom_slideHandle);
 		driving_modeLayout=(RelativeLayout)view.findViewById(R.id.driving_mode_layout);
 		driving_mode_button=(Button)view.findViewById(R.id.not_driving_button);
-		radioGroup_map_layer=(RadioGroup)view.findViewById(R.id.radioGroup_map_layer);
-		
-		radioGroup_map_layer.setVisibility(View.INVISIBLE);
 		
 		
 		bottom_linearLayout=(LinearLayout)view.findViewById(R.id.bottom_info_item_title_bar);
@@ -282,7 +278,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	public void OnDrivingModeEvent(DrivingModeEvent event){
 		driving_modeLayout.setVisibility(
 				View.VISIBLE);
-		radioGroup_map_layer.setVisibility(View.INVISIBLE);
+		
 		((SherlockFragmentActivity) context)
 		.getSupportActionBar().hide();
 		if (slidingDrawer!=null && slidingDrawer.isOpened()) {
@@ -363,7 +359,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			preferencesEditor.putBoolean(getString(R.string.preferences_is_driving), false);
 			preferencesEditor.commit();
 			driving_modeLayout.setVisibility(View.INVISIBLE);
-			radioGroup_map_layer.setVisibility(View.VISIBLE);
 			((SherlockFragmentActivity) context).getSupportActionBar().show();
 			bus.post(new DrivingModeDismissEvent());
 			
@@ -452,8 +447,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			}
 		});
 		thread.start();
-		
-		radioGroup_map_layer.setOnCheckedChangeListener(this);
 		
 	}
 	

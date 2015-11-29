@@ -44,7 +44,6 @@ public class AboutActivity extends Activity implements View.OnClickListener{
 		update_date_TextView=(TextView)findViewById(R.id.setting_update_date_textview);
 		version_TextView=(TextView)findViewById(R.id.setting_update_version_textview);
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(this);
-		update_date_TextView.setText("update date:"+dbHelper.getVersionString());
 		String versionnameString = null;
 		try {
 			versionnameString = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
@@ -53,7 +52,10 @@ public class AboutActivity extends Activity implements View.OnClickListener{
 			e.printStackTrace();
 		}
 		
-		version_TextView.setText("version:"+versionnameString);
+		version_TextView.setText("version:\u0020\u0020\u0020\u0020"
+				+ "\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020"+versionnameString);
+		update_date_TextView.setText("update date:"+dbHelper.getVersionString());
+
 	}
 	@Override
 	public void onClick(View v) {

@@ -1672,9 +1672,9 @@ containing a value of this type.
         public static final int school_zone_text=0x7f09008f;
         public static final int selected_view=0x7f090006;
         public static final int selectionDetails=0x7f090021;
-        public static final int setting_update_date_textview=0x7f090052;
+        public static final int setting_update_date_textview=0x7f090053;
         public static final int setting_update_switch=0x7f090095;
-        public static final int setting_update_version_textview=0x7f090053;
+        public static final int setting_update_version_textview=0x7f090052;
         public static final int setting_voice_switch=0x7f090094;
         public static final int showCustom=0x7f09000d;
         public static final int showHome=0x7f09000e;
