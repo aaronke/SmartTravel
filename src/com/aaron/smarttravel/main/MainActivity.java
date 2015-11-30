@@ -1,10 +1,7 @@
 package com.aaron.smarttravel.main;
 
 import java.util.ArrayList;
-
 import javax.inject.Inject;
-
-import android.R.integer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

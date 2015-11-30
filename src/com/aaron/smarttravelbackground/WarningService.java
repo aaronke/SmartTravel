@@ -32,7 +32,6 @@ import com.aaron.smarttravel.injection.event.DrivingModeEvent;
 import com.aaron.smarttravel.injection.event.SlidingDrawerUpdateEvent;
 import com.aaron.smarttravel.injection.event.UpdateInfoBoxEvent;
 import com.aaron.smarttravel.main.HomeActivity;
-import com.aaron.smarttravel.main.MainActivity;
 import com.aaron.smarttravel.main.R;
 import com.aaron.smarttravel.utilities.CollisionLocationObject;
 import com.aaron.smarttravel.utilities.Constants;

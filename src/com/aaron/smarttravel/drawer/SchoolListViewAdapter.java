@@ -1,13 +1,10 @@
 package com.aaron.smarttravel.drawer;
 
 import java.util.ArrayList;
-
 import com.aaron.smarttravel.main.R;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
-
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -19,15 +19,15 @@ public class CollisionHandler {
 	private ArrayList<Marker> collision_markers=new ArrayList<Marker>();
 	private ArrayList<MarkerOptions> collision_markerOptions=new ArrayList<MarkerOptions>();
 	private GoogleMap googleMap;
-	
+	private Context context;
 	public CollisionHandler(GoogleMap map,Context context){
 		googleMap=map;
-		
-		intialization(context);
+		this.context=context;
+		intialization();
 
 	}
 	
-	private void intialization(Context context){
+	private void intialization(){
 		HotspotsDbHelper hotspotsDbHelper=new HotspotsDbHelper(context);
 		setHotSpots( hotspotsDbHelper.getCollisionObjectsByType(INTERSECTION),1);
 		setHotSpots( hotspotsDbHelper.getCollisionObjectsByType(MID_AVENUE), 1);
@@ -35,14 +35,26 @@ public class CollisionHandler {
 		
 	}
 	private void setHotSpots(ArrayList<CollisionLocationObject> hotspots_ArrayList,int Type_Flag){
+		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		for (int i = 0; i < hotspots_ArrayList.size(); i++) {
 			
 			CollisionLocationObject temp_object=hotspots_ArrayList.get(i);
+			
+			LocationReasonObject tempLocationReasonObject=new LocationReasonObject();
+					if (dbHelper.getLocationReasonByLocCode(temp_object.getLoc_code())!=null&&
+						dbHelper.getLocationReasonByLocCode(temp_object.getLoc_code()).size()!=0) {
+						tempLocationReasonObject=dbHelper.getLocationReasonByLocCode(temp_object.getLoc_code()).get(0);
+					}
+			
+			
 			int icon_res=R.drawable.hotspot_point;
-			if (Type_Flag==1) {
-				icon_res=R.drawable.hotspot_point;
-			}else {
-				icon_res=R.drawable.hotspot_vru_point;
+			int reasonID=tempLocationReasonObject.getReason_id();
+			if (reasonID==9||reasonID==10) {
+				icon_res=R.drawable.map_cyclist;
+			}else if(reasonID==11||reasonID==12){
+				icon_res=R.drawable.map_motorcyclist;
+			}else if(reasonID==7||reasonID==8){
+				icon_res=R.drawable.map_pedstrain;
 			}
 			LatLng tempLatLng=new LatLng(temp_object.getLatitude(), temp_object.getLongitude());
 			MarkerOptions markerOptions=new MarkerOptions().position(tempLatLng).icon(BitmapDescriptorFactory.fromResource(icon_res)).draggable(false);

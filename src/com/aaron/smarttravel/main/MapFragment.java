@@ -91,7 +91,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	private LinearLayout bottom_linearLayout;
 	private TextView school_zone_text;
 	private Boolean school_Segments_IndicatorBoolean=false;
-	private Boolean school_zone_radiobutton_checked=false;
 	private CollisionHandler collisionHandler;
 	private TextView actionbar_titleTextView;
 	private int id=0;
@@ -382,26 +381,12 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		}
 	}
 
-	
-	/*@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		// TODO Auto-generated method stub
-		if (isChecked) {
-			schoolZoneHandler.addSchoolZoneMarkers();
-		}else {
-			schoolZoneHandler.removeSchoolZoneMarkers();
-			schoolZoneHandler.removeSchoolZoneSegments();
-			school_Segments_IndicatorBoolean=true;
-		}
-		//Log.v("STTest", "checkbox is checked"+isChecked);
-	}*/
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		// TODO Auto-generated method stub
 		switch (checkedId) {
 		case R.id.radiobutton_schoolzone:
-			school_zone_radiobutton_checked=true;
 			schoolZoneHandler.addSchoolZoneMarkers();
 			collisionHandler.removeCollisionLayer();
 			((BaseActivity)getActivity()).getSupportActionBar().setTitle("School Zones");
@@ -409,7 +394,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		case R.id.radiobutton_collision:
 			collisionHandler.removeCollisionLayer();
 			collisionHandler.addCollisionLayer();
-			school_zone_radiobutton_checked=false;
 			schoolZoneHandler.removeSchoolZoneMarkers();
 			schoolZoneHandler.removeSchoolZoneSegments();
 			school_Segments_IndicatorBoolean=true;
