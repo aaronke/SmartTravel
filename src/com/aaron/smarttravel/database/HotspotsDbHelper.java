@@ -283,6 +283,13 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				cursor.moveToNext();
 			}
 			cursor.close();
+			Collections.sort(arrayList, new Comparator<SchoolZoneObject>() {
+				@Override
+				public int compare(SchoolZoneObject lhs, SchoolZoneObject rhs) {
+					// TODO Auto-generated method stub
+					return lhs.getSchool_name().compareToIgnoreCase(rhs.getSchool_name());
+				}
+			});
 		return arrayList;
 	}
 	public ArrayList<NavDrawerItem> getAllObjectByReasonId(int reason_id,Boolean is_at_shanghai){

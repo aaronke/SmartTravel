@@ -25,35 +25,8 @@ public final class GeneralModule$$ModuleAdapter extends ModuleAdapter<GeneralMod
    */
   @Override
   public void getBindings(BindingsGroup bindings, GeneralModule module) {
-    bindings.contributeProvidesBinding("android.content.Context", new ProvideApplicationContextProvidesAdapter(module));
     bindings.contributeProvidesBinding("com.squareup.otto.Bus", new ProvideBusProvidesAdapter(module));
-  }
-
-  /**
-   * A {@code Binding<android.content.Context>} implementation which satisfies
-   * Dagger's infrastructure requirements including:
-   *
-   * Being a {@code Provider<android.content.Context>} and handling creation and
-   * preparation of object instances.
-   */
-  public static final class ProvideApplicationContextProvidesAdapter extends ProvidesBinding<android.content.Context>
-      implements Provider<android.content.Context> {
-    private final GeneralModule module;
-
-    public ProvideApplicationContextProvidesAdapter(GeneralModule module) {
-      super("android.content.Context", IS_SINGLETON, "com.aaron.smarttravel.injection.GeneralModule", "provideApplicationContext");
-      this.module = module;
-      setLibrary(true);
-    }
-
-    /**
-     * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<android.content.Context>}.
-     */
-    @Override
-    public android.content.Context get() {
-      return module.provideApplicationContext();
-    }
+    bindings.contributeProvidesBinding("android.content.Context", new ProvideApplicationContextProvidesAdapter(module));
   }
 
   /**
@@ -80,6 +53,33 @@ public final class GeneralModule$$ModuleAdapter extends ModuleAdapter<GeneralMod
     @Override
     public com.squareup.otto.Bus get() {
       return module.provideBus();
+    }
+  }
+
+  /**
+   * A {@code Binding<android.content.Context>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<android.content.Context>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideApplicationContextProvidesAdapter extends ProvidesBinding<android.content.Context>
+      implements Provider<android.content.Context> {
+    private final GeneralModule module;
+
+    public ProvideApplicationContextProvidesAdapter(GeneralModule module) {
+      super("android.content.Context", IS_SINGLETON, "com.aaron.smarttravel.injection.GeneralModule", "provideApplicationContext");
+      this.module = module;
+      setLibrary(true);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<android.content.Context>}.
+     */
+    @Override
+    public android.content.Context get() {
+      return module.provideApplicationContext();
     }
   }
 }

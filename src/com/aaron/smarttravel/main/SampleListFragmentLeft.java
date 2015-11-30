@@ -106,14 +106,20 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 			}
 			listDataChild.put(entry.getKey(), childArrayList);
 
-			headerItem.setCount(listDataChild.get(entry.getKey()).size());
+			headerItem.setCount(getCategoryTotalCollisionCount(listDataChild.get(entry.getKey())));
 			headerItems.add(headerItem);
 		}
 		
 		schooListNavDrawerItems=getALLSchoolZones();
 	}
 
-	
+	private int getCategoryTotalCollisionCount(ArrayList<NavDrawerItem> navDrawerItems){
+		int count=0;
+		for (int i = 0; i < navDrawerItems.size(); i++) {
+			count+=navDrawerItems.get(i).getCount_collisions();
+		}
+		return count;
+	}
 	private ArrayList<NavDrawerItem> getALLSchoolZones(){
 		ArrayList<NavDrawerItem> arrayList=new ArrayList<>();
 		ArrayList<SchoolZoneObject> schoolZoneObjects=dbHelper.getSchoolZoneObjects();
