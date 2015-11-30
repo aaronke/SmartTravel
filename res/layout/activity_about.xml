@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="50dp"
+    android:background="@drawable/activity_bg">
+
+    <ImageButton 
+        android:layout_marginTop="50dp"
+        android:id="@+id/about_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_about"/>
+    <ImageButton 
+        android:layout_marginTop="50dp"
+        android:id="@+id/about_user"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@id/about_button"
+        android:layout_toRightOf="@id/about_button"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:background="@drawable/about_user"/>
+    <ImageButton 
+        android:layout_below="@id/about_button"
+        android:layout_alignLeft="@id/about_button"
+        android:layout_marginTop="50dp"
+        android:id="@+id/about_term"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_term"/>
+    
+    <LinearLayout 
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp">
+        <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/setting_update_version_textview"
+	        android:padding="4dp"
+	        android:text="@string/setting_update_version"
+	        android:textColor="@color/drawlist_type_text_color"/>
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/setting_update_date_textview"
+	        android:padding="4dp"
+	        android:text="@string/setting_update_date"
+	        android:textColor="@color/drawlist_type_text_color"/>
+    </LinearLayout>
+
+</RelativeLayout>

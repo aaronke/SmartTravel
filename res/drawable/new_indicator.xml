@@ -4,7 +4,7 @@
     <item
         android:left="10dp"
         android:right="5dp">
-        <bitmap android:src="@drawable/action_left_list" />
+        <bitmap android:src="@drawable/ic_back" />
     </item>
 
 </layer-list>

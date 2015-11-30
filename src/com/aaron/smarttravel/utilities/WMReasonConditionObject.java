@@ -11,6 +11,7 @@ public class WMReasonConditionObject {
 	private String month;
 	private String start_time;
 	private Boolean scholl_day;
+	private String category;
 	
 	public WMReasonConditionObject(){
 		warning_message="unknown";
@@ -22,6 +23,15 @@ public class WMReasonConditionObject {
 		month="unknown";
 		start_time="unknown";
 		scholl_day=true;
+		category="unknown";
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getWarning_message() {

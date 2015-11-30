@@ -17,14 +17,14 @@
 	    android:visibility="invisible"
 	    android:orientation="vertical">
 	  	<Button 
-	  	    android:id="@+id/not_driving_button"
-	  	    android:layout_width="wrap_content"
-	  	    android:layout_height="wrap_content"
-	  	    android:layout_alignParentBottom="true"
-	  	    android:layout_centerHorizontal="true"
-	  	    android:layout_marginBottom="100dp"
-	  	    android:text="@string/not_driving_button"
-	  	    />
+  	    android:background="@drawable/button_driving_mode"
+  	    android:id="@+id/not_driving_button"
+  	    android:layout_width="wrap_content"
+  	    android:layout_height="wrap_content"
+  	    android:layout_alignParentTop="true"
+  	    android:layout_centerHorizontal="true"
+  	    android:layout_marginTop="50dp"
+  	    />
 	</RelativeLayout>
 	<!-- <CheckBox 
 	    android:layout_width="wrap_content"
@@ -36,6 +36,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
+	    android:visibility="gone"
 	    android:id="@+id/radioGroup_map_layer"
 	    >
 	    <RadioButton 

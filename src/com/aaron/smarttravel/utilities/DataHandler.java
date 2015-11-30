@@ -8,9 +8,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.model.LatLng;
+
+import android.R.integer;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
@@ -71,9 +74,10 @@ public class DataHandler {
 		String current_directionString=returnDirection(bearingFloat);
 		String running_bearingString=returnDirection(currentLocation.getBearing());
 		
-		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString);
+		Log.v("STTest", "current direction:"+current_directionString+"running direction:"+running_bearingString+"Travel Direction:"+locationReasonObject.getTravel_direction());
 			if (!locationReasonObject.getTravel_direction().startsWith("ALL") && !locationReasonObject.getTravel_direction().startsWith("unknown")) {
-				if (!locationReasonObject.getTravel_direction().startsWith(current_directionString)||!locationReasonObject.getTravel_direction().startsWith(running_bearingString) && running_bearingString!="unknow") {
+				if (!locationReasonObject.getTravel_direction().startsWith(running_bearingString) || running_bearingString=="unknow") {
+
 					directionBoolean=false;
 					// add logs to Flurry
 					Map<String, String> direction_params=new HashMap<String,String>();
@@ -85,7 +89,6 @@ public class DataHandler {
 					FlurryAgent.logEvent("direction_filter", direction_params);
 				}
 			}
-		
 		
 		return directionBoolean;
 	}
@@ -121,11 +124,15 @@ public class DataHandler {
 				String end_time=reasonConditionObject.getEnd_time();
 				SimpleDateFormat time_of_day=new SimpleDateFormat("HH:mm", Locale.CANADA);
 				String current_time=time_of_day.format(calendar.getTime());
+				SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM",Locale.CANADA);
+				int month=Integer.parseInt(simpleDateFormat.format(calendar.getTime()));
+				boolean month_match=reasonConditionObject.getMonth().charAt(month-1)=='1'?true:false;
+				Log.v("life", "month"+month+"match"+month_match+"end time"+end_time);
 				try {
 					Date startDate=time_of_day.parse(start_time);
 					Date endDate=time_of_day.parse(end_time);
 					Date currentDate=time_of_day.parse(current_time);
-					if (startDate.before(currentDate) && endDate.after(currentDate)) {
+					if (startDate.before(currentDate) && endDate.after(currentDate)&&month_match) {
 						checkBoolean= true;
 					}else {
 						Map<String, String> date_time_params=new HashMap<String,String>();
@@ -134,6 +141,7 @@ public class DataHandler {
 						date_time_params.put("start_time", reasonConditionObject.getStart_time());
 						date_time_params.put("end_time", reasonConditionObject.getEnd_time());
 						date_time_params.put("current_time",current_time);
+						date_time_params.put("current month", ""+month);
 						FlurryAgent.logEvent("date_time_filter", date_time_params);
 					}
 				} catch (ParseException e) {
@@ -141,7 +149,6 @@ public class DataHandler {
 					e.printStackTrace();
 					
 				}
-				
 			}
 		}
 		
@@ -151,10 +158,9 @@ public class DataHandler {
 		ArrayList<BottomInfoItem> arrayList_items=new ArrayList<BottomInfoItem>();
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(context);
 		Calendar calendar=Calendar.getInstance();
-		SimpleDateFormat format_day_of_year=new SimpleDateFormat("dd-MM-yy", Locale.CANADA);
+		SimpleDateFormat format_day_of_year=new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
 		String day_of_year=format_day_of_year.format(calendar.getTime());
 		DayTypeObject temp_DayTypeObject=dbHelper.getDayTypeObjectByDay(day_of_year);
-		
 		CollisionLocationObject temp_collisionLocationObject=dbHelper.getcolllicionObjectByName(location_name);
 		
 		if (temp_collisionLocationObject.getLocation_name()!="unknown") {
@@ -186,10 +192,6 @@ public class DataHandler {
 				arrayList_items.add(tempBottomInfoItem);
 			}
 		}
-		
-		
-						
-		
 		
 		return arrayList_items;
 	}

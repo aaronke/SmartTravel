@@ -18,6 +18,7 @@ public final class ReasonConditionTable {
 		public static final String COLUMN_MONTH="month";
 		public static final String COLUMN_START_TIME="start_time";
 		public static final String COLUMN_SCHOLL_DAY="school_day";
+		public static final String COLUMN_CATEGORY="category";
 		
 	}
 

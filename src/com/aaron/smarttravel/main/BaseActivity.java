@@ -2,6 +2,7 @@ package com.aaron.smarttravel.main;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -27,7 +28,7 @@ public class BaseActivity extends SlidingFragmentActivity {
 		
 		// set the Behind View
 		setBehindContentView(R.layout.menu_frame);
-		if (savedInstanceState == null) {
+		/*if (savedInstanceState == null) {
 			FragmentTransaction t = this.getSupportFragmentManager()
 					.beginTransaction();
 			mFrag = new SampleListFragmentLeft();
@@ -37,14 +38,14 @@ public class BaseActivity extends SlidingFragmentActivity {
 			mFrag = (SampleListFragmentLeft) this.getSupportFragmentManager()
 					.findFragmentById(R.id.menu_frame);
 		}
-
+*/
 		// customize the SlidingMenu
 		SlidingMenu sm = getSlidingMenu();
 		sm.setShadowWidthRes(R.dimen.shadow_width);
 		sm.setShadowDrawable(R.drawable.shadow);
 		sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		
 		sm.setFadeDegree(0.35f);
+		
 		/*sm.setAnimationCacheEnabled(false);
 		sm.setDrawingCacheEnabled(false);
 		*/
@@ -69,7 +70,6 @@ public class BaseActivity extends SlidingFragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater=getSupportMenuInflater();
 		menuInflater.inflate(R.menu.actionbar_actions, menu);
-		
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -78,7 +78,8 @@ public class BaseActivity extends SlidingFragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			toggle();
+			//toggle();
+			super.onBackPressed();
 			return true;
 		case R.id.action_settings:
 			showSecondaryMenu();

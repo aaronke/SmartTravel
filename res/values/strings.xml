@@ -57,8 +57,10 @@
 	
 	<string name="radiobutton_collision">Collision</string>
 	<string name="radiobutton_school">School</string>
-	
-	
+	<string name="notification_title">Smart Travel is Running</string>
+	<string name="notification_pause">pause</string>
+	<string name="notification_stop">stop</string>
+	<string name="actionbar_collision">High Collision Locations</string>
 	<string name="term_of_use_context">
 1.	Acceptance of Terms
 The City of Edmonton (“City”) provides the Edmonton 311 mobile application (“311 App”) subject to the following Terms of Use Agreement (“Agreement”), which may be updated by the City from time to time. By accessing and using the 311 App, you accept and agree to be bound by this Agreement. Review these terms of use carefully; if you do not agree with any part of this Agreement, do not install or use the 311 App.
@@ -158,4 +160,6 @@ The use of the 311 App is governed by the laws of the Province of Alberta. You a
     <string name="unknown_geofence_transition">Unknown Transition</string>
 	
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
+    
+    <string name="main_exit">Home</string>
 </resources>

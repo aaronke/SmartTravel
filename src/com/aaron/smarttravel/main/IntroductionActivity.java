@@ -24,7 +24,7 @@ public class IntroductionActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent main_activityIntent=new Intent(IntroductionActivity.this, MainActivity.class);
+				Intent main_activityIntent=new Intent(IntroductionActivity.this, HomeActivity.class);
 				startActivity(main_activityIntent);
 				finish();
 			}

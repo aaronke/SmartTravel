@@ -108,7 +108,7 @@ public class WelcomePage extends Activity {
 			});	
 			loadDataThread.start();
 		}else {
-			new_intent = new Intent(WelcomePage.this, MainActivity.class);
+			new_intent = new Intent(WelcomePage.this, HomeActivity.class);
 			
 			new Handler().postDelayed(new Runnable() {
 				 
