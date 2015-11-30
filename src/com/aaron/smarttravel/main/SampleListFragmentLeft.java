@@ -20,6 +20,7 @@ import com.flurry.android.FlurryAgent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -71,12 +72,9 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 	}
 	private HashMap<String, Integer> initial(){
 		HashMap<String, Integer> headerTitleToImgMap=new HashMap<>();
-		headerTitleToImgMap.put("MORNING RUSH HOUR", R.drawable.header_morning_rush_hour);
-		headerTitleToImgMap.put("AFTERNOON RUSH HOUR", R.drawable.header_afternonn_rush_hour);
-		headerTitleToImgMap.put("WEEKEND EARLY MORNING", R.drawable.header_weekend_early);
 		headerTitleToImgMap.put("PEDESTRIANS", R.drawable.header_pedstrain);
-		headerTitleToImgMap.put("CYCLISTS", R.drawable.header_cyclist);
 		headerTitleToImgMap.put("MOTORCYCLISTS", R.drawable.header_motrocyclist);
+		headerTitleToImgMap.put("CYCLISTS", R.drawable.header_cyclist);
 		headerTitleToImgMap.put("FOLLOWED TOO CLOSELY", R.drawable.header_followed_too_closely);
 		headerTitleToImgMap.put("LEFT TURN", R.drawable.header_left_turn);
 		headerTitleToImgMap.put("RED-LIGHT RUNNING", R.drawable.header_red_light_running);
@@ -84,8 +82,26 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		headerTitleToImgMap.put("IMPROPER CHANGE LANE", R.drawable.header_imporper_lane_change);
 		headerTitleToImgMap.put("RAN OFF ROAD", R.drawable.header_ran_off_road);
 		headerTitleToImgMap.put("TOP LOCATIONS BY ALL CAUSES", R.drawable.header_top_collision);
-		
+		headerTitleToImgMap.put("MORNING RUSH HOUR", R.drawable.header_morning_rush_hour);
+		headerTitleToImgMap.put("AFTERNOON RUSH HOUR", R.drawable.header_afternonn_rush_hour);
+		headerTitleToImgMap.put("WEEKEND EARLY MORNING", R.drawable.header_weekend_early);	
 		return headerTitleToImgMap;
+	}
+	private ArrayList<String> categoryOrderFormat(){
+		ArrayList<String> arrayList=new ArrayList<>();
+		arrayList.add("PEDESTRIANS");
+		arrayList.add("MOTORCYCLISTS");
+		arrayList.add("CYCLISTS");
+		arrayList.add("FOLLOWED TOO CLOSELY");
+		arrayList.add("LEFT TURN");
+		arrayList.add("RED-LIGHT RUNNING");
+		arrayList.add("STOP SIGN VIOLATION");
+		arrayList.add("IMPROPER CHANGE LANE");
+		arrayList.add("TOP LOCATIONS BY ALL CAUSES");
+		arrayList.add("MORNING RUSH HOUR");
+		arrayList.add("AFTERNOON RUSH HOUR");
+		arrayList.add("WEEKEND EARLY MORNING");
+		return arrayList;
 	}
 
 	private void loadData() {
@@ -95,18 +111,19 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		listDataChild=new HashMap<String,ArrayList<NavDrawerItem>>();
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(context.getString(R.string.preferences_is_at_shanghai), false);	
 		HashMap<String, Integer> headerTxtToImgMap=initial();
-		for (Map.Entry<String, ArrayList<Integer>> entry:listDataHeader.entrySet()) {
+		ArrayList<String> orderFormatArrayList=categoryOrderFormat();
+		for (String categoryString:orderFormatArrayList) {
 			ListHeaderItem headerItem=new ListHeaderItem();
-			headerItem.setHeaser_txt(entry.getKey());
-			headerItem.setHeader_img(headerTxtToImgMap.get(entry.getKey()));
-			ArrayList<Integer> arrayList=entry.getValue();
+			headerItem.setHeaser_txt(categoryString);
+			headerItem.setHeader_img(headerTxtToImgMap.get(categoryString));
+			ArrayList<Integer> arrayList=listDataHeader.get(categoryString);
 			ArrayList<NavDrawerItem> childArrayList=new ArrayList<>();
 			for (int j = 0; j < arrayList.size(); j++) {
 				childArrayList.addAll(dbHelper.getAllObjectByReasonId(arrayList.get(j), is_at_shanghai));
 			}
-			listDataChild.put(entry.getKey(), childArrayList);
+			listDataChild.put(categoryString, childArrayList);
 
-			headerItem.setCount(getCategoryTotalCollisionCount(listDataChild.get(entry.getKey())));
+			headerItem.setCount(getCategoryTotalCollisionCount(listDataChild.get(categoryString)));
 			headerItems.add(headerItem);
 		}
 		
