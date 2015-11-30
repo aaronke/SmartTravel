@@ -171,10 +171,6 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		//getActivity();
 		mapView.getMapAsync(this);
 	}
-
-
-
-
 	@Subscribe
 	public void OnupdateInfoBoxEvent(UpdateInfoBoxEvent event){
 		updateInfoBox(event.getInfoEntry());
@@ -373,16 +369,15 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	@Override
 	public void onCameraChange(CameraPosition position) {
 		// TODO Auto-generated method stub
-		if (position.zoom >14 && school_zone_radiobutton_checked) {
+		if (position.zoom >14) {
 		//	Log.v("STTest", "zoom is larger than 14");
-			if (school_Segments_IndicatorBoolean) {
+			if (id==1 && school_Segments_IndicatorBoolean) {
 				schoolZoneHandler.addSchoolZoneSegments();
 				school_Segments_IndicatorBoolean=false;
 			}
 		}else {
 			if (schoolZoneHandler!=null)
 			schoolZoneHandler.removeSchoolZoneSegments();
-			
 			school_Segments_IndicatorBoolean=true;
 		}
 	}

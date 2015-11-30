@@ -2,6 +2,7 @@ package com.aaron.smarttravel.database;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
+import android.util.Log;
 
 import com.aaron.smarttravel.database.CollisionLocationTable.CollisionLocationEntry;
 import com.aaron.smarttravel.database.DateTypeTable.DayTypeEntry;
@@ -73,10 +75,10 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 					ReasonConditionEntry.COLUMN_REASON_ID+INTEGER_TYPE+COMMA_SEP+
 					ReasonConditionEntry.COLUMN_MONTH+TEXT_TYPE+COMMA_SEP+
 					ReasonConditionEntry.COLUMN_START_TIME+TEXT_TYPE+COMMA_SEP+
-					ReasonConditionEntry.COLUMN_SCHOLL_DAY+INTEGER_TYPE
+					ReasonConditionEntry.COLUMN_SCHOLL_DAY+ INTEGER_TYPE+COMMA_SEP+
+					ReasonConditionEntry.COLUMN_CATEGORY+ TEXT_TYPE
 					+" )";
 	private static final String SQL_DELETE_REASON_CONDITION_TABLE="DROP IF EXISTS "+ ReasonConditionEntry.TABLE_NAME;
-	
 	
 	private static final String SQL_CREATE_REASON_SCHOOL_TABLE=
 			"CREATE TABLE "+ SchoolZoneEntry.TABLE_NAME+" ("+SchoolZoneEntry._ID +" INTEGER PRIMARY KEY, "+ 
@@ -238,19 +240,22 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 		return temp_dayTypeObject;
 	}
 	
-	public ArrayList<String> getReasonList(){
-		ArrayList<String> lisHeaderArrayList=new ArrayList<String>();
+	public HashMap<String,ArrayList<Integer>> getReasonList(){
+		HashMap<String,ArrayList<Integer>> lisHeaderArrayList=new HashMap<String,ArrayList<Integer>>();
 		SQLiteDatabase db=this.getReadableDatabase();
 		Cursor cursor=db.rawQuery("select * from "+ReasonConditionEntry.TABLE_NAME, null);
 		cursor.moveToFirst();
 		
 		while (!cursor.isAfterLast()) {
-			String reason_temp=cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_REASON));
-			if (reason_temp!=null) {
-				lisHeaderArrayList.add(reason_temp);
-			}else {
-				lisHeaderArrayList.add("unKnown");
-			}	
+			String category_temp=cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_CATEGORY));
+			int reason_id=cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_REASON_ID));
+			if (lisHeaderArrayList.containsKey(category_temp)&& category_temp!=null) 
+				lisHeaderArrayList.get(category_temp).add(reason_id);
+			else {
+				ArrayList<Integer> arrayList=new ArrayList<>();
+				arrayList.add(reason_id);
+				lisHeaderArrayList.put(category_temp, arrayList);
+			}
 			cursor.moveToNext();
 		}
 			cursor.close();
@@ -308,7 +313,6 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			// sort the school zone by school name
 		if (reason_id==23) {
 			Collections.sort(navDrawerItems, new Comparator<NavDrawerItem>() {
-
 				@Override
 				public int compare(NavDrawerItem lhs,NavDrawerItem  rhs) {
 					// TODO Auto-generated method stub
@@ -495,11 +499,13 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				temp_contentValues.put(ReasonConditionEntry.COLUMN_MONTH, temp_object.getMonth());
 				temp_contentValues.put(ReasonConditionEntry.COLUMN_START_TIME, temp_object.getStart_time());
 				temp_contentValues.put(ReasonConditionEntry.COLUMN_SCHOLL_DAY, temp_object.getScholl_day()?1:0);
+				temp_contentValues.put(ReasonConditionEntry.COLUMN_CATEGORY, temp_object.getCategory());
 				db.insert(ReasonConditionEntry.TABLE_NAME, null, temp_contentValues);	
 			}
 			db.setTransactionSuccessful();
 			db.endTransaction();
 			db.close();
+			Log.v("life", "reason condition size:"+arrayList.size());
 		}
 		
 	}

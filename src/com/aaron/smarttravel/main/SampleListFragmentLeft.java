@@ -2,16 +2,20 @@ package com.aaron.smarttravel.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.ExpandableListViewAdapter;
+import com.aaron.smarttravel.drawer.SchoolListViewAdapter;
 import com.aaron.smarttravel.injection.SmartTravelApplication;
 import com.aaron.smarttravel.injection.event.MapReadyEvent;
 import com.aaron.smarttravel.utilities.BottomInfoItem;
 import com.aaron.smarttravel.utilities.DataHandler;
+import com.aaron.smarttravel.utilities.ListHeaderItem;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
+import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.flurry.android.FlurryAgent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -26,11 +30,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
-public class SampleListFragmentLeft extends Fragment implements OnChildClickListener{
+public class SampleListFragmentLeft extends Fragment implements OnChildClickListener,OnItemClickListener{
 	
 	
 	@Inject
@@ -42,20 +49,44 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 	private SharedPreferences sharedPreferences;
 	private ExpandableListViewAdapter listViewAdapter;
 	private ExpandableListView listView;
-	private ArrayList<String> listDataHeader;
+	private HashMap<String,ArrayList<Integer>> listDataHeader;
 	private HashMap<String, ArrayList<NavDrawerItem>> listDataChild;
-	
+	private ArrayList<ListHeaderItem> headerItems=new ArrayList<>();
+	private ListView schooListView;
+	private SchoolListViewAdapter schoolListViewAdapter;
+	private ArrayList<NavDrawerItem> schooListNavDrawerItems;
+	private int id;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		id=getArguments().getInt("ID");
+		Log.v("life", "samplelist ID"+id);
 		sharedPreferences=context.getSharedPreferences(getString(R.string.preferences_settings), Context.MODE_PRIVATE);
 		view= inflater.inflate(R.layout.left_menu, null);
 		
 		listView=(ExpandableListView)view.findViewById(R.id.expandableListView);
+		schooListView=(ListView)view.findViewById(R.id.school_listview);
 		
 		return view;
 	}
-	
+	private HashMap<String, Integer> initial(){
+		HashMap<String, Integer> headerTitleToImgMap=new HashMap<>();
+		headerTitleToImgMap.put("MORNING RUSH HOUR", R.drawable.header_morning_rush_hour);
+		headerTitleToImgMap.put("AFTERNOON RUSH HOUR", R.drawable.header_afternonn_rush_hour);
+		headerTitleToImgMap.put("WEEKEND EARLY MORNING", R.drawable.header_weekend_early);
+		headerTitleToImgMap.put("PEDESTRIANS", R.drawable.header_pedstrain);
+		headerTitleToImgMap.put("CYCLISTS", R.drawable.header_cyclist);
+		headerTitleToImgMap.put("MOTORCYCLISTS", R.drawable.header_motrocyclist);
+		headerTitleToImgMap.put("FOLLOWED TOO CLOSELY", R.drawable.header_followed_too_closely);
+		headerTitleToImgMap.put("LEFT TURN", R.drawable.header_left_turn);
+		headerTitleToImgMap.put("RED-LIGHT RUNNING", R.drawable.header_red_light_running);
+		headerTitleToImgMap.put("STOP SIGN VIOLATION", R.drawable.header_stop_sign_vilation);
+		headerTitleToImgMap.put("IMPROPER CHANGE LANE", R.drawable.header_imporper_lane_change);
+		headerTitleToImgMap.put("RAN OFF ROAD", R.drawable.header_ran_off_road);
+		headerTitleToImgMap.put("TOP LOCATIONS BY ALL CAUSES", R.drawable.header_top_collision);
+		
+		return headerTitleToImgMap;
+	}
 
 	private void loadData() {
 		// TODO Auto-generated method stub
@@ -63,12 +94,37 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		listDataHeader=dbHelper.getReasonList();
 		listDataChild=new HashMap<String,ArrayList<NavDrawerItem>>();
 		Boolean is_at_shanghai=sharedPreferences.getBoolean(context.getString(R.string.preferences_is_at_shanghai), false);	
-		for (int i = 0; i < listDataHeader.size(); i++) {
-			
-			listDataChild.put(listDataHeader.get(i), dbHelper.getAllObjectByReasonId(i+1, is_at_shanghai));
+		HashMap<String, Integer> headerTxtToImgMap=initial();
+		for (Map.Entry<String, ArrayList<Integer>> entry:listDataHeader.entrySet()) {
+			ListHeaderItem headerItem=new ListHeaderItem();
+			headerItem.setHeaser_txt(entry.getKey());
+			headerItem.setHeader_img(headerTxtToImgMap.get(entry.getKey()));
+			ArrayList<Integer> arrayList=entry.getValue();
+			ArrayList<NavDrawerItem> childArrayList=new ArrayList<>();
+			for (int j = 0; j < arrayList.size(); j++) {
+				childArrayList.addAll(dbHelper.getAllObjectByReasonId(arrayList.get(j), is_at_shanghai));
+			}
+			listDataChild.put(entry.getKey(), childArrayList);
+
+			headerItem.setCount(listDataChild.get(entry.getKey()).size());
+			headerItems.add(headerItem);
 		}
+		
+		schooListNavDrawerItems=getALLSchoolZones();
 	}
 
+	
+	private ArrayList<NavDrawerItem> getALLSchoolZones(){
+		ArrayList<NavDrawerItem> arrayList=new ArrayList<>();
+		ArrayList<SchoolZoneObject> schoolZoneObjects=dbHelper.getSchoolZoneObjects();
+		for (int i = 0; i < schoolZoneObjects.size(); i++) {
+			NavDrawerItem item=new NavDrawerItem();
+			item.setName_hotspot(schoolZoneObjects.get(i).getSchool_name());
+			item.setType_hotspot(schoolZoneObjects.get(i).getSchool_type());
+			arrayList.add(item);
+		}
+		return arrayList;
+	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -80,7 +136,13 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		
+		if (id==1) {
+			listView.setVisibility(View.GONE);
+			schooListView.setVisibility(View.VISIBLE);
+		}else {
+			listView.setVisibility(View.VISIBLE);
+			schooListView.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -94,9 +156,12 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		@Override
 		public void handleMessage(android.os.Message msg) {
 
-			listViewAdapter=new ExpandableListViewAdapter(context, listDataHeader, listDataChild);
+			listViewAdapter=new ExpandableListViewAdapter(context, headerItems, listDataChild);
 			listView.setAdapter(listViewAdapter);
 			listView.setOnChildClickListener(SampleListFragmentLeft.this);
+			schoolListViewAdapter=new SchoolListViewAdapter(schooListNavDrawerItems, getActivity());
+			schooListView.setAdapter(schoolListViewAdapter);
+			schooListView.setOnItemClickListener(SampleListFragmentLeft.this);
 		}
 	};
 
@@ -172,6 +237,14 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		
 		
 		return true;
+	}
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		TextView name_textView=(TextView)v.findViewById(R.id.hotspot_name);
+		String location_name=(String) name_textView.getText();
+		DataHandler dHandler=new DataHandler();
+		mcallback.onitemselected( dHandler.getBottomInfoItemByLocaitonName(context, location_name));
 	}
 
 }

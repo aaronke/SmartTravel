@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.aaron.smarttravel.main.R;
+import com.aaron.smarttravel.utilities.ListHeaderItem;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
 
 import android.app.Activity;
@@ -14,16 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
 	private Context context;
-	private ArrayList<String> listDataHeader;
+	private ArrayList<ListHeaderItem> listDataHeader;
 	private HashMap<String, ArrayList<NavDrawerItem>> listDatachild;
 	
 	
-	public ExpandableListViewAdapter(Context context,ArrayList<String> listDataHeader,HashMap<String, ArrayList<NavDrawerItem>> listDataChild){
+	public ExpandableListViewAdapter(Context context,ArrayList<ListHeaderItem> listDataHeader,HashMap<String, ArrayList<NavDrawerItem>> listDataChild){
 		this.context=context;
 		this.listDataHeader=listDataHeader;
 		this.listDatachild=listDataChild;
@@ -31,7 +33,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
-		return this.listDatachild.get(this.listDataHeader.get(groupPosition)).get(childPosition);
+		return this.listDatachild.get(this.listDataHeader.get(groupPosition).getHeaser_txt()).get(childPosition);
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		// TODO Auto-generated method stub
-		return this.listDatachild.get(this.listDataHeader.get(groupPosition)).size();
+		return this.listDatachild.get(this.listDataHeader.get(groupPosition).getHeaser_txt()).size();
 	}
 
 	@Override
@@ -107,7 +109,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		String headerTitle = (String) getGroup(groupPosition);
+		ListHeaderItem headerItem = (ListHeaderItem) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -117,8 +119,27 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         TextView head_text = (TextView) convertView
                 .findViewById(R.id.header_text);
         head_text.setTypeface(null, Typeface.BOLD);
-        head_text.setText(headerTitle);
- 
+        head_text.setText(headerItem.getHeaser_txt());
+        ImageView headerImgView=(ImageView)convertView.findViewById(R.id.header_img);
+        headerImgView.setImageDrawable(context.getResources().getDrawable(headerItem.getHeader_img()));
+        
+        TextView headerCountTextView=(TextView)convertView.findViewById(R.id.header_count);
+        int[] count_bgs=new int[]{
+				R.drawable.b1,R.drawable.b2,R.drawable.b3,R.drawable.b4,R.drawable.b5,
+				R.drawable.b6,R.drawable.b7,R.drawable.b8,R.drawable.b9,R.drawable.b10
+		};
+		int collision_count=headerItem.getCount();
+		int count_rank=collision_count*10/86;
+		if (count_rank>9) {
+			count_rank=9;
+		}
+		headerCountTextView.setBackgroundResource(count_bgs[2]);
+        headerCountTextView.setText(""+headerItem.getCount());
+        
+        ImageView indicatorView=(ImageView)convertView.findViewById(R.id.header_indicator);
+        if (isExpanded)
+			indicatorView.setImageResource(R.drawable.arrow_up);
+        else indicatorView.setImageResource(R.drawable.arrow_down);
         return convertView;
 	}
 

@@ -73,7 +73,7 @@ public class DataParseFromJson {
 				temp_wmReasonConditionObject.setMonth(temp_JsonObject.getString("month"));
 				temp_wmReasonConditionObject.setStart_time(temp_JsonObject.getString("start_time"));
 				temp_wmReasonConditionObject.setScholl_day(temp_JsonObject.getString("school_day").startsWith("TRUE")? true: false);
-				
+				temp_wmReasonConditionObject.setCategory(temp_JsonObject.getString("category"));
 				objects_ArrayList.add(temp_wmReasonConditionObject);
 				
 			}

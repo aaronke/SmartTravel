@@ -82,6 +82,9 @@ public class MainActivity extends BaseActivity implements OnSampleListFragmentLe
 		
 		
 		SampleListFragmentLeft sampleListFragmentLeft=new SampleListFragmentLeft();
+		Bundle bundle=new Bundle();
+		bundle.putInt("ID", id);
+		sampleListFragmentLeft.setArguments(bundle);
 		getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame_two, sampleListFragmentLeft).commit();
 		getApplicationContext().getSharedPreferences(getString(R.string.preferences_settings),
 				Context.MODE_PRIVATE);
