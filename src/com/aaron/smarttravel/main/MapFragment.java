@@ -143,7 +143,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			radioButton.setChecked(true);
 			actionbar_titleTextView.setText("School Zones");
 			LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-			params.setMargins(50, 18, 0, 5);
+			params.setMargins(70, 24, 0, 5);
 			actionbar_titleTextView.setLayoutParams(params);
 		}else {
 			actionbar_titleTextView.setText("High Collision Locations");

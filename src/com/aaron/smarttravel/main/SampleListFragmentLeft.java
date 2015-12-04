@@ -1,11 +1,10 @@
 package com.aaron.smarttravel.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
-
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.ExpandableListViewAdapter;
 import com.aaron.smarttravel.drawer.SchoolListViewAdapter;
@@ -19,8 +18,6 @@ import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.flurry.android.FlurryAgent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -97,10 +94,10 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		arrayList.add("RED-LIGHT RUNNING");
 		arrayList.add("STOP SIGN VIOLATION");
 		arrayList.add("IMPROPER CHANGE LANE");
-		arrayList.add("TOP LOCATIONS BY ALL CAUSES");
 		arrayList.add("MORNING RUSH HOUR");
 		arrayList.add("AFTERNOON RUSH HOUR");
 		arrayList.add("WEEKEND EARLY MORNING");
+		arrayList.add("TOP LOCATIONS BY ALL CAUSES");
 		return arrayList;
 	}
 
@@ -118,9 +115,10 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 			headerItem.setHeader_img(headerTxtToImgMap.get(categoryString));
 			ArrayList<Integer> arrayList=listDataHeader.get(categoryString);
 			ArrayList<NavDrawerItem> childArrayList=new ArrayList<>();
-			for (int j = 0; j < arrayList.size(); j++) {
+			for (int j = 0; arrayList!=null && j < arrayList.size(); j++) {
 				childArrayList.addAll(dbHelper.getAllObjectByReasonId(arrayList.get(j), is_at_shanghai));
 			}
+			sortNavDrawerItems(childArrayList);
 			listDataChild.put(categoryString, childArrayList);
 
 			headerItem.setCount(getCategoryTotalCollisionCount(listDataChild.get(categoryString)));
@@ -128,6 +126,15 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		}
 		
 		schooListNavDrawerItems=getALLSchoolZones();
+	}
+	private void sortNavDrawerItems(ArrayList<NavDrawerItem> arrayList){
+		Collections.sort(arrayList, new Comparator<NavDrawerItem>() {
+			@Override
+			public int compare(NavDrawerItem lhs,NavDrawerItem  rhs) {
+				// TODO Auto-generated method stub
+				return lhs.getName_hotspot().compareToIgnoreCase(rhs.getName_hotspot());
+			}
+		});
 	}
 
 	private int getCategoryTotalCollisionCount(ArrayList<NavDrawerItem> navDrawerItems){
