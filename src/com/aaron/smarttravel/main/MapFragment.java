@@ -92,7 +92,7 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 	private TextView school_zone_text;
 	private Boolean school_Segments_IndicatorBoolean=false;
 	private CollisionHandler collisionHandler;
-	private TextView actionbar_titleTextView;
+	private TextView actionbar_titleTextView,actionbar_home;
 	private int id=0;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,6 +138,8 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 		super.onViewCreated(view, savedInstanceState);
 		View actionbarView=((BaseActivity)getActivity()).getSupportActionBar().getCustomView();
 		actionbar_titleTextView=(TextView)actionbarView.findViewById(R.id.actionbar_title);
+		actionbar_home=(TextView)actionbarView.findViewById(R.id.actionbar_home);
+		actionbar_home.setOnClickListener(this);
 		if (id==1) {
 			RadioButton radioButton=(RadioButton)view.findViewById(R.id.radiobutton_schoolzone);
 			radioButton.setChecked(true);
@@ -356,7 +358,9 @@ View.OnClickListener,OnCameraChangeListener,android.widget.RadioGroup.OnCheckedC
 			driving_modeLayout.setVisibility(View.INVISIBLE);
 			((SherlockFragmentActivity) context).getSupportActionBar().show();
 			bus.post(new DrivingModeDismissEvent());
-			
+			break;
+		case R.id.actionbar_home:
+			getActivity().onBackPressed();
 			break;
 		default:
 			break;

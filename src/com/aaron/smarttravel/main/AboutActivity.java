@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
 public class AboutActivity extends Activity implements View.OnClickListener{
-	private TextView update_date_TextView,version_TextView;
+	private TextView update_date_TextView,version_TextView, actionbar_home;
 	private ImageButton aboutButton,termButton,userButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,8 @@ public class AboutActivity extends Activity implements View.OnClickListener{
 		actionBar.setCustomView(actionbar_view);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
+		actionbar_home=(TextView)actionbar_view.findViewById(R.id.actionbar_home);
+		actionbar_home.setOnClickListener(this);
 		update_date_TextView=(TextView)findViewById(R.id.setting_update_date_textview);
 		version_TextView=(TextView)findViewById(R.id.setting_update_version_textview);
 		HotspotsDbHelper dbHelper=new HotspotsDbHelper(this);
@@ -60,8 +62,17 @@ public class AboutActivity extends Activity implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Intent i=new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.edmonton.ca/transportation/traffic-safety.aspx"));
-		startActivity(i);
+		switch (v.getId()) {
+		
+		case R.id.actionbar_home:
+			onBackPressed();
+			break;
+		default:
+			Intent i=new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.edmonton.ca/transportation/traffic-safety.aspx"));
+			startActivity(i);
+			break;
+		}
+		
 	}
 
 

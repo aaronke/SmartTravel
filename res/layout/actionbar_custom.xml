@@ -12,6 +12,7 @@
 	    android:layout_marginRight="20dp"
 	    android:layout_gravity="center_vertical"
 	    android:textColor="@android:color/white"
+	    android:id="@+id/actionbar_home"
 	    android:text="Home"/>
 	
 	<TextView 
