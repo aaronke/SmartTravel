@@ -217,8 +217,8 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 			temp_WMReasonConditionObject.setStart_time(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_START_TIME)));
 			temp_WMReasonConditionObject.setWarning_message(cursor.getString(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WARNING_MESSAGE)));
 			temp_WMReasonConditionObject.setWeekday(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKDAY))==1? true: false);
-			
 			temp_WMReasonConditionObject.setWeekend(cursor.getInt(cursor.getColumnIndex(ReasonConditionEntry.COLUMN_WEEKEND))==1? true: false);
+			
 		}
 		cursor.close();
 		return temp_WMReasonConditionObject;
@@ -311,7 +311,8 @@ public class HotspotsDbHelper extends SQLiteOpenHelper{
 				if (is_at_shanghai==false && collisionLocationObject.getLongitude()>0) {
 					// do nothing, filter the test locations in shanghai 
 				}else {
-					navDrawerItems.add(temp_navDrawerItem);
+					
+					if(temp_navDrawerItem.getName_hotspot()!="unknown")  navDrawerItems.add(temp_navDrawerItem);
 				}
 				
 			cursor.moveToNext();

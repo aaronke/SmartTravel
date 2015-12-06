@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+
 import javax.inject.Inject;
+
 import com.aaron.smarttravel.database.HotspotsDbHelper;
 import com.aaron.smarttravel.drawer.ExpandableListViewAdapter;
 import com.aaron.smarttravel.drawer.SchoolListViewAdapter;
@@ -16,8 +18,10 @@ import com.aaron.smarttravel.utilities.ListHeaderItem;
 import com.aaron.smarttravel.utilities.NavDrawerItem;
 import com.aaron.smarttravel.utilities.SchoolZoneObject;
 import com.flurry.android.FlurryAgent;
+import com.flurry.sdk.hs;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -132,11 +136,25 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 			@Override
 			public int compare(NavDrawerItem lhs,NavDrawerItem  rhs) {
 				// TODO Auto-generated method stub
-				return lhs.getName_hotspot().compareToIgnoreCase(rhs.getName_hotspot());
+				String[] lhsName=lhs.getName_hotspot().split("\\s+");
+				String[] rhsName=rhs.getName_hotspot().split("\\s+");
+				String lhsString=dealTheAvenueSort( lhsName, lhs);
+				String rhsString=dealTheAvenueSort(rhsName, rhs);
+				
+				return lhsString.compareToIgnoreCase(rhsString);
 			}
 		});
 	}
 
+	private String dealTheAvenueSort(String[] strings,NavDrawerItem navDrawerItem){
+		String resultString = navDrawerItem.getName_hotspot();
+		strings[0].replace("a", "");
+		if (strings[0].charAt(0)>='0' && strings[0].charAt(0)<='9') {
+			if(strings[0].length()==1) resultString="00"+navDrawerItem.getName_hotspot();
+			if(strings[0].length()==2) resultString="0"+navDrawerItem.getName_hotspot();
+		}
+		return resultString;
+	}
 	private int getCategoryTotalCollisionCount(ArrayList<NavDrawerItem> navDrawerItems){
 		int count=0;
 		for (int i = 0; i < navDrawerItems.size(); i++) {

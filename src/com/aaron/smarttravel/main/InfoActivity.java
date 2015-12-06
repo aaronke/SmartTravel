@@ -2,7 +2,6 @@ package com.aaron.smarttravel.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,8 +29,7 @@ public class InfoActivity extends Activity implements android.view.View.OnClickL
 				startActivity(i);
 			}
 		});
-		LayoutInflater actionbar_vInflater=(LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		
+		 LayoutInflater actionbar_vInflater=(LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		 View actionbar_view=actionbar_vInflater.inflate(R.layout.actionbar_custom, null);
 		 TextView TextView_title=(TextView)actionbar_view.findViewById(R.id.actionbar_title);
 		 actionbarHome=(TextView)actionbar_view.findViewById(R.id.actionbar_home);
