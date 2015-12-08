@@ -98,6 +98,7 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 		arrayList.add("RED-LIGHT RUNNING");
 		arrayList.add("STOP SIGN VIOLATION");
 		arrayList.add("IMPROPER CHANGE LANE");
+		arrayList.add("RAN OFF ROAD");
 		arrayList.add("MORNING RUSH HOUR");
 		arrayList.add("AFTERNOON RUSH HOUR");
 		arrayList.add("WEEKEND EARLY MORNING");
@@ -138,20 +139,25 @@ public class SampleListFragmentLeft extends Fragment implements OnChildClickList
 				// TODO Auto-generated method stub
 				String[] lhsName=lhs.getName_hotspot().split("\\s+");
 				String[] rhsName=rhs.getName_hotspot().split("\\s+");
-				String lhsString=dealTheAvenueSort( lhsName, lhs);
-				String rhsString=dealTheAvenueSort(rhsName, rhs);
-				
+				String lhsString=dealTheAvenueSort( lhsName);
+				String rhsString=dealTheAvenueSort(rhsName);
 				return lhsString.compareToIgnoreCase(rhsString);
 			}
 		});
 	}
 
-	private String dealTheAvenueSort(String[] strings,NavDrawerItem navDrawerItem){
-		String resultString = navDrawerItem.getName_hotspot();
-		strings[0].replace("a", "");
-		if (strings[0].charAt(0)>='0' && strings[0].charAt(0)<='9') {
-			if(strings[0].length()==1) resultString="00"+navDrawerItem.getName_hotspot();
-			if(strings[0].length()==2) resultString="0"+navDrawerItem.getName_hotspot();
+	private String dealTheAvenueSort(String[] strings){
+
+		for(int i=0;i<strings.length;i++){
+			if (strings[i].charAt(0)>='0' && strings[i].charAt(0)<='9') {
+				strings[i].replace("a", "");
+				if(strings[i].length()==1) strings[i]="00"+strings[i];
+				if(strings[i].length()==2) strings[i]="0"+strings[i];
+			}
+		}
+		String resultString="";
+		for(String string:strings){
+			resultString+=" "+string;
 		}
 		return resultString;
 	}
