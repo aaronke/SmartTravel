@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aaron.smarttravel.main"
     android:versionCode="1"
-    android:versionName="0.5.5_test" >
+    android:versionName="0.5.6_test" >
 
     <uses-sdk
         android:minSdkVersion="14"

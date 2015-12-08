@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:id="@+id/header_text"
         android:paddingLeft="8dp"
-        android:layout_width="220dp"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
         android:textSize="14dp"/>
